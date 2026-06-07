@@ -249,11 +249,47 @@ and continuous learning are keys to success.
 
 <script>
 
-function register(){
-alert("Firebase Authentication will be connected next.");
+async function register(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+await createUserWithEmailAndPassword(
+window.auth,
+email,
+password
+);
+
+alert("Account created successfully!");
+
+}catch(error){
+
+alert(error.message);
+
 }
 
-function login(){
+}
+
+async function login(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+await signInWithEmailAndPassword(
+window.auth,
+email,
+password
+);
 
 document
 .getElementById("auth")
@@ -268,9 +304,21 @@ top:0,
 behavior:"smooth"
 });
 
+alert("Login successful!");
+
+}catch(error){
+
+alert(error.message);
+
+}
+
 }
 
 </script>
+
+<script type="module" src="firebase-config.js"></script>
+
+
 
 </body>
 </html>
