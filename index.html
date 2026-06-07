@@ -259,7 +259,7 @@ document.getElementById("password").value;
 
 try{
 
-await createUserWithEmailAndPassword(
+await window.createUserWithEmailAndPassword(
 window.auth,
 email,
 password
@@ -285,7 +285,7 @@ document.getElementById("password").value;
 
 try{
 
-await signInWithEmailAndPassword(
+await window.signInWithEmailAndPassword(
 window.auth,
 email,
 password
