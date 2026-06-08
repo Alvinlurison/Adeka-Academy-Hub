@@ -285,20 +285,24 @@ alert(error.message);
 
 }
 
-}
-  function openAITutor(){
+} // <-- ADD THIS
 
-alert("AI Tutor clicked!");
+function openAITutor(){
+
+window.open(
+"https://gemini.google.com",
+"_blank"
+);
 
 }
-function openNotes(){
+  function openNotes(){
 
 document
 .getElementById("notesSection")
 .classList.remove("hidden");
 
 }
-
+  
 function saveNote(){
 
 const note =
