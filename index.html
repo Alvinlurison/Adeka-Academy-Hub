@@ -149,24 +149,8 @@ Logout
 
 </div> <!-- end dashboard card -->
   
-<div id="notesSection" <div id="aiTutorSection" class="card hidden">
+<div id="notesSection" class="card hidden">
 
-<h2>Adeka AI Tutor</h2>
-
-<input
-id="userQuestion"
-placeholder="Ask a question..."
->
-
-<button onclick="askAI()">
-Ask AI
-</button>
-
-<div id="aiResponse" style="margin-top:15px;">
-AI Tutor ready.
-</div>
-
-</div>
 <h2>My Notes</h2>
 
 <textarea
@@ -183,6 +167,25 @@ margin-top:15px;
 <button onclick="saveNote()">
 Save Note
 </button>
+
+</div>
+
+<div id="aiTutorSection" class="card hidden">
+
+<h2>Adeka AI Tutor</h2>
+
+<input
+id="userQuestion"
+placeholder="Ask a question..."
+>
+
+<button onclick="askAI()">
+Ask AI
+</button>
+
+<div id="aiResponse" style="margin-top:15px;">
+AI Tutor ready.
+</div>
 
 </div>
 
@@ -310,6 +313,10 @@ document
 .getElementById("aiTutorSection")
 .classList.remove("hidden");
 
+document
+.getElementById("notesSection")
+.classList.add("hidden");
+
 }
   function askAI(){
 
@@ -327,6 +334,10 @@ document.getElementById("aiResponse").innerHTML =
 document
 .getElementById("notesSection")
 .classList.remove("hidden");
+
+document
+.getElementById("aiTutorSection")
+.classList.add("hidden");
 
 }
   
