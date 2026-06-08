@@ -305,7 +305,9 @@ savedNote;
 }
 
 }
- window.auth.onAuthStateChanged((user) => {
+alert("Auth loaded: " + !!window.auth);
+alert("Listener loaded: " + !!window.onAuthStateChanged);
+  window.onAuthStateChanged(window.auth, (user) => { 
 
 if(user){
 
