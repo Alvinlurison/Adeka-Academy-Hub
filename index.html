@@ -264,7 +264,11 @@ alert(error.message);
 
 } // closes login()
 
-function logout(){
+async function logout(){
+
+try{
+
+await window.signOut(window.auth);
 
 document.getElementById("dashboard")
 .classList.add("hidden");
@@ -274,8 +278,13 @@ document.getElementById("auth")
 
 alert("Logged out successfully!");
 
+}catch(error){
+
+alert(error.message);
+
 }
 
+}
 function openNotes(){
 
 document
