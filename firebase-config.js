@@ -1,4 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 getAuth,
@@ -6,6 +7,9 @@ createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
 onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+alert("FIREBASE CONFIG STARTED");
+
 const firebaseConfig = {
 apiKey: "AIzaSyBmsSCbPmXCk4nPZAXKfZVZrjEn9x_cwGA",
 authDomain: "adecomm-hub.firebaseapp.com",
