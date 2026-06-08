@@ -292,8 +292,21 @@ alert("Note saved!");
   
 }
 
-</script>
+window.onload = function(){
 
+const savedNote =
+localStorage.getItem("myNote");
+
+if(savedNote){
+
+document.getElementById("noteText").value =
+savedNote;
+
+}
+
+}
+
+</script>
 
  <script type="module" src="firebase-config.js"></script> 
 </body>  
