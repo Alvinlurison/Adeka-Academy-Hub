@@ -198,9 +198,7 @@ and continuous learning are keys to success.
 </footer>  </div> 
 <script type="module" src="firebase-config.js"></script>
 
-<script> 
-
-alert("SCRIPT IS RUNNING");  
+<script>  
   
 async function register(){  
   
@@ -310,29 +308,6 @@ savedNote;
 }
 
 }
-alert("Auth loaded: " + !!window.auth);
-alert("Listener loaded: " + !!window.onAuthStateChanged);
-  window.onAuthStateChanged(window.auth, (user) => { 
-
-if(user){
-
-document.getElementById("auth")
-.style.display = "none";
-
-document.getElementById("dashboard")
-.classList.remove("hidden");
-
-}else{
-
-document.getElementById("dashboard")
-.classList.add("hidden");
-
-document.getElementById("auth")
-.style.display = "block";
-
-}
-
-});
 
 </script>
  
