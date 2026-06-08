@@ -23,3 +23,6 @@ window.auth = auth;
 window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
 window.signInWithEmailAndPassword = signInWithEmailAndPassword;
 window.onAuthStateChanged = onAuthStateChanged;
+
+alert("Firebase Config Loaded");
+alert("onAuthStateChanged = " + typeof onAuthStateChanged);
