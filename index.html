@@ -127,10 +127,11 @@ Logout
 📚
 <h3>AI Tutor</h3>
 <p>Powered by Adeka AI</p>
-</div>  <div class="box">  
-🎥  
-<h3>Meeting Center</h3>  
-<p>Join classes and meetings</p>  
+</div>
+<div class="box" onclick="openMeetingCenter()">
+🎥
+<h3>Meeting Center</h3>
+<p>Join classes and meetings</p>
 </div>
   
 <div class="box" onclick="openNotes()">
@@ -139,7 +140,7 @@ Logout
 <p>Create and save notes</p>
 </div>
 
-<div class="box">
+<div class="box" onclick="openAudioLessons()">
 🎧
 <h3>Audio Lessons</h3>
 <p>Learn anywhere</p>
@@ -329,7 +330,22 @@ document.getElementById("aiResponse").innerHTML =
 
 }
   
-  function openNotes(){
+ function openMeetingCenter(){
+
+window.open(
+"https://meet.google.com/",
+"_blank"
+);
+
+}
+
+function openAudioLessons(){
+
+alert("Audio Lessons coming soon!");
+
+}
+
+function openNotes(){
 
 document
 .getElementById("notesSection")
@@ -340,7 +356,6 @@ document
 .classList.add("hidden");
 
 }
-  
 function saveNote(){
 
 const note =
