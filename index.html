@@ -123,15 +123,16 @@ Login
 <div id="dashboard" class="hidden">  
 <div class="card">  <h2>Dashboard</h2> <button onclick="logout()">
 Logout
-</button>  <div class="grid">  <div class="box">  
-📚  
-<h3>AI Tutor</h3>  
-<p>Powered by Gemini AI</p>  
+</button>  <div class="grid">  <div class="box" onclick="openAITutor()">
+📚
+<h3>AI Tutor</h3>
+<p>Powered by Gemini AI</p>
 </div>  <div class="box">  
 🎥  
 <h3>Meeting Center</h3>  
 <p>Join classes and meetings</p>  
 </div>
+  
 <div class="box" onclick="openNotes()">
 📝
 <h3>Notes</h3>
@@ -283,6 +284,11 @@ alert("Logged out successfully!");
 alert(error.message);
 
 }
+
+}
+  function openAITutor(){
+
+alert("AI Tutor clicked!");
 
 }
 function openNotes(){
