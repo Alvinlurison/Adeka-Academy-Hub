@@ -305,6 +305,27 @@ savedNote;
 }
 
 }
+ window.auth.onAuthStateChanged((user) => {
+
+if(user){
+
+document.getElementById("auth")
+.style.display = "none";
+
+document.getElementById("dashboard")
+.classList.remove("hidden");
+
+}else{
+
+document.getElementById("dashboard")
+.classList.add("hidden");
+
+document.getElementById("auth")
+.style.display = "block";
+
+}
+
+});
 
 </script>
 
