@@ -358,17 +358,26 @@ email,
 password
 );
 
-if(fullName){
-localStorage.setItem("studentName", fullName);
+const user = window.auth.currentUser;
+
+const docRef = window.doc(
+    window.db,
+    "user",
+    user.uid
+);
+
+const docSnap = await window.getDoc(docRef);
+
+if(docSnap.exists()){
+
+    const data = docSnap.data();
+
+    document.getElementById("profileName").innerText =
+    data.fullName;
+
+    document.getElementById("profileEmail").innerText =
+    data.email;
 }
-localStorage.setItem("studentEmail", email);
-
-document.getElementById("profileName").innerText =
-localStorage.getItem("studentName") || "";
-
-document.getElementById("profileEmail").innerText =
-email;
-
 document.getElementById("auth")
 .style.display = "none";
 
