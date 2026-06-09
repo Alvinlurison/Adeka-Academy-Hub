@@ -112,7 +112,10 @@ border-top:1px solid rgba(255,255,255,.2);
 <h1>Adeka Academy Hub</h1>  
 <p>Learn • Connect • Grow</p>  
 </div>  <div class="card" id="auth">  <h2>Welcome</h2>  
-<br>  <input type="text" placeholder="Full Name">  <input type="email" id="email" placeholder="Email Address">  <input type="password" id="password" placeholder="Password">  <button onclick="register()">  
+<br>  <input
+type="text"
+id="fullName"
+placeholder="Full Name">  <input type="email" id="email" placeholder="Email Address">  <input type="password" id="password" placeholder="Password">  <button onclick="register()">  
 Create Account  
 </button>  <button onclick="login()">  
 Login  
@@ -120,7 +123,21 @@ Login
 
 </div> <!-- closes auth card -->
 
-<div id="dashboard" class="hidden">  
+<div id="dashboard" class="hidden">
+
+<div id="profileSection" class="card hidden">
+
+<h2>My Profile</h2>
+
+<p><strong>Name:</strong>
+<span id="profileName"></span>
+</p>
+<p><strong>Email:</strong>
+<span id="profileEmail"></span>
+</p>
+
+</div>
+    
 <div class="card">  <h2>Dashboard</h2> <button onclick="logout()">
 Logout
 </button>  <div class="grid">  <div class="box" onclick="openAITutor()">
@@ -177,8 +194,7 @@ Save Note
 
 <input
 id="userQuestion"
-placeholder="Ask a question..."
->
+placeholder="Ask a question...">
 
 <button onclick="askAI()">
 Ask AI
@@ -189,17 +205,19 @@ AI Tutor ready.
 </div>
 
 </div>
-
 <div id="meetingSection" class="card hidden">
 
 <h2>Meeting Center</h2>
 
 <p>Create or join classes and meetings.</p>
 
-<button onclick="window.open('https://meet.google.com','_blank')">
-Launch Google Meet
-</button>
+<input
+id="meetingCode"
+placeholder="Enter Meeting Code">
 
+<button onclick="joinMeeting()">
+Join Meeting
+</button>
 </div>
 
 <div id="audioSection" class="card hidden">
@@ -244,7 +262,15 @@ and continuous learning are keys to success.
 
 <script>  
   
-async function register(){  
+async function register(){ 
+  
+const fullName =
+document.getElementById("fullName").value;
+
+localStorage.setItem(
+"studentName",
+fullName
+);
   
 const email =  
 document.getElementById("email").value;  
@@ -271,6 +297,16 @@ alert(error.message);
 } // closes register()
 
 async function login(){
+const fullName =
+document.getElementById("fullName").value;
+
+localStorage.setItem(
+"studentName",
+fullName
+);
+
+document.getElementById("profileName").innerText =
+fullName;
   
 const email =  
 document.getElementById("email").value;  
@@ -293,6 +329,12 @@ document
 document  
 .getElementById("dashboard")  
 .classList.remove("hidden");  
+
+document.getElementById("profileSection")
+.classList.remove("hidden");
+
+document.getElementById("profileEmail")
+.innerText = email;
   
 window.scrollTo({  
 top:0,  
@@ -314,7 +356,17 @@ try{
 
 await window.signOut(window.auth);
 
+// Remove saved data
+localStorage.removeItem("studentName");
+
+// Clear profile display
+document.getElementById("profileName").innerText = "";
+document.getElementById("profileEmail").innerText = "";
+
 document.getElementById("dashboard")
+.classList.add("hidden");
+
+document.getElementById("profileSection")
 .classList.add("hidden");
 
 document.getElementById("auth")
@@ -328,8 +380,7 @@ alert(error.message);
 
 }
 
-} // <-- ADD THIS
-
+}
 function openAITutor(){
 
 document
@@ -419,6 +470,18 @@ document
 .classList.add("hidden");
 
 }
+
+function joinMeeting(){
+
+const code =
+document.getElementById("meetingCode").value;
+
+window.open(
+"https://meet.google.com/" + code,
+"_blank"
+);
+
+}
 function saveNote(){
 
 const note =
@@ -427,7 +490,7 @@ document.getElementById("noteText").value;
 localStorage.setItem("myNote", note);
 
 alert("Note saved!");
-  
+
 }
 
 window.onload = function(){
@@ -439,6 +502,16 @@ if(savedNote){
 
 document.getElementById("noteText").value =
 savedNote;
+
+}
+
+const savedName =
+localStorage.getItem("studentName");
+
+if(savedName){
+
+document.getElementById("profileName").innerText =
+savedName;
 
 }
 
