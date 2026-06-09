@@ -108,10 +108,18 @@ margin-top:40px;
 padding:20px;  
 border-top:1px solid rgba(255,255,255,.2);  
 }  
-</style>  </head>  <body>  <div class="container">  <img src="logo.png" class="logo" alt="Adeka Academy Hub Logo">  <div class="header">  
-<h1>Adeka Academy Hub</h1>  
-<p>Learn • Connect • Grow</p>  
-</div>  <div class="card" id="auth">  <h2>Welcome</h2>  
+</style>  </head>  <body>  <div class="container">  <img src="logo.png" class="logo" alt="Adeka Academy Hub Logo">  <div class="header">
+    <h1>Adeka Academy Hub</h1>
+    <p>Learn • Connect • Grow</p>
+
+    <p id="message"
+       style="color:#00ff88;
+              font-weight:bold;
+              margin-top:10px;">
+    </p>
+</div>  
+  
+<div class="card" id="auth">  <h2>Welcome</h2>  
 <br>  <input
 type="text"
 id="fullName"
@@ -296,9 +304,19 @@ document.getElementById("profileEmail").innerText = email;
 
 document.getElementById("auth").style.display = "none";
 document.getElementById("dashboard").classList.remove("hidden");
-document.getElementById("profileSection").classList.remove("hidden"); 
-        alert("Account created successfully!");
+document.getElementById("profileSection").classList.remove("hidden");
 
+window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+});
+
+document.getElementById("message").innerText =
+"Account created successfully!";
+
+setTimeout(() => {
+    document.getElementById("message").innerText = "";
+}, 3000);
     }catch(error){
 
         alert(error.message);
@@ -350,8 +368,12 @@ top:0,
 behavior:"smooth"
 });
 
-alert("Login successful!");
+document.getElementById("message").innerText =
+"Login successful!";
 
+setTimeout(() => {
+    document.getElementById("message").innerText = "";
+}, 3000);
 }catch(error){
 
 alert(error.message);
@@ -397,7 +419,12 @@ document.getElementById("meetingSection")
 document.getElementById("audioSection")
 .classList.add("hidden");
 
-alert("Logged out successfully!");
+document.getElementById("message").innerText =
+"Logged out successfully!";
+
+setTimeout(() => {
+    document.getElementById("message").innerText = "";
+}, 3000);
 
 }catch(error){
 
