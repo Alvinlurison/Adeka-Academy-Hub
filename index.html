@@ -272,48 +272,48 @@ and continuous learning are keys to success.
   
 async function register(){
 
-    const fullName =
-    document.getElementById("fullName").value;
+const fullName =
+document.getElementById("fullName").value;
 
-    const email =
-    document.getElementById("email").value;
+const email =
+document.getElementById("email").value;
 
-    const password =
-    document.getElementById("password").value;
+const password =
+document.getElementById("password").value;
 
-    try{
+try{
 
-        const userCredential =
+const userCredential =
 await window.createUserWithEmailAndPassword(
-    window.auth,
-    email,
-    password
+window.auth,
+email,
+password
 );
 
 const user = userCredential.user;
 
 await window.setDoc(
-    window.doc(
-        window.db,
-        "user",
-        user.uid
-    ),
-    {
-        fullName: fullName,
-        email: email
-    }
+window.doc(
+window.db,
+"user",
+user.uid
+),
+{
+fullName: fullName,
+email: email
+}
 );
 
-        localStorage.setItem(
-            "studentName",
-            fullName
-        );
-
-      localStorage.setItem(
-    "studentEmail",
-    email
+localStorage.setItem(
+"studentName",
+fullName
 );
 
+localStorage.setItem(
+"studentEmail",
+email
+);
+  
 document.getElementById("profileName").innerText = fullName;
 document.getElementById("profileEmail").innerText = email;
 
@@ -340,9 +340,6 @@ setTimeout(() => {
  }
 
 async function login(){
-
-const fullName =
-document.getElementById("fullName").value;
 
 const email =
 document.getElementById("email").value;
@@ -377,6 +374,16 @@ if(docSnap.exists()){
 
     document.getElementById("profileEmail").innerText =
     data.email;
+
+  localStorage.setItem(
+    "studentName",
+    data.fullName
+);
+
+localStorage.setItem(
+    "studentEmail",
+    data.email
+);
 }
 document.getElementById("auth")
 .style.display = "none";
@@ -570,42 +577,48 @@ alert("Note saved!");
 
 }
 
-window.onload = function(){
+  window.onAuthStateChanged(window.auth, async (user) => {
 
-const savedName =
-localStorage.getItem("studentName");
+    if(user){
 
-const savedEmail =
-localStorage.getItem("studentEmail");
+        const docRef = window.doc(
+            window.db,
+            "user",
+            user.uid
+        );
 
-const savedNote =
-localStorage.getItem("myNote");
+        const docSnap = await window.getDoc(docRef);
 
-if(savedNote){
-document.getElementById("noteText").value =
-savedNote;
-}
+        if(docSnap.exists()){
 
-if(savedName && savedEmail){
+            const data = docSnap.data();
 
-document.getElementById("dashboard")
-.classList.remove("hidden");
+            document.getElementById("profileName").innerText =
+            data.fullName;
 
-document.getElementById("profileSection")
-.classList.remove("hidden");
+            document.getElementById("profileEmail").innerText =
+            data.email;
 
-document.getElementById("auth")
-.style.display = "none";
+ localStorage.setItem(
+    "studentName",
+    data.fullName
+);
 
-document.getElementById("profileName").innerText =
-savedName;
+localStorage.setItem(
+    "studentEmail",
+    data.email
+);
 
-document.getElementById("profileEmail").innerText =
-savedEmail;
+            document.getElementById("auth").style.display = "none";
 
-}
+            document.getElementById("dashboard")
+            .classList.remove("hidden");
 
-}
+            document.getElementById("profileSection")
+            .classList.remove("hidden");
+        }
+    }
+});
 </script>
  
 </body>  
