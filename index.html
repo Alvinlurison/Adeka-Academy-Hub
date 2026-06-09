@@ -283,11 +283,26 @@ async function register(){
 
     try{
 
-        await window.createUserWithEmailAndPassword(
-            window.auth,
-            email,
-            password
-        );
+        const userCredential =
+await window.createUserWithEmailAndPassword(
+    window.auth,
+    email,
+    password
+);
+
+const user = userCredential.user;
+
+await window.setDoc(
+    window.doc(
+        window.db,
+        "usesr",
+        user.uid
+    ),
+    {
+        fullName: fullName,
+        email: email
+    }
+);
 
         localStorage.setItem(
             "studentName",
