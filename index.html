@@ -262,98 +262,103 @@ and continuous learning are keys to success.
 
 <script>  
   
-async function register(){ 
-  
-const fullName =
-document.getElementById("fullName").value;
+async function register(){
 
-localStorage.setItem(
-"studentName",
-fullName
+    const fullName =
+    document.getElementById("fullName").value;
+
+    const email =
+    document.getElementById("email").value;
+
+    const password =
+    document.getElementById("password").value;
+
+    try{
+
+        await window.createUserWithEmailAndPassword(
+            window.auth,
+            email,
+            password
+        );
+
+        localStorage.setItem(
+            "studentName",
+            fullName
+        );
+
+      localStorage.setItem(
+    "studentEmail",
+    email
 );
-  
-const email =  
-document.getElementById("email").value;  
-  
-const password =  
-document.getElementById("password").value;  
-  
-try{  
-  
-await window.createUserWithEmailAndPassword(  
-window.auth,  
-email,  
-password  
-);  
-  
-alert("Account created successfully!");  
-  
-}catch(error){
 
-alert(error.message);
+document.getElementById("profileName").innerText = fullName;
+document.getElementById("profileEmail").innerText = email;
 
+document.getElementById("auth").style.display = "none";
+document.getElementById("dashboard").classList.remove("hidden");
+document.getElementById("profileSection").classList.remove("hidden"); 
+        alert("Account created successfully!");
+
+    }catch(error){
+
+        alert(error.message);
 }
 
-} // closes register()
+ }
 
 async function login(){
 
-localStorage.setItem(
-"studentEmail",
-email
-);
 const fullName =
 document.getElementById("fullName").value;
 
-localStorage.setItem(
-"studentName",
-fullName
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+await window.signInWithEmailAndPassword(
+window.auth,
+email,
+password
 );
 
+if(fullName){
+localStorage.setItem("studentName", fullName);
+}
+localStorage.setItem("studentEmail", email);
+
 document.getElementById("profileName").innerText =
-fullName;
-  
-const email =  
-document.getElementById("email").value;  
-  
-const password =  
-document.getElementById("password").value;  
-  
-try{  
-  
-await window.signInWithEmailAndPassword(  
-window.auth,  
-email,  
-password  
-);  
-  
-document  
-.getElementById("auth")  
-.style.display="none";  
-  
-document  
-.getElementById("dashboard")  
-.classList.remove("hidden");  
+localStorage.getItem("studentName") || "";
+
+document.getElementById("profileEmail").innerText =
+email;
+
+document.getElementById("auth")
+.style.display = "none";
+
+document.getElementById("dashboard")
+.classList.remove("hidden");
 
 document.getElementById("profileSection")
 .classList.remove("hidden");
 
-document.getElementById("profileEmail")
-.innerText = email;
-  
-window.scrollTo({  
-top:0,  
-behavior:"smooth"  
-});  
-  
-alert("Login successful!");   
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+alert("Login successful!");
+
 }catch(error){
 
 alert(error.message);
 
 }
 
-} // closes login()
+}
 
 async function logout(){
 
@@ -361,10 +366,13 @@ try{
 
 await window.signOut(window.auth);
 
-// Remove saved data
 localStorage.removeItem("studentName");
+localStorage.removeItem("studentEmail");
 
-// Clear profile display
+document.getElementById("fullName").value = "";
+document.getElementById("email").value = "";
+document.getElementById("password").value = "";
+
 document.getElementById("profileName").innerText = "";
 document.getElementById("profileEmail").innerText = "";
 
@@ -377,6 +385,18 @@ document.getElementById("profileSection")
 document.getElementById("auth")
 .style.display = "block";
 
+document.getElementById("aiTutorSection")
+.classList.add("hidden");
+
+document.getElementById("notesSection")
+.classList.add("hidden");
+
+document.getElementById("meetingSection")
+.classList.add("hidden");
+
+document.getElementById("audioSection")
+.classList.add("hidden");
+
 alert("Logged out successfully!");
 
 }catch(error){
@@ -386,6 +406,7 @@ alert(error.message);
 }
 
 }
+  
 function openAITutor(){
 
 document
@@ -500,41 +521,40 @@ alert("Note saved!");
 
 window.onload = function(){
 
+const savedName =
+localStorage.getItem("studentName");
+
 const savedEmail =
 localStorage.getItem("studentEmail");
-
-if(savedEmail){
-
-document.getElementById("profileEmail").innerText =
-savedEmail;
-
-  }
 
 const savedNote =
 localStorage.getItem("myNote");
 
 if(savedNote){
-
 document.getElementById("noteText").value =
 savedNote;
-
 }
 
-const savedName =
-localStorage.getItem("studentName");
+if(savedName && savedEmail){
 
-if(savedName){
-
-document.getElementById("profileName").innerText =
-savedName;
+document.getElementById("dashboard")
+.classList.remove("hidden");
 
 document.getElementById("profileSection")
 .classList.remove("hidden");
 
-}
-            
+document.getElementById("auth")
+.style.display = "none";
+
+document.getElementById("profileName").innerText =
+savedName;
+
+document.getElementById("profileEmail").innerText =
+savedEmail;
+
 }
 
+}
 </script>
  
 </body>  
