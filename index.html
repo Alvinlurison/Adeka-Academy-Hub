@@ -190,6 +190,28 @@ AI Tutor ready.
 
 </div>
 
+<div id="meetingSection" class="card hidden">
+
+<h2>Meeting Center</h2>
+
+<p>Create or join classes and meetings.</p>
+
+<button onclick="window.open('https://meet.google.com','_blank')">
+Launch Google Meet
+</button>
+
+</div>
+
+<div id="audioSection" class="card hidden">
+
+<h2>Audio Lessons</h2>
+
+<audio controls style="width:100%;">
+  <source src="lesson1.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
 <div class="card about">
 
 <h2>About the Founder</h2>
@@ -318,6 +340,14 @@ document
 .getElementById("notesSection")
 .classList.add("hidden");
 
+document
+.getElementById("meetingSection")
+.classList.add("hidden");
+
+document
+.getElementById("audioSection")
+.classList.add("hidden");
+  
 }
   function askAI(){
 
@@ -330,19 +360,44 @@ document.getElementById("aiResponse").innerHTML =
 
 }
   
- function openMeetingCenter(){
+function openMeetingCenter(){
 
-window.open(
-"https://meet.google.com/",
-"_blank"
-);
+document
+.getElementById("meetingSection")
+.classList.remove("hidden");
+
+document
+.getElementById("notesSection")
+.classList.add("hidden");
+
+document
+.getElementById("aiTutorSection")
+.classList.add("hidden");
+
+document
+.getElementById("audioSection")
+.classList.add("hidden");
 
 }
 
 function openAudioLessons(){
 
-alert("Audio Lessons coming soon!");
+document
+.getElementById("audioSection")
+.classList.remove("hidden");
 
+document
+.getElementById("notesSection")
+.classList.add("hidden");
+
+document
+.getElementById("aiTutorSection")
+.classList.add("hidden");
+
+document
+.getElementById("meetingSection")
+.classList.add("hidden");
+  
 }
 
 function openNotes(){
@@ -353,6 +408,14 @@ document
 
 document
 .getElementById("aiTutorSection")
+.classList.add("hidden");
+
+document
+.getElementById("meetingSection")
+.classList.add("hidden");
+
+document
+.getElementById("audioSection")
 .classList.add("hidden");
 
 }
