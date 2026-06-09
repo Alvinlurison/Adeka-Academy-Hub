@@ -297,6 +297,11 @@ alert(error.message);
 } // closes register()
 
 async function login(){
+
+localStorage.setItem(
+"studentEmail",
+email
+);
 const fullName =
 document.getElementById("fullName").value;
 
@@ -495,6 +500,16 @@ alert("Note saved!");
 
 window.onload = function(){
 
+const savedEmail =
+localStorage.getItem("studentEmail");
+
+if(savedEmail){
+
+document.getElementById("profileEmail").innerText =
+savedEmail;
+
+  }
+
 const savedNote =
 localStorage.getItem("myNote");
 
@@ -513,8 +528,11 @@ if(savedName){
 document.getElementById("profileName").innerText =
 savedName;
 
-}
+document.getElementById("profileSection")
+.classList.remove("hidden");
 
+}
+            
 }
 
 </script>
