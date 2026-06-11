@@ -619,7 +619,7 @@ alert(error.message);
 }
 
 }
-  async function loadNotes(){
+ async function loadNotes(){
 
 const user = window.auth.currentUser;
 
@@ -635,7 +635,7 @@ await window.getDocs(q);
 
 let html = "";
 
-querySnapshot.forEach((doc) => {
+querySnapshot.forEach((docSnap) => {
 
 html += `
 <div style="
@@ -644,7 +644,17 @@ padding:10px;
 margin-top:10px;
 border-radius:10px;
 ">
-${doc.data().note}
+
+<p>${docSnap.data().note}</p>
+
+<button onclick="editNote('${docSnap.id}')">
+Edit
+</button>
+
+<button onclick="deleteNote('${docSnap.id}')">
+Delete
+</button>
+
 </div>
 `;
 
@@ -652,6 +662,34 @@ ${doc.data().note}
 
 document.getElementById("savedNotes").innerHTML =
 html;
+
+}
+
+  async function deleteNote(noteId){
+
+await window.deleteDoc(
+window.doc(window.db, "notes", noteId)
+);
+
+loadNotes();
+
+}
+
+async function editNote(noteId){
+
+const newNote =
+prompt("Edit your note:");
+
+if(!newNote) return;
+
+await window.updateDoc(
+window.doc(window.db, "notes", noteId),
+{
+note: newNote
+}
+);
+
+loadNotes();
 
 }
 
