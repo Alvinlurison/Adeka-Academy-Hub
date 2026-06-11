@@ -349,42 +349,49 @@ document.getElementById("password").value;
 
 try{
 
+const userCredential =
 await window.signInWithEmailAndPassword(
 window.auth,
 email,
 password
 );
 
-const user = window.auth.currentUser;
+const user = userCredential.user;
 
 const docRef = window.doc(
-    window.db,
-    "user",
-    user.uid
+window.db,
+"user",
+user.uid
 );
 
 const docSnap = await window.getDoc(docRef);
 
 if(docSnap.exists()){
 
-    const data = docSnap.data();
+const data = docSnap.data();
 
-    document.getElementById("profileName").innerText =
-    data.fullName;
+document.getElementById("profileName").innerText =
+data.fullName;
 
-    document.getElementById("profileEmail").innerText =
-    data.email;
+document.getElementById("profileEmail").innerText =
+data.email;
 
-  localStorage.setItem(
-    "studentName",
-    data.fullName
+localStorage.setItem(
+"studentName",
+data.fullName
 );
 
 localStorage.setItem(
-    "studentEmail",
-    data.email
+"studentEmail",
+data.email
 );
+
+}else{
+
+console.log("Document NOT found");
+
 }
+
 document.getElementById("auth")
 .style.display = "none";
 
@@ -403,8 +410,9 @@ document.getElementById("message").innerText =
 "Login successful!";
 
 setTimeout(() => {
-    document.getElementById("message").innerText = "";
+document.getElementById("message").innerText = "";
 }, 3000);
+
 }catch(error){
 
 alert(error.message);
@@ -412,7 +420,7 @@ alert(error.message);
 }
 
 }
-
+  
 async function logout(){
 
 try{
