@@ -143,6 +143,22 @@ Login
 <p><strong>Email:</strong>
 <span id="profileEmail"></span>
 </p>
+  <br>
+
+<input
+type="file"
+id="profilePic"
+onchange="saveProfilePicture()">
+
+<img
+id="profileImage"
+style="
+width:120px;
+height:120px;
+border-radius:50%;
+margin-top:15px;
+display:block;
+">
 
 </div>
     
@@ -195,7 +211,7 @@ Save Note
 </button>
 
 <h3 style="margin-top:20px;">
-Saved Notes
+Saved Notes (<span id="noteCount">0</span>)
 </h3>
 
 <div id="savedNotes"></div>
@@ -345,6 +361,31 @@ setTimeout(() => {
 
  }
 
+   function saveProfilePicture(){
+
+const file =
+document.getElementById("profilePic").files[0];
+
+if(!file) return;
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+document.getElementById("profileImage").src =
+e.target.result;
+
+localStorage.setItem(
+"profilePicture",
+e.target.result
+);
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
 async function login(){
 
 const email =
@@ -406,6 +447,15 @@ document.getElementById("dashboard")
 
 document.getElementById("profileSection")
 .classList.remove("hidden");
+  const savedPic =
+localStorage.getItem("profilePicture");
+
+if(savedPic){
+
+document.getElementById("profileImage").src =
+savedPic;
+
+}
 
 window.scrollTo({
 top:0,
@@ -607,6 +657,8 @@ note: note,
 createdAt: new Date()
 }
 );
+  
+document.getElementById("noteText").value = "";
 
 loadNotes();
 document.getElementById("noteText").value = "";
@@ -631,9 +683,12 @@ window.where("uid", "==", user.uid)
 const querySnapshot =
 await window.getDocs(q);
 
+let count = 0;
 let html = "";
 
 querySnapshot.forEach((docSnap) => {
+
+  count++;
 
 html += `
 <div style="
@@ -645,7 +700,15 @@ border-radius:10px;
 
 <p>${docSnap.data().note}</p>
 
-<button onclick="editNote('${docSnap.id}')">
+<small>
+${docSnap.data().createdAt
+? new Date(
+docSnap.data().createdAt.seconds * 1000
+).toLocaleString()
+: ""}
+</small>
+
+<button onclick="editNote('${docSnap.id}', \`${docSnap.data().note}\`)">
 Edit
 </button>
 
@@ -658,6 +721,8 @@ Delete
 
 });
 
+document.getElementById("noteCount").innerText =
+count;
 document.getElementById("savedNotes").innerHTML =
 html;
 
@@ -673,12 +738,14 @@ loadNotes();
 
 }
 
-async function editNote(noteId){
+async function editNote(noteId, currentNote){
 
-const newNote =
-prompt("Edit your note:");
+const newNote = prompt(
+"Edit your note:",
+currentNote
+);
 
-if(!newNote) return;
+if(newNote === null) return;
 
 await window.updateDoc(
 window.doc(window.db, "notes", noteId),
@@ -688,43 +755,20 @@ note: newNote
 );
 
 loadNotes();
-
+  
 }
 
-  window.onAuthStateChanged(window.auth, async (user) => {
+window.onAuthStateChanged(window.auth, async (user) => {
 
 if(user){
 
-const docRef =
-window.doc(
-window.db,
-"user",
-user.uid
-);
+const savedPic =
+localStorage.getItem("profilePicture");
 
-const docSnap =
-await window.getDoc(docRef);
+if(savedPic){
 
-if(docSnap.exists()){
-
-const data = docSnap.data();
-
-document.getElementById("profileName").innerText =
-data.fullName;
-
-document.getElementById("profileEmail").innerText =
-data.email;
-
-document.getElementById("auth").style.display =
-"none";
-
-document.getElementById("dashboard")
-.classList.remove("hidden");
-
-document.getElementById("profileSection")
-.classList.remove("hidden");
-
-  loadNotes();
+document.getElementById("profileImage").src =
+savedPic;
 
 }
 
