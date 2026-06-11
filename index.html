@@ -187,6 +187,12 @@ Logout
 <p>Learn anywhere</p>
 </div>
 
+  <div class="box" onclick="openProgress()">
+📊
+<h3>Progress</h3>
+<p>Track learning progress</p>
+</div>
+
 </div> <!-- end grid -->
 
 </div> <!-- end dashboard card -->
@@ -261,6 +267,20 @@ Join Meeting
 </div>
 
 <div class="card about">
+
+  <div id="progressSection" class="card hidden">
+
+<h2>My Progress</h2>
+
+<p>Total Notes Created:
+<strong><span id="totalNotes">0</span></strong>
+</p>
+
+<p>Profile Picture Added:
+<strong><span id="profileStatus">No</span></strong>
+</p>
+
+</div>
 
 <h2>About the Founder</h2>
 <br>  <p>  
@@ -361,6 +381,30 @@ setTimeout(() => {
 
  }
 
+  function openProgress(){
+
+document
+.getElementById("progressSection")
+.classList.remove("hidden");
+
+document
+.getElementById("notesSection")
+.classList.add("hidden");
+
+document
+.getElementById("aiTutorSection")
+.classList.add("hidden");
+
+document
+.getElementById("meetingSection")
+.classList.add("hidden");
+
+document
+.getElementById("audioSection")
+.classList.add("hidden");
+
+}
+
    function saveProfilePicture(){
 
 const file =
@@ -379,6 +423,8 @@ localStorage.setItem(
 "profilePicture",
 e.target.result
 );
+  document.getElementById("profileStatus").innerText =
+"Yes";
 
 };
 
@@ -723,6 +769,8 @@ Delete
 
 document.getElementById("noteCount").innerText =
 count;
+document.getElementById("totalNotes").innerText =
+count;
 document.getElementById("savedNotes").innerHTML =
 html;
 
@@ -767,8 +815,13 @@ localStorage.getItem("profilePicture");
 
 if(savedPic){
 
+if(savedPic){
+
 document.getElementById("profileImage").src =
 savedPic;
+
+document.getElementById("profileStatus").innerText =
+"Yes";
 
 }
 
