@@ -577,45 +577,41 @@ window.open(
 
   window.onAuthStateChanged(window.auth, async (user) => {
 
-    if(user){
+   async function saveNote(){
 
-        const docRef = window.doc(
-            window.db,
-            "user",
-            user.uid
-        );
+const note =
+document.getElementById("noteText").value;
 
-        const docSnap = await window.getDoc(docRef);
+const user =
+window.auth.currentUser;
 
-        if(docSnap.exists()){
+if(!user){
 
-            const data = docSnap.data();
+alert("Please login first");
+return;
 
-            document.getElementById("profileName").innerText =
-            data.fullName;
+}
 
-            document.getElementById("profileEmail").innerText =
-            data.email;
+try{
 
- localStorage.setItem(
-    "studentName",
-    data.fullName
+await window.addDoc(
+window.collection(window.db, "notes"),
+{
+uid: user.uid,
+note: note,
+createdAt: new Date()
+}
 );
 
-localStorage.setItem(
-    "studentEmail",
-    data.email
-);
+alert("Note saved to Firebase!");
 
-            document.getElementById("auth").style.display = "none";
+}catch(error){
 
-            document.getElementById("dashboard")
-            .classList.remove("hidden");
+alert(error.message);
 
-            document.getElementById("profileSection")
-            .classList.remove("hidden");
-        }
-    }
+}
+
+}
 });
 </script>
  
