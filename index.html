@@ -574,16 +574,6 @@ window.open(
 );
 
 }
-function saveNote(){
-
-const note =
-document.getElementById("noteText").value;
-
-localStorage.setItem("myNote", note);
-
-alert("Note saved!");
-
-}
 
   window.onAuthStateChanged(window.auth, async (user) => {
 
