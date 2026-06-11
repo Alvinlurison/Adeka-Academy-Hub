@@ -162,7 +162,11 @@ display:block;
 
 </div>
     
-<div class="card">  <h2>Dashboard</h2> <button onclick="logout()">
+<div class="card">  <h2>Dashboard</h2> 
+  <button onclick="toggleTheme()">
+🌙 Toggle Theme
+</button>
+  <button onclick="logout()">
 Logout
 </button>  <div class="grid">  <div class="box" onclick="openAITutor()">
 📚
@@ -187,10 +191,32 @@ Logout
 <p>Learn anywhere</p>
 </div>
 
+  <div id="tasksSection" class="card hidden">
+
+<h2>Study Tasks</h2>
+
+<input
+id="taskInput"
+placeholder="Enter a task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<div id="taskList"></div>
+
+</div>
+
   <div class="box" onclick="openProgress()">
 📊
 <h3>Progress</h3>
 <p>Track learning progress</p>
+</div>
+
+  <div class="box" onclick="openTasks()">
+✅
+<h3>Study Tasks</h3>
+<p>Track assignments</p>
 </div>
 
 </div> <!-- end grid -->
@@ -203,6 +229,7 @@ Logout
 
 <textarea
 id="noteText"
+oninput="updateCharCount()"
 placeholder="Write your notes here..."
 style="
 width:100%;
@@ -212,10 +239,30 @@ border-radius:10px;
 margin-top:15px;
 "></textarea>
 
+  <p>
+Characters:
+<span id="charCount">0</span>
+</p>
+
+  <p>
+Words:
+<span id="wordCount">0</span>
+</p>
+
 <button onclick="saveNote()">
 Save Note
 </button>
-
+  <button onclick="downloadNotes()">
+Download My Notes
+</button>
+  <button onclick="deleteAllNotes()">
+Delete All Notes
+</button>
+  
+<input
+id="searchNotes"
+placeholder="Search notes..."
+onkeyup="loadNotes()">
 <h3 style="margin-top:20px;">
 Saved Notes (<span id="noteCount">0</span>)
 </h3>
@@ -266,9 +313,25 @@ Join Meeting
 
 </div>
 
-<div class="card about">
+  <div id="tasksSection" class="card hidden">
+
+<h2>Study Tasks</h2>
+
+<input
+id="taskInput"
+placeholder="Enter a task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<div id="taskList"></div>
+
+</div>
 
   <div id="progressSection" class="card hidden">
+
+<div class="card about">
 
 <h2>My Progress</h2>
 
@@ -501,6 +564,9 @@ if(savedPic){
 document.getElementById("profileImage").src =
 savedPic;
 
+document.getElementById("profileStatus").innerText =
+"Yes";
+
 }
 
 window.scrollTo({
@@ -645,6 +711,29 @@ document
   
 }
 
+ function updateCharCount(){
+
+const text =
+document.getElementById("noteText").value;
+
+document.getElementById("charCount").innerText =
+text.length;
+
+const words =
+text.trim() === ""
+? 0
+: text.trim().split(/\s+/).length;
+
+document.getElementById("wordCount").innerText =
+words;
+
+   localStorage.setItem(
+"draftNote",
+text
+);
+
+}
+
 function openNotes(){
 
 document
@@ -663,6 +752,23 @@ document
 .getElementById("audioSection")
 .classList.add("hidden");
   loadNotes();
+loadDraft();
+
+}
+
+  function loadDraft(){
+
+const draft =
+localStorage.getItem("draftNote");
+
+if(draft){
+
+document.getElementById("noteText").value =
+draft;
+
+updateCharCount();
+
+}
 
 }
 
@@ -705,6 +811,7 @@ createdAt: new Date()
 );
   
 document.getElementById("noteText").value = "";
+  localStorage.removeItem("draftNote");
 
 loadNotes();
 document.getElementById("noteText").value = "";
@@ -731,9 +838,20 @@ await window.getDocs(q);
 
 let count = 0;
 let html = "";
+   const search =
+document.getElementById("searchNotes")
+.value
+.toLowerCase();
 
 querySnapshot.forEach((docSnap) => {
 
+  if(
+!docSnap.data().note
+.toLowerCase()
+.includes(search)
+){
+return;
+}
   count++;
 
 html += `
@@ -806,6 +924,348 @@ loadNotes();
   
 }
 
+  function toggleTheme(){
+
+document.body.classList.toggle("lightTheme");
+
+if(
+document.body.classList.contains("lightTheme")
+){
+
+localStorage.setItem(
+"theme",
+"light"
+);
+
+}else{
+
+localStorage.setItem(
+"theme",
+"dark"
+);
+
+}
+
+}
+
+  function loadTheme(){
+
+const theme =
+localStorage.getItem("theme");
+
+if(theme === "light"){
+
+document.body.classList.add(
+"lightTheme"
+);
+
+}
+
+}
+
+  function openTasks(){
+
+document
+.getElementById("tasksSection")
+.classList.remove("hidden");
+
+document
+.getElementById("notesSection")
+.classList.add("hidden");
+
+document
+.getElementById("aiTutorSection")
+.classList.add("hidden");
+
+document
+.getElementById("meetingSection")
+.classList.add("hidden");
+
+document
+.getElementById("audioSection")
+.classList.add("hidden");
+
+document
+.getElementById("progressSection")
+.classList.add("hidden");
+
+loadTasks();
+
+}
+
+function addTask(){
+
+const task =
+document.getElementById("taskInput").value;
+
+if(!task) return;
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+tasks.push(task);
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+document.getElementById("taskInput").value =
+"";
+
+loadTasks();
+
+}
+
+function loadTasks(){
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+let html = "";
+
+tasks.forEach((task,index)=>{
+
+html += `
+<div style="
+background:rgba(255,255,255,.1);
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+">
+
+${task}
+
+<button onclick="deleteTask(${index})">
+Delete
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("taskList").innerHTML =
+html;
+
+}
+
+function deleteTask(index){
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+tasks.splice(index,1);
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+loadTasks();
+
+}
+
+  async function downloadNotes(){
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+return;
+}
+
+const q = window.query(
+window.collection(window.db,"notes"),
+window.where("uid","==",user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+let text = "";
+
+querySnapshot.forEach((docSnap)=>{
+
+text += docSnap.data().note + "\n\n";
+
+});
+
+const blob = new Blob(
+[text],
+{type:"text/plain"}
+);
+
+const a =
+document.createElement("a");
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+"MyNotes.txt";
+
+a.click();
+
+}
+
+  async function deleteAllNotes(){
+
+const confirmDelete = confirm(
+"Delete ALL your notes?"
+);
+
+if(!confirmDelete) return;
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+const q = window.query(
+window.collection(window.db,"notes"),
+window.where("uid","==",user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+for(const docSnap of querySnapshot.docs){
+
+await window.deleteDoc(
+window.doc(
+window.db,
+"notes",
+docSnap.id
+)
+);
+
+}
+
+loadNotes();
+
+}
+
+  function openTasks(){
+
+document
+.getElementById("tasksSection")
+.classList.remove("hidden");
+
+document
+.getElementById("notesSection")
+.classList.add("hidden");
+
+document
+.getElementById("aiTutorSection")
+.classList.add("hidden");
+
+document
+.getElementById("meetingSection")
+.classList.add("hidden");
+
+document
+.getElementById("audioSection")
+.classList.add("hidden");
+
+document
+.getElementById("progressSection")
+.classList.add("hidden");
+
+loadTasks();
+
+}
+
+function addTask(){
+
+const task =
+document.getElementById("taskInput").value;
+
+if(!task) return;
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+tasks.push(task);
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+document.getElementById("taskInput").value =
+"";
+
+loadTasks();
+
+}
+
+function loadTasks(){
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+let html = "";
+
+tasks.forEach((task,index)=>{
+
+html += `
+<div style="
+background:rgba(255,255,255,.1);
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+">
+
+${task}
+
+<button onclick="deleteTask(${index})">
+Delete
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("taskList").innerHTML =
+html;
+
+}
+
+function deleteTask(index){
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+tasks.splice(index,1);
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+loadTasks();
+
+}
+
 window.onAuthStateChanged(window.auth, async (user) => {
 
 if(user){
@@ -825,7 +1285,19 @@ document.getElementById("profileStatus").innerText =
 
 }
 
+  .lightTheme{
+background:white;
+color:black;
+}
+
+.lightTheme .card,
+.lightTheme .box{
+background:#f0f0f0;
+color:black;
+}
+
 });
+  loadTheme();
 </script>
  
 </body>  
