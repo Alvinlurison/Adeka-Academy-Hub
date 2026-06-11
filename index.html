@@ -583,8 +583,6 @@ window.open(
 }
 
  async function saveNote(){
-
-alert("saveNote function started");
    
 const note =
 document.getElementById("noteText").value;
@@ -610,8 +608,8 @@ createdAt: new Date()
 }
 );
 
-alert("Note saved to Firebase!");
 loadNotes();
+document.getElementById("noteText").value = "";
 }catch(error){
 
 alert(error.message);
@@ -725,6 +723,8 @@ document.getElementById("dashboard")
 
 document.getElementById("profileSection")
 .classList.remove("hidden");
+
+  loadNotes();
 
 }
 
