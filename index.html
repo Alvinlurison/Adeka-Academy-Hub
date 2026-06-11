@@ -134,10 +134,18 @@ color:black;
 <br>  <input
 type="text"
 id="fullName"
-placeholder="Full Name">  <input type="email" id="email" placeholder="Email Address">  <input type="password" id="password" placeholder="Password">  <button onclick="register()">  
+placeholder="Full Name">  <input type="email" id="email" placeholder="Email Address">  <input type="password" id="password" placeholder="Password"> 
+<label>
+<input type="checkbox" id="rememberMe">
+Remember Me
+</label>
+  <button onclick="register()">  
 Create Account  
 </button>  <button onclick="login()">  
 Login  
+</button>
+  <button onclick="resetPassword()">
+Forgot Password?
 </button>
 
 </div> <!-- closes auth card -->
@@ -174,8 +182,9 @@ display:block;
 </div>
     
 <div class="card">  <h2>Dashboard</h2> 
+  <p id="currentDate"></p>
   <button onclick="toggleTheme()">
-🌙 Toggle Theme
+🌙 Theme
 </button>
   <button onclick="logout()">
 Logout
@@ -230,6 +239,12 @@ Add Task
 <p>Track assignments</p>
 </div>
 
+  <div class="box" onclick="openBadges()">
+🏆
+<h3>Achievements</h3>
+<p>View your badges</p>
+</div>
+  
 </div> <!-- end grid -->
 
 </div> <!-- end dashboard card -->
@@ -263,6 +278,9 @@ Words:
 <button onclick="saveNote()">
 Save Note
 </button>
+  <button onclick="clearDraft()">
+Clear Draft
+</button>
   <button onclick="downloadNotes()">
 Download My Notes
 </button>
@@ -276,6 +294,9 @@ placeholder="Search notes..."
 onkeyup="loadNotes()">
 <h3 style="margin-top:20px;">
 Saved Notes (<span id="noteCount">0</span>)
+  <p>
+Maximum Notes Recommended: 100
+</p>
 </h3>
 
 <div id="savedNotes"></div>
@@ -382,6 +403,17 @@ and continuous learning are keys to success.
 <p>© 2026 Adeka Academy Hub</p>  
 <p>Founded by Adeka Martin Delali (Creator IT)</p>  
 </footer>  </div> 
+  <div id="badgesSection" class="card hidden">
+
+<h2>Achievements</h2>
+
+<div id="badgesList">
+
+<p>🎉 Account Created</p>
+
+</div>
+
+</div>
 <script type="module" src="firebase-config.js"></script>
 
 <script>  
@@ -543,6 +575,8 @@ data.fullName;
 document.getElementById("profileEmail").innerText =
 data.email;
 
+  alert("Welcome back, " + data.fullName + "!");
+
 localStorage.setItem(
 "studentName",
 data.fullName
@@ -552,6 +586,20 @@ localStorage.setItem(
 "studentEmail",
 data.email
 );
+  if(document.getElementById("rememberMe").checked){
+
+localStorage.setItem(
+"rememberedEmail",
+email
+);
+
+}else{
+
+localStorage.removeItem(
+"rememberedEmail"
+);
+
+}
 
 }else{
 
@@ -577,7 +625,10 @@ savedPic;
 
 document.getElementById("profileStatus").innerText =
 "Yes";
-
+localStorage.setItem(
+"profileBadge",
+"earned"
+);
 }
 
 window.scrollTo({
@@ -820,6 +871,10 @@ note: note,
 createdAt: new Date()
 }
 );
+  localStorage.setItem(
+"firstNoteBadge",
+"earned"
+);
   
 document.getElementById("noteText").value = "";
   localStorage.removeItem("draftNote");
@@ -935,7 +990,7 @@ loadNotes();
   
 }
 
-  function toggleTheme(){
+  function Theme(){
 
 document.body.classList.toggle("lightTheme");
 
@@ -956,6 +1011,46 @@ localStorage.setItem(
 );
 
 }
+
+}
+
+  function openBadges(){
+
+document.getElementById("badgesSection")
+.classList.remove("hidden");
+
+document.getElementById("notesSection")
+.classList.add("hidden");
+
+document.getElementById("aiTutorSection")
+.classList.add("hidden");
+
+document.getElementById("meetingSection")
+.classList.add("hidden");
+
+document.getElementById("audioSection")
+.classList.add("hidden");
+
+document.getElementById("progressSection")
+.classList.add("hidden");
+
+document.getElementById("tasksSection")
+.classList.add("hidden");
+
+let html =
+"<p>🎉 Account Created</p>";
+
+if(localStorage.getItem("profileBadge")){
+
+html +=
+"<p>📸 Profile Master</p>";
+
+}
+
+if(localStorage.getItem("firstNoteBadge")){
+
+html +=
+"<p>📝 First Note Created</p>";
 
 }
 
@@ -1258,6 +1353,16 @@ html;
 
 }
 
+  function clearDraft(){
+
+localStorage.removeItem("draftNote");
+
+document.getElementById("noteText").value = "";
+
+updateCharCount();
+
+}
+
 function deleteTask(index){
 
 let tasks =
@@ -1277,6 +1382,33 @@ loadTasks();
 
 }
 
+  async function resetPassword(){
+
+const email =
+document.getElementById("email").value;
+
+if(!email){
+alert("Enter your email first");
+return;
+}
+
+try{
+
+await window.sendPasswordResetEmail(
+window.auth,
+email
+);
+
+alert("Password reset email sent!");
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
 window.onAuthStateChanged(window.auth, async (user) => {
 
 if(user){
@@ -1292,12 +1424,25 @@ savedPic;
 document.getElementById("profileStatus").innerText =
 "Yes";
 
+  document.getElementById("currentDate").innerText =
+new Date().toDateString();
+
 }
 
 }
 
 });
+const rememberedEmail =
+localStorage.getItem(
+"rememberedEmail"
+);
 
+if(rememberedEmail){
+
+document.getElementById("email").value =
+rememberedEmail;
+
+}
 loadTheme();
 </script>
  
