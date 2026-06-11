@@ -575,9 +575,7 @@ window.open(
 
 }
 
-  window.onAuthStateChanged(window.auth, async (user) => {
-
-   async function saveNote(){
+ async function saveNote(){
 
 const note =
 document.getElementById("noteText").value;
@@ -612,6 +610,44 @@ alert(error.message);
 }
 
 }
+
+  window.onAuthStateChanged(window.auth, async (user) => {
+
+if(user){
+
+const docRef =
+window.doc(
+window.db,
+"user",
+user.uid
+);
+
+const docSnap =
+await window.getDoc(docRef);
+
+if(docSnap.exists()){
+
+const data = docSnap.data();
+
+document.getElementById("profileName").innerText =
+data.fullName;
+
+document.getElementById("profileEmail").innerText =
+data.email;
+
+document.getElementById("auth").style.display =
+"none";
+
+document.getElementById("dashboard")
+.classList.remove("hidden");
+
+document.getElementById("profileSection")
+.classList.remove("hidden");
+
+}
+
+}
+
 });
 </script>
  
