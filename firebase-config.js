@@ -15,7 +15,9 @@ import {
   addDoc,
   getDocs,
   query,
-  where
+  where,
+  deleteDoc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const firebaseConfig = {
 apiKey: "AIzaSyBmsSCbPmXCk4nPZAXKfZVZrjEn9x_cwGA",
@@ -43,6 +45,8 @@ window.getDoc = getDoc;
 
 window.collection = collection;
 window.addDoc = addDoc;
+window.deleteDoc = deleteDoc;
+window.updateDoc = updateDoc;
 window.getDocs = getDocs;
 window.query = query;
 window.where = where;
