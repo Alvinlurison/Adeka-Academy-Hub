@@ -10,7 +10,9 @@ import {
   getFirestore,
   doc,
   setDoc,
-  getDoc
+  getDoc,
+  collection,
+  addDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const firebaseConfig = {
 apiKey: "AIzaSyBmsSCbPmXCk4nPZAXKfZVZrjEn9x_cwGA",
@@ -35,3 +37,6 @@ window.db = db;
 window.doc = doc;
 window.setDoc = setDoc;
 window.getDoc = getDoc;
+
+window.collection = collection;
+window.addDoc = addDoc;
