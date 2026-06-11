@@ -566,6 +566,7 @@ document
 document
 .getElementById("audioSection")
 .classList.add("hidden");
+  loadNotes();
 
 }
 
@@ -610,12 +611,47 @@ createdAt: new Date()
 );
 
 alert("Note saved to Firebase!");
-
+loadNotes();
 }catch(error){
 
 alert(error.message);
 
 }
+
+}
+  async function loadNotes(){
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+const q = window.query(
+window.collection(window.db, "notes"),
+window.where("uid", "==", user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+let html = "";
+
+querySnapshot.forEach((doc) => {
+
+html += `
+<div style="
+background:rgba(255,255,255,.1);
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+">
+${doc.data().note}
+</div>
+`;
+
+});
+
+document.getElementById("savedNotes").innerHTML =
+html;
 
 }
 
