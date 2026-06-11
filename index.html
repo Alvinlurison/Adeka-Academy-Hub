@@ -184,7 +184,7 @@ display:block;
 <div class="card">  <h2>Dashboard</h2> 
   <p id="currentDate"></p>
   <button onclick="toggleTheme()">
-🌙 Theme
+🌙 toggleTheme
 </button>
   <button onclick="logout()">
 Logout
@@ -210,9 +210,7 @@ Logout
 <h3>Audio Lessons</h3>
 <p>Learn anywhere</p>
 </div>
-
-  <div id="tasksSection" class="card hidden">
-
+  
 <h2>Study Tasks</h2>
 
 <input
@@ -990,7 +988,7 @@ loadNotes();
   
 }
 
-  function Theme(){
+  function toggleTheme(){
 
 document.body.classList.toggle("lightTheme");
 
@@ -1054,6 +1052,11 @@ html +=
 
 }
 
+    document.getElementById("badgesList").innerHTML =
+html;
+
+}
+  
   function loadTheme(){
 
 const theme =
@@ -1257,128 +1260,6 @@ docSnap.id
 }
 
 loadNotes();
-
-}
-
-  function openTasks(){
-
-document
-.getElementById("tasksSection")
-.classList.remove("hidden");
-
-document
-.getElementById("notesSection")
-.classList.add("hidden");
-
-document
-.getElementById("aiTutorSection")
-.classList.add("hidden");
-
-document
-.getElementById("meetingSection")
-.classList.add("hidden");
-
-document
-.getElementById("audioSection")
-.classList.add("hidden");
-
-document
-.getElementById("progressSection")
-.classList.add("hidden");
-
-loadTasks();
-
-}
-
-function addTask(){
-
-const task =
-document.getElementById("taskInput").value;
-
-if(!task) return;
-
-let tasks =
-JSON.parse(
-localStorage.getItem("tasks")
-|| "[]"
-);
-
-tasks.push(task);
-
-localStorage.setItem(
-"tasks",
-JSON.stringify(tasks)
-);
-
-document.getElementById("taskInput").value =
-"";
-
-loadTasks();
-
-}
-
-function loadTasks(){
-
-let tasks =
-JSON.parse(
-localStorage.getItem("tasks")
-|| "[]"
-);
-
-let html = "";
-
-tasks.forEach((task,index)=>{
-
-html += `
-<div style="
-background:rgba(255,255,255,.1);
-padding:10px;
-margin-top:10px;
-border-radius:10px;
-">
-
-${task}
-
-<button onclick="deleteTask(${index})">
-Delete
-</button>
-
-</div>
-`;
-
-});
-
-document.getElementById("taskList").innerHTML =
-html;
-
-}
-
-  function clearDraft(){
-
-localStorage.removeItem("draftNote");
-
-document.getElementById("noteText").value = "";
-
-updateCharCount();
-
-}
-
-function deleteTask(index){
-
-let tasks =
-JSON.parse(
-localStorage.getItem("tasks")
-|| "[]"
-);
-
-tasks.splice(index,1);
-
-localStorage.setItem(
-"tasks",
-JSON.stringify(tasks)
-);
-
-loadTasks();
 
 }
 
