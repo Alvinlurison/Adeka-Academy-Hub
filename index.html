@@ -101,6 +101,27 @@ margin-bottom:10px;
 .about{  
 line-height:1.8;  
 }  
+
+  #sideMenu{
+position:fixed;
+top:0;
+left:-260px;
+width:250px;
+height:100%;
+background:#062a54;
+padding:20px;
+z-index:999;
+overflow:auto;
+transition:0.3s;
+}
+
+#sideMenu.show{
+left:0;
+}
+
+#sideMenu button{
+margin-bottom:10px;
+}
   
 footer{  
 text-align:center;  
@@ -180,8 +201,31 @@ display:block;
 ">
 
 </div>
+
+  <div id="sideMenu">
     
-<div class="card">  <h2>Dashboard</h2> 
+<button onclick="openProgress()">
+📊 Progress
+</button>
+
+<button onclick="openTasks()">
+✅ Study Tasks
+</button>
+
+<button onclick="openBadges()">
+🏆 Achievements
+</button>
+
+<button onclick="toggleMenu()">
+❌ Close
+</button>
+
+</div>
+<div class="card">  <h2>Dashboard</h2>
+
+<button onclick="toggleMenu()" style="width:auto;padding:10px 15px;">
+☰ Menu
+</button>
   <p id="currentDate"></p>
   <button onclick="toggleTheme()">
 🌙 toggleTheme
@@ -223,25 +267,16 @@ Add Task
 
 <div id="taskList"></div>
 
-</div>
-
-  <div class="box" onclick="openProgress()">
-📊
 <h3>Progress</h3>
 <p>Track learning progress</p>
-</div>
 
-  <div class="box" onclick="openTasks()">
 ✅
 <h3>Study Tasks</h3>
 <p>Track assignments</p>
-</div>
 
-  <div class="box" onclick="openBadges()">
 🏆
 <h3>Achievements</h3>
 <p>View your badges</p>
-</div>
   
 </div> <!-- end grid -->
 
@@ -343,25 +378,19 @@ Join Meeting
 
 </div>
 
-  <div id="tasksSection" class="card hidden">
-
 <h2>Study Tasks</h2>
-
-<input
-id="taskInput"
-placeholder="Enter a task">
-
-<button onclick="addTask()">
-Add Task
+    <button onclick="backToDashboard()">
+← Back
 </button>
-
-<div id="taskList"></div>
 
 </div>
 
    <div id="badgesSection" class="card hidden">
 
 <h2>Achievements</h2>
+     <button onclick="backToDashboard()">
+← Back
+</button>
 
 <div id="badgesList">
 
@@ -376,6 +405,9 @@ Add Task
 <div class="card about">
 
 <h2>My Progress</h2>
+  <button onclick="backToDashboard()">
+← Back
+</button>
 
 <p>Total Notes Created:
 <strong><span id="totalNotes">0</span></strong>
@@ -507,6 +539,8 @@ document
 document
 .getElementById("audioSection")
 .classList.add("hidden");
+
+  toggleMenu();
 
 }
 
@@ -701,6 +735,14 @@ alert(error.message);
 }
 
 }
+
+  function toggleMenu(){
+
+document
+.getElementById("sideMenu")
+.classList.toggle("show");
+
+}
   
 function openAITutor(){
 
@@ -887,6 +929,25 @@ alert(error.message);
 }
 
 }
+
+function backToDashboard(){
+
+document
+.getElementById("progressSection")
+.classList.add("hidden");
+
+document
+.getElementById("tasksSection")
+.classList.add("hidden");
+
+document
+.getElementById("badgesSection")
+.classList.add("hidden");
+
+toggleMenu();
+
+}
+  
  async function loadNotes(){
 
 const user = window.auth.currentUser;
@@ -1036,6 +1097,8 @@ document.getElementById("progressSection")
 document.getElementById("tasksSection")
 .classList.add("hidden");
 
+  toggleMenu();
+
 let html =
 "<p>🎉 Account Created</p>";
 
@@ -1098,6 +1161,8 @@ document
 document
 .getElementById("progressSection")
 .classList.add("hidden");
+
+  toggleMenu();
 
 loadTasks();
 
