@@ -865,7 +865,7 @@ document
 showBackButton();
 
 }
-  async function askAI(){
+  function askAI(){
 
 const question =
 document.getElementById("userQuestion").value.trim();
@@ -875,37 +875,8 @@ return;
 }
 
 document.getElementById("aiResponse").innerHTML =
-"Thinking...";
-
-try{
-
-const response = await fetch("/api/ask-ai", {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ question: question })
-});
-
-const data = await response.json();
-
-if(!response.ok){
-
-document.getElementById("aiResponse").innerHTML =
-"Sorry, something went wrong. Please try again.";
-return;
-
-}
-
-document.getElementById("aiResponse").innerHTML =
 "<strong>You asked:</strong> " + question +
-"<br><br><strong>Adeka AI:</strong> " +
-data.answer.replace(/\n/g, "<br>");
-
-}catch(error){
-
-document.getElementById("aiResponse").innerHTML =
-"Network error. Please check your connection and try again.";
-
-}
+"<br><br><strong>Adeka AI:</strong> Real AI answers are coming soon! For now, save this question in your Notes so you don't forget it.";
 
 }
 
