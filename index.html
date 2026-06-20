@@ -221,8 +221,9 @@ display:block;
 </button>
 
 </div>
-<div class="card">  <h2>Dashboard</h2>
+<div id="dashboardCard" class="card">
 
+<h2>Dashboard</h2>
 <button onclick="toggleMenu()" style="width:auto;padding:10px 15px;">
 ☰ Menu
 </button>
@@ -511,17 +512,15 @@ function openProgress(){
 
 hideAllSections();
 
-document.getElementById("dashboard")
+document.getElementById("dashboardCard")
 .classList.add("hidden");
 
-document
-.getElementById("progressSection")
+document.getElementById("progressSection")
 .classList.remove("hidden");
 
 toggleMenu();
 
 }
-
    function saveProfilePicture(){
 
 const file =
@@ -922,7 +921,7 @@ function backToDashboard(){
 
 hideAllSections();
 
-document.getElementById("dashboard")
+document.getElementById("dashboardCard")
 .classList.remove("hidden");
 
 }
@@ -1205,8 +1204,10 @@ document.getElementById("notesSection").classList.add("hidden");
 document.getElementById("aiTutorSection").classList.add("hidden");
 document.getElementById("meetingSection").classList.add("hidden");
 document.getElementById("audioSection").classList.add("hidden");
+document.getElementById("profileSection").classList.add("hidden");
 
 }
+  
   async function downloadNotes(){
 
 const user = window.auth.currentUser;
