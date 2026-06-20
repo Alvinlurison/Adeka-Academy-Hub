@@ -255,29 +255,6 @@ Logout
 <p>Learn anywhere</p>
 </div>
   
-<h2>Study Tasks</h2>
-
-<input
-id="taskInput"
-placeholder="Enter a task">
-
-<button onclick="addTask()">
-Add Task
-</button>
-
-<div id="taskList"></div>
-
-<h3>Progress</h3>
-<p>Track learning progress</p>
-
-✅
-<h3>Study Tasks</h3>
-<p>Track assignments</p>
-
-🏆
-<h3>Achievements</h3>
-<p>View your badges</p>
-  
 </div> <!-- end grid -->
 
 </div> <!-- end dashboard card -->
@@ -395,8 +372,6 @@ Add Task
 </button>
 
 <div id="taskList"></div>
-
-</div>
 
 </div>
 
@@ -533,29 +508,18 @@ setTimeout(() => {
 
  }
 
-  function openProgress(){
+function openProgress(){
+
+hideAllSections();
+
+document.getElementById("dashboard")
+.classList.add("hidden");
 
 document
 .getElementById("progressSection")
 .classList.remove("hidden");
 
-document
-.getElementById("notesSection")
-.classList.add("hidden");
-
-document
-.getElementById("aiTutorSection")
-.classList.add("hidden");
-
-document
-.getElementById("meetingSection")
-.classList.add("hidden");
-
-document
-.getElementById("audioSection")
-.classList.add("hidden");
-
-  toggleMenu();
+toggleMenu();
 
 }
 
@@ -957,15 +921,15 @@ alert(error.message);
 
 function backToDashboard(){
 
-document.getElementById("progressSection").classList.add("hidden");
-document.getElementById("tasksSection").classList.add("hidden");
-document.getElementById("badgesSection").classList.add("hidden");
-document.getElementById("notesSection").classList.add("hidden");
-document.getElementById("aiTutorSection").classList.add("hidden");
-document.getElementById("meetingSection").classList.add("hidden");
-document.getElementById("audioSection").classList.add("hidden");
+hideAllSections();
 
-  toggleMenu();
+document.getElementById("dashboard")
+.classList.remove("hidden");
+
+}
+document.getElementById("dashboard")
+.classList.remove("hidden");
+
 }
   
  async function loadNotes(){
@@ -1094,30 +1058,15 @@ localStorage.setItem(
 
 }
 
-  function openBadges(){
+ function openBadges(){
 
-document.getElementById("badgesSection")
+hideAllSections();
+
+document
+.getElementById("badgesSection")
 .classList.remove("hidden");
 
-document.getElementById("notesSection")
-.classList.add("hidden");
-
-document.getElementById("aiTutorSection")
-.classList.add("hidden");
-
-document.getElementById("meetingSection")
-.classList.add("hidden");
-
-document.getElementById("audioSection")
-.classList.add("hidden");
-
-document.getElementById("progressSection")
-.classList.add("hidden");
-
-document.getElementById("tasksSection")
-.classList.add("hidden");
-
-  toggleMenu();
+toggleMenu();
 
 let html =
 "<p>🎉 Account Created</p>";
@@ -1136,7 +1085,7 @@ html +=
 
 }
 
-    document.getElementById("badgesList").innerHTML =
+document.getElementById("badgesList").innerHTML =
 html;
 
 }
@@ -1156,33 +1105,15 @@ document.body.classList.add(
 
 }
 
-  function openTasks(){
+ function openTasks(){
+
+hideAllSections();
 
 document
 .getElementById("tasksSection")
 .classList.remove("hidden");
 
-document
-.getElementById("notesSection")
-.classList.add("hidden");
-
-document
-.getElementById("aiTutorSection")
-.classList.add("hidden");
-
-document
-.getElementById("meetingSection")
-.classList.add("hidden");
-
-document
-.getElementById("audioSection")
-.classList.add("hidden");
-
-document
-.getElementById("progressSection")
-.classList.add("hidden");
-
-  toggleMenu();
+toggleMenu();
 
 loadTasks();
 
@@ -1270,6 +1201,17 @@ loadTasks();
 
 }
 
+  function hideAllSections(){
+
+document.getElementById("tasksSection").classList.add("hidden");
+document.getElementById("badgesSection").classList.add("hidden");
+document.getElementById("progressSection").classList.add("hidden");
+document.getElementById("notesSection").classList.add("hidden");
+document.getElementById("aiTutorSection").classList.add("hidden");
+document.getElementById("meetingSection").classList.add("hidden");
+document.getElementById("audioSection").classList.add("hidden");
+
+}
   async function downloadNotes(){
 
 const user = window.auth.currentUser;
