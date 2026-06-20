@@ -4,7 +4,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
@@ -19,30 +20,32 @@ import {
   deleteDoc,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 const firebaseConfig = {
-apiKey: "AIzaSyBmsSCbPmXCk4nPZAXKfZVZrjEn9x_cwGA",
-authDomain: "adecomm-hub.firebaseapp.com",
-projectId: "adecomm-hub",
-storageBucket: "adecomm-hub.firebasestorage.app",
-messagingSenderId: "771891537050",
-appId: "1:771891537050:web:5dae9122bb30513f85ab23"
-  
+  apiKey: "AIzaSyBmsSCbPmXCk4nPZAXKfZVZrjEn9x_cwGA",
+  authDomain: "adecomm-hub.firebaseapp.com",
+  projectId: "adecomm-hub",
+  storageBucket: "adecomm-hub.firebasestorage.app",
+  messagingSenderId: "771891537050",
+  appId: "1:771891537050:web:5dae9122bb30513f85ab23"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-window.auth = auth;
 const db = getFirestore(app);
+
+window.auth = auth;
+window.db = db;
 
 window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
 window.signInWithEmailAndPassword = signInWithEmailAndPassword;
 window.onAuthStateChanged = onAuthStateChanged;
 window.signOut = signOut;
-window.db = db;
+window.sendPasswordResetEmail = sendPasswordResetEmail;
+
 window.doc = doc;
 window.setDoc = setDoc;
 window.getDoc = getDoc;
-
 window.collection = collection;
 window.addDoc = addDoc;
 window.deleteDoc = deleteDoc;
