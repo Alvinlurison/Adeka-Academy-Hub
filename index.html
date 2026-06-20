@@ -378,10 +378,25 @@ Join Meeting
 
 </div>
 
+<div id="tasksSection" class="card hidden">
+
 <h2>Study Tasks</h2>
-    <button onclick="backToDashboard()">
+
+<button onclick="backToDashboard()">
 ← Back
 </button>
+
+<input
+id="taskInput"
+placeholder="Enter a task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<div id="taskList"></div>
+
+</div>
 
 </div>
 
@@ -568,6 +583,16 @@ e.target.result
 };
 
 reader.readAsDataURL(file);
+
+}
+
+  function clearDraft(){
+
+localStorage.removeItem("draftNote");
+
+document.getElementById("noteText").value = "";
+
+updateCharCount();
 
 }
 
@@ -932,20 +957,15 @@ alert(error.message);
 
 function backToDashboard(){
 
-document
-.getElementById("progressSection")
-.classList.add("hidden");
+document.getElementById("progressSection").classList.add("hidden");
+document.getElementById("tasksSection").classList.add("hidden");
+document.getElementById("badgesSection").classList.add("hidden");
+document.getElementById("notesSection").classList.add("hidden");
+document.getElementById("aiTutorSection").classList.add("hidden");
+document.getElementById("meetingSection").classList.add("hidden");
+document.getElementById("audioSection").classList.add("hidden");
 
-document
-.getElementById("tasksSection")
-.classList.add("hidden");
-
-document
-.getElementById("badgesSection")
-.classList.add("hidden");
-
-toggleMenu();
-
+  toggleMenu();
 }
   
  async function loadNotes(){
