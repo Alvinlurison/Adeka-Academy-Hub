@@ -17,6 +17,9 @@ import {
   getDocs,
   query,
   where,
+  orderBy,
+  limit,
+  onSnapshot,
   deleteDoc,
   updateDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -53,3 +56,6 @@ window.updateDoc = updateDoc;
 window.getDocs = getDocs;
 window.query = query;
 window.where = where;
+window.orderBy = orderBy;
+window.limit = limit;
+window.onSnapshot = onSnapshot;
