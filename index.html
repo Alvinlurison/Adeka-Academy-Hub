@@ -251,6 +251,41 @@ font-size:11px;
 margin-left:6px;
 }
 
+#chatPanel{
+position:fixed;
+top:0;
+right:-360px;
+width:340px;
+max-width:90vw;
+height:100%;
+background:rgba(6,42,84,.97);
+border-left:1px solid rgba(255,255,255,.2);
+box-shadow:-8px 0 30px rgba(0,0,0,.5);
+z-index:1200;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+transition:right .3s ease;
+}
+
+#chatPanel.show{
+right:0;
+}
+
+#chatBubble{
+position:fixed;
+bottom:20px;
+right:20px;
+width:60px;
+height:60px;
+border-radius:50%;
+font-size:26px;
+z-index:1000;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+padding:0;
+margin:0;
+}
+
 #floatingBack{
 position:fixed;
 top:20px;
@@ -276,9 +311,9 @@ background:#000;
 <div class="container">
 <button id="floatingBack" class="hidden" onclick="backToDashboard()">← Back</button>
 
-<button id="chatBubble" class="hidden" onclick="toggleChatPanel()" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;font-size:26px;z-index:1000;box-shadow:0 4px 14px rgba(0,0,0,.45);padding:0;margin:0;">💬</button>
+<button id="chatBubble" class="hidden" onclick="toggleChatPanel()">💬</button>
 
-<div id="chatPanel" class="hidden" style="position:fixed;bottom:90px;right:20px;width:320px;max-width:90vw;height:420px;background:rgba(6,42,84,.97);border:1px solid rgba(255,255,255,.2);border-radius:15px;box-shadow:0 8px 30px rgba(0,0,0,.5);z-index:1000;display:flex;flex-direction:column;overflow:hidden;">
+<div id="chatPanel">
   <div style="padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center;">
     <strong>💬 Class Chat</strong>
     <button class="btn-secondary" onclick="toggleChatPanel()" style="width:auto;padding:4px 10px;margin:0;font-size:16px;">✕</button>
@@ -806,13 +841,13 @@ document.getElementById("chatBubble").classList.remove("hidden");
 function hideChatBubble(){
 
 document.getElementById("chatBubble").classList.add("hidden");
-document.getElementById("chatPanel").classList.add("hidden");
+document.getElementById("chatPanel").classList.remove("show");
 
 }
 
 function toggleChatPanel(){
 
-document.getElementById("chatPanel").classList.toggle("hidden");
+document.getElementById("chatPanel").classList.toggle("show");
 
 }
 
@@ -1968,6 +2003,10 @@ alert(error.message);
 // error (which used to silently break the "remember me" + theme code
 // that ran right after it).
 window.addEventListener("DOMContentLoaded", () => {
+
+// Safety net: the chat bubble/panel should never be visible on the
+// login screen. This guarantees a clean state on every fresh page load.
+hideChatBubble();
 
 window.onAuthStateChanged(window.auth, async (user) => {
 
