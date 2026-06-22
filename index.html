@@ -316,7 +316,10 @@ background:#000;
 <div id="chatPanel">
   <div style="padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center;">
     <strong>💬 Class Chat</strong>
+    <div style="display:flex;gap:6px;">
+    <button class="btn-danger" onclick="clearChatHistory()" style="width:auto;padding:4px 10px;margin:0;font-size:14px;" title="Clear chat for everyone">🗑️</button>
     <button class="btn-secondary" onclick="toggleChatPanel()" style="width:auto;padding:4px 10px;margin:0;font-size:16px;">✕</button>
+    </div>
   </div>
   <div id="chatMessages" style="flex:1;overflow-y:auto;padding:10px 15px;font-size:14px;color:white;"></div>
   <div style="display:flex;padding:10px;border-top:1px solid rgba(255,255,255,.15);gap:8px;">
@@ -861,11 +864,73 @@ return div.innerHTML;
 
 }
 
+// Firestore's native auto-delete (TTL) feature requires a paid plan,
+// so this does the same job for free: any message older than the
+// lifetime below gets deleted whenever someone opens the chat.
+const CHAT_MESSAGE_LIFETIME_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+async function cleanupOldChatMessages(){
+
+try{
+
+const cutoff = new Date(Date.now() - CHAT_MESSAGE_LIFETIME_MS);
+
+const q = window.query(
+window.collection(window.db, "classChat"),
+window.where("createdAt", "<", cutoff)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+for(const docSnap of querySnapshot.docs){
+await window.deleteDoc(
+window.doc(window.db, "classChat", docSnap.id)
+);
+}
+
+}catch(error){
+
+console.log("Chat cleanup error:", error);
+
+}
+
+}
+
+async function clearChatHistory(){
+
+const confirmClear = confirm(
+"Clear the entire class chat for everyone? This can't be undone."
+);
+
+if(!confirmClear) return;
+
+try{
+
+const querySnapshot = await window.getDocs(
+window.collection(window.db, "classChat")
+);
+
+for(const docSnap of querySnapshot.docs){
+await window.deleteDoc(
+window.doc(window.db, "classChat", docSnap.id)
+);
+}
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
 function startChatListener(){
 
 if(chatUnsubscribe){
 return; // already listening, no need to attach twice
 }
+
+cleanupOldChatMessages();
 
 const q = window.query(
 window.collection(window.db, "classChat"),
