@@ -77,9 +77,13 @@ font-size:16px;
 cursor:pointer;
 }
 
-button:hover{opacity:.9;}
+button:hover{
+opacity:.9;
+}
 
-.hidden{display:none;}
+.hidden{
+display:none;
+}
 
 .grid{
 display:grid;
@@ -104,16 +108,13 @@ background:rgba(255,255,255,.18);
 box-shadow:0 10px 24px rgba(0,0,0,.35);
 }
 
-.box h3{margin-top:10px;margin-bottom:10px;}
+.box h3{
+margin-top:10px;
+margin-bottom:10px;
+}
 
-.about{line-height:1.8;}
-
-#menuOverlay{
-position:fixed;
-top:0;left:0;right:0;bottom:0;
-background:rgba(0,0,0,.45);
-z-index:998;
-display:none;
+.about{
+line-height:1.8;
 }
 
 #sideMenu{
@@ -129,9 +130,13 @@ overflow:auto;
 transition:0.3s;
 }
 
-#sideMenu.show{left:0;}
+#sideMenu.show{
+left:0;
+}
 
-#sideMenu button{margin-bottom:10px;}
+#sideMenu button{
+margin-bottom:10px;
+}
 
 footer{
 text-align:center;
@@ -140,16 +145,32 @@ padding:20px;
 border-top:1px solid rgba(255,255,255,.2);
 }
 
-.lightTheme{background:white;color:black;}
+.lightTheme{
+background:white;
+color:black;
+}
 
 .lightTheme .card,
-.lightTheme .box{background:#f0f0f0;color:black;}
+.lightTheme .box{
+background:#f0f0f0;
+color:black;
+}
 
-.lightTheme .header p{color:#b8860b;}
+.lightTheme .header p{
+color:#b8860b;
+}
 
-body.text-small{font-size:14px;}
-body.text-normal{font-size:16px;}
-body.text-large{font-size:19px;}
+body.text-small{
+font-size:14px;
+}
+
+body.text-normal{
+font-size:16px;
+}
+
+body.text-large{
+font-size:19px;
+}
 
 .btn-secondary{
 background:rgba(255,255,255,.15) !important;
@@ -176,12 +197,16 @@ height:30px;
 margin:10px 0;
 }
 
-.switch input{opacity:0;width:0;height:0;}
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
 
 .slider{
 position:absolute;
 cursor:pointer;
-top:0;left:0;right:0;bottom:0;
+top:0; left:0; right:0; bottom:0;
 background-color:rgba(255,255,255,.25);
 border-radius:30px;
 transition:.3s;
@@ -199,14 +224,26 @@ border-radius:50%;
 transition:.3s;
 }
 
-input:checked + .slider{background-color:#ffd700;}
-input:checked + .slider:before{transform:translateX(26px);}
+input:checked + .slider{
+background-color:#ffd700;
+}
 
-.chat-msg{margin-bottom:12px;}
+input:checked + .slider:before{
+transform:translateX(26px);
+}
 
-.chat-msg .sender{color:#ffd700;font-weight:bold;}
+.chat-msg{
+margin-bottom:12px;
+}
 
-.lightTheme .chat-msg .sender{color:#b8860b;}
+.chat-msg .sender{
+color:#ffd700;
+font-weight:bold;
+}
+
+.lightTheme .chat-msg .sender{
+color:#b8860b;
+}
 
 .chat-msg .time{
 opacity:.6;
@@ -231,7 +268,9 @@ overflow:hidden;
 transition:right .3s ease;
 }
 
-#chatPanel.show{right:0;}
+#chatPanel.show{
+right:0;
+}
 
 #chatBubble{
 position:fixed;
@@ -247,6 +286,31 @@ padding:0;
 margin:0;
 }
 
+#floatingLogout{
+position:fixed;
+top:20px;
+right:20px;
+width:auto;
+padding:10px 20px;
+z-index:1000;
+border-radius:30px;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+margin:0;
+}
+
+#picLightbox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+z-index:2000;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
 #floatingBack{
 position:fixed;
 top:20px;
@@ -258,25 +322,6 @@ border-radius:30px;
 box-shadow:0 4px 14px rgba(0,0,0,.45);
 }
 
-#floatingLogout{
-position:fixed;
-top:20px;
-right:20px;
-width:auto;
-padding:10px 20px;
-z-index:1000;
-border-radius:30px;
-box-shadow:0 4px 14px rgba(0,0,0,.45);
-background:#ff5c5c !important;
-color:white !important;
-border:none;
-font-weight:bold;
-font-size:15px;
-cursor:pointer;
-}
-
-#floatingLogout:hover{opacity:.9;}
-
 .callContainer{
 width:100%;
 height:480px;
@@ -285,268 +330,18 @@ overflow:hidden;
 margin-top:15px;
 background:#000;
 }
-
-/* Profile image lightbox */
-#picLightbox{
-position:fixed;
-top:0;left:0;right:0;bottom:0;
-background:rgba(0,0,0,.88);
-z-index:9999;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-gap:16px;
-}
-
-#picLightbox img{
-max-width:90vw;
-max-height:80vh;
-border-radius:16px;
-border:3px solid #ffd700;
-box-shadow:0 0 40px rgba(255,215,0,.3);
-object-fit:contain;
-}
-
-#picLightbox button{width:auto;padding:10px 30px;}
-
-/* Toast notifications */
-#toastContainer{
-position:fixed;
-bottom:90px;
-left:50%;
-transform:translateX(-50%);
-z-index:9998;
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:8px;
-pointer-events:none;
-}
-
-.toast{
-background:rgba(10,40,80,.96);
-border:1px solid rgba(255,215,0,.4);
-border-radius:12px;
-padding:12px 22px;
-font-size:15px;
-font-weight:bold;
-color:white;
-box-shadow:0 4px 18px rgba(0,0,0,.4);
-animation:toastIn .3s ease, toastOut .3s ease 2.7s forwards;
-max-width:80vw;
-text-align:center;
-}
-
-.toast.success{border-color:#00c864;color:#00e87a;}
-.toast.error{border-color:#ff5c5c;color:#ff7c7c;}
-.toast.info{border-color:#ffd700;color:#ffd700;}
-
-@keyframes toastIn{
-from{opacity:0;transform:translateY(12px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@keyframes toastOut{
-from{opacity:1;}
-to{opacity:0;}
-}
-
-/* Quiz styles */
-.quiz-level-btn{
-padding:20px;
-margin:10px 0;
-font-size:18px;
-border-radius:15px;
-background:rgba(255,255,255,.12);
-border:1px solid rgba(255,255,255,.2);
-color:white;
-cursor:pointer;
-transition:background .2s, transform .2s;
-}
-
-.quiz-level-btn:hover{
-background:rgba(255,215,0,.25);
-transform:translateY(-2px);
-}
-
-.quiz-subject-btn{
-padding:14px;
-margin:6px 0;
-font-size:15px;
-border-radius:12px;
-background:rgba(255,255,255,.1);
-border:1px solid rgba(255,255,255,.15);
-color:white;
-cursor:pointer;
-transition:background .2s;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.quiz-subject-btn:hover{background:rgba(255,215,0,.2);}
-
-.quiz-option{
-padding:14px 18px;
-margin:8px 0;
-border-radius:12px;
-background:rgba(255,255,255,.1);
-border:1px solid rgba(255,255,255,.2);
-cursor:pointer;
-font-size:15px;
-transition:background .2s;
-text-align:left;
-color:white;
-}
-
-.quiz-option:hover{background:rgba(255,215,0,.2);}
-
-.quiz-option.correct{
-background:rgba(0,200,100,.35) !important;
-border-color:#00c864 !important;
-}
-
-.quiz-option.wrong{
-background:rgba(255,60,60,.35) !important;
-border-color:#ff3c3c !important;
-}
-
-.quiz-progress{
-background:rgba(255,255,255,.1);
-border-radius:10px;
-height:8px;
-margin:10px 0 20px;
-overflow:hidden;
-}
-
-.quiz-progress-bar{
-height:100%;
-background:#ffd700;
-border-radius:10px;
-transition:width .3s;
-}
-
-/* Timer */
-.quiz-timer-wrap{
-display:flex;
-align-items:center;
-justify-content:center;
-margin-bottom:10px;
-}
-
-.quiz-timer{
-width:52px;
-height:52px;
-border-radius:50%;
-border:4px solid #ffd700;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:20px;
-font-weight:bold;
-transition:border-color .3s, color .3s;
-color:white;
-}
-
-.quiz-timer.urgent{
-border-color:#ff5c5c;
-color:#ff5c5c;
-animation:pulse .5s infinite alternate;
-}
-
-@keyframes pulse{
-from{transform:scale(1);}
-to{transform:scale(1.12);}
-}
-
-/* Streak badge */
-.streak-badge{
-display:inline-block;
-background:linear-gradient(135deg,#ff6a00,#ffd700);
-border-radius:20px;
-padding:4px 14px;
-font-size:13px;
-font-weight:bold;
-color:#062a54;
-margin-left:8px;
-vertical-align:middle;
-}
-
-.leaderboard-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:rgba(255,255,255,.08);
-border-radius:10px;
-padding:10px 14px;
-margin:6px 0;
-}
-
-.leaderboard-row.top1{background:rgba(255,215,0,.2);}
-.leaderboard-row.top2{background:rgba(192,192,192,.15);}
-.leaderboard-row.top3{background:rgba(205,127,50,.15);}
-
-/* Task done style */
-.task-done{
-text-decoration:line-through;
-opacity:.5;
-}
-
-/* Welcome greeting */
-#welcomeGreeting{
-color:#ffd700;
-font-size:1rem;
-margin-top:6px;
-font-weight:bold;
-}
-
-/* Daily streak */
-#streakDisplay{
-display:inline-flex;
-align-items:center;
-gap:8px;
-background:linear-gradient(135deg,rgba(255,106,0,.25),rgba(255,215,0,.2));
-border:1px solid rgba(255,150,0,.4);
-border-radius:20px;
-padding:6px 16px;
-margin-top:10px;
-font-weight:bold;
-font-size:15px;
-}
-
-#streakDisplay.cold{
-background:rgba(255,255,255,.08);
-border-color:rgba(255,255,255,.15);
-}
-
-.lightTheme .quiz-level-btn,
-.lightTheme .quiz-subject-btn,
-.lightTheme .quiz-option,
-.lightTheme .leaderboard-row{
-color:black;
-background:rgba(0,0,0,.06);
-border-color:rgba(0,0,0,.15);
-}
-
-.lightTheme .quiz-timer{color:#062a54;border-color:#062a54;}
-.lightTheme .quiz-timer.urgent{color:#cc0000;border-color:#cc0000;}
 </style>
 </head>
 <body>
-<div id="toastContainer"></div>
-<div id="menuOverlay" onclick="closeMenu()"></div>
 <div class="container">
-
 <button id="floatingBack" class="hidden" onclick="backToDashboard()">← Back</button>
-<button id="floatingLogout" class="hidden" onclick="logout()">Logout</button>
-<button id="chatBubble" class="hidden" onclick="toggleChatPanel()">💬</button>
+<button id="floatingLogout" class="hidden btn-danger" onclick="logout()">Logout</button>
 
-<!-- Profile picture lightbox -->
 <div id="picLightbox" class="hidden" onclick="closeLightbox()">
-  <img id="lightboxImg" src="" alt="Profile Picture">
-  <button class="btn-secondary" onclick="closeLightbox()">✕ Close</button>
+<img id="lightboxImage" style="max-width:90%;max-height:90%;border-radius:10px;">
 </div>
+
+<button id="chatBubble" class="hidden" onclick="toggleChatPanel()">💬</button>
 
 <div id="chatPanel">
   <div style="padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center;">
@@ -567,61 +362,110 @@ border-color:rgba(0,0,0,.15);
 <div class="header">
     <h1>Adeka Academy Hub</h1>
     <p>Learn • Connect • Grow</p>
-    <p id="message" style="color:#00ff88;font-weight:bold;margin-top:10px;"></p>
+
+    <p id="message"
+       style="color:#00ff88;
+              font-weight:bold;
+              margin-top:10px;">
+    </p>
 </div>
 
 <div class="card" id="auth">
 <h2>Welcome</h2>
 <br>
-<input type="text" id="fullName" placeholder="Full Name">
+<input
+type="text"
+id="fullName"
+placeholder="Full Name">
 <input type="email" id="email" placeholder="Email Address">
 <input type="password" id="password" placeholder="Password">
 <label>
 <input type="checkbox" id="rememberMe">
 Remember Me
 </label>
-<button onclick="register()">Create Account</button>
-<button onclick="login()">Login</button>
-<button class="btn-secondary" onclick="resetPassword()">Forgot Password?</button>
-</div>
+<button onclick="register()">
+Create Account
+</button>
+<button onclick="login()">
+Login
+</button>
+<button class="btn-secondary" onclick="resetPassword()">
+Forgot Password?
+</button>
+
+</div> <!-- closes auth card -->
 
 <div id="dashboard" class="hidden">
 
 <div id="profileSection" class="card hidden">
+
 <h2>My Profile</h2>
-<p><strong>Name:</strong> <span id="profileName"></span></p>
-<p><strong>Email:</strong> <span id="profileEmail"></span></p>
+
+<p><strong>Name:</strong>
+<span id="profileName"></span>
+</p>
+<p><strong>Email:</strong>
+<span id="profileEmail"></span>
+</p>
 <br>
-<input type="file" id="profilePic" accept="image/*" style="display:none;" onchange="saveProfilePicture(event)">
-<div style="text-align:center;">
-  <img
-    id="profileImage"
-    src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' fill='%23ffd700'/><circle cx='60' cy='46' r='22' fill='%23062a54'/><path d='M16 112 Q60 74 104 112 Z' fill='%23062a54'/></svg>"
-    style="width:120px;height:120px;border-radius:50%;margin:0 auto 8px;display:block;border:3px solid #ffd700;box-shadow:0 4px 16px rgba(0,0,0,.45);object-fit:cover;cursor:pointer;"
-    title="Tap to view full size"
-    onclick="openLightbox()"
-  >
-  <p style="font-size:12px;opacity:.6;margin-bottom:6px;">Tap to view full size</p>
-  <button class="btn-secondary" style="width:auto;padding:8px 18px;font-size:14px;" onclick="document.getElementById('profilePic').click()">📷 Change Photo</button>
-</div>
+
+<label for="profilePic" class="btn-secondary" style="display:inline-block;text-align:center;cursor:pointer;width:100%;padding:15px;margin:10px 0;border-radius:10px;">
+📷 Upload Profile Picture
+</label>
+<input
+type="file"
+id="profilePic"
+onchange="saveProfilePicture(event)"
+style="display:none;">
+
+<img
+id="profileImage"
+onclick="viewProfilePicture()"
+src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' fill='%23ffd700'/><circle cx='60' cy='46' r='22' fill='%23062a54'/><path d='M16 112 Q60 74 104 112 Z' fill='%23062a54'/></svg>"
+style="
+width:120px;
+height:120px;
+border-radius:50%;
+margin-top:15px;
+display:block;
+border:3px solid #ffd700;
+box-shadow:0 4px 16px rgba(0,0,0,.45);
+object-fit:cover;
+cursor:pointer;
+">
+
 </div>
 
 <div id="sideMenu">
-<button onclick="openProgress()">📊 Progress</button>
-<button onclick="openTasks()">✅ Study Tasks</button>
-<button onclick="openBadges()">🏆 Achievements</button>
-<button onclick="openSettings()">⚙️ Settings</button>
-<button class="btn-secondary" onclick="closeMenu()">❌ Close</button>
-</div>
 
+<button onclick="openProgress()">
+📊 Progress
+</button>
+
+<button onclick="openTasks()">
+✅ Study Tasks
+</button>
+
+<button onclick="openBadges()">
+🏆 Achievements
+</button>
+
+<button onclick="openSettings()">
+⚙️ Settings
+</button>
+
+<button class="btn-secondary" onclick="toggleMenu()">
+❌ Close
+</button>
+
+</div>
 <div class="card" id="dashboardHome">
 <h2>Dashboard</h2>
-<div id="welcomeGreeting"></div>
-<div id="streakDisplay" class="cold">🔥 Streak: <span id="streakCount">0</span> day(s)</div>
-<br>
-<button class="btn-secondary" onclick="toggleMenu()" style="width:auto;padding:10px 15px;margin-top:12px;">☰ Menu</button>
-<p id="currentDate" style="margin-top:8px;opacity:.75;font-size:14px;"></p>
 
+<button class="btn-secondary" onclick="toggleMenu()" style="width:auto;padding:10px 15px;">
+☰ Menu
+</button>
+<p id="currentDate"></p>
 <div class="grid">
 <div class="box" onclick="openAITutor()">
 📚
@@ -633,70 +477,154 @@ Remember Me
 <h3>Meeting Center</h3>
 <p>Join classes and meetings</p>
 </div>
+
 <div class="box" onclick="openNotes()">
 📝
 <h3>Notes</h3>
 <p>Create and save notes</p>
 </div>
+
 <div class="box" onclick="openAudioLessons()">
 🎧
 <h3>Audio Lessons</h3>
 <p>Learn anywhere</p>
 </div>
+
 <div class="box" onclick="openQuiz()">
-🎯
+🎮
 <h3>Quiz Challenge</h3>
-<p>Test your knowledge</p>
-</div>
-</div>
+<p>Test yourself & compete globally</p>
 </div>
 
+</div> <!-- end grid -->
+
+</div> <!-- end dashboard card -->
+
 <div id="notesSection" class="card hidden">
+
 <h2>My Notes</h2>
-<textarea id="noteText" oninput="updateCharCount()" placeholder="Write your notes here..." style="width:100%;height:200px;padding:15px;border-radius:10px;margin-top:15px;"></textarea>
-<p>Characters: <span id="charCount">0</span> &nbsp;|&nbsp; Words: <span id="wordCount">0</span></p>
-<button onclick="saveNote()">Save Note</button>
-<button class="btn-secondary" onclick="clearDraft()">Clear Draft</button>
-<button class="btn-secondary" onclick="downloadNotes()">Download My Notes</button>
-<button class="btn-danger" onclick="deleteAllNotes()">Delete All Notes</button>
-<input id="searchNotes" placeholder="Search notes..." onkeyup="loadNotes()">
-<h3 style="margin-top:20px;">Saved Notes (<span id="noteCount">0</span>)
-<p style="font-size:13px;font-weight:normal;opacity:.7;">Maximum Notes Recommended: 100</p>
+
+<textarea
+id="noteText"
+oninput="updateCharCount()"
+placeholder="Write your notes here..."
+style="
+width:100%;
+height:200px;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+"></textarea>
+
+<p>
+Characters:
+<span id="charCount">0</span>
+</p>
+
+<p>
+Words:
+<span id="wordCount">0</span>
+</p>
+
+<button onclick="saveNote()">
+Save Note
+</button>
+<button class="btn-secondary" onclick="clearDraft()">
+Clear Draft
+</button>
+<button class="btn-secondary" onclick="downloadNotes()">
+Download My Notes
+</button>
+<button class="btn-danger" onclick="deleteAllNotes()">
+Delete All Notes
+</button>
+
+<input
+id="searchNotes"
+placeholder="Search notes..."
+onkeyup="loadNotes()">
+<h3 style="margin-top:20px;">
+Saved Notes (<span id="noteCount">0</span>)
+<p>
+Maximum Notes Recommended: 100
+</p>
 </h3>
+
 <div id="savedNotes"></div>
+
 </div>
 
 <div id="aiTutorSection" class="card hidden">
+
 <h2>Adeka AI Tutor</h2>
-<input id="userQuestion" placeholder="Ask a question...">
-<button onclick="askAI()">Ask AI</button>
-<div id="aiResponse" style="margin-top:15px;">AI Tutor ready.</div>
+
+<input
+id="userQuestion"
+placeholder="Ask a question...">
+
+<button onclick="askAI()">
+Ask AI
+</button>
+
+<div id="aiResponse" style="margin-top:15px;">
+AI Tutor ready.
 </div>
 
+</div>
 <div id="meetingSection" class="card hidden">
+
 <h2>Meeting Center</h2>
+
 <p>Start or join a live video class — right here in the app, no other software needed.</p>
-<input id="meetingCode" placeholder="Enter a Room Name (e.g. math-class-1)">
-<button onclick="joinMeeting()">Start / Join Meeting</button>
-<button class="btn-danger hidden" onclick="leaveMeeting()" id="leaveMeetingBtn">Leave Meeting</button>
+
+<input
+id="meetingCode"
+placeholder="Enter a Room Name (e.g. math-class-1)">
+
+<button onclick="joinMeeting()">
+Start / Join Meeting
+</button>
+
+<button class="btn-danger hidden" onclick="leaveMeeting()" id="leaveMeetingBtn">
+Leave Meeting
+</button>
+
 <div id="jitsiMeetingContainer" class="callContainer hidden"></div>
+
 </div>
 
 <div id="audioSection" class="card hidden">
+
 <h2>Live Audio Room</h2>
+
 <p>Voice-only room for lessons and live chat — lighter on data than video, still all in-app.</p>
-<input id="audioRoomCode" placeholder="Enter a Room Name (e.g. study-group-1)">
-<button onclick="joinAudioRoom()">Start / Join Audio Room</button>
-<button class="btn-danger hidden" onclick="leaveAudioRoom()" id="leaveAudioBtn">Leave Audio Room</button>
+
+<input
+id="audioRoomCode"
+placeholder="Enter a Room Name (e.g. study-group-1)">
+
+<button onclick="joinAudioRoom()">
+Start / Join Audio Room
+</button>
+
+<button class="btn-danger hidden" onclick="leaveAudioRoom()" id="leaveAudioBtn">
+Leave Audio Room
+</button>
+
 <div id="jitsiAudioContainer" class="callContainer hidden"></div>
+
 <h3 style="margin-top:25px;">Recorded Lessons</h3>
+
 <audio controls style="width:100%;margin-top:10px;">
   <source src="lesson1.mp3" type="audio/mpeg">
 </audio>
+
 </div>
 
 <div id="settingsSection" class="card hidden">
+
 <h2>⚙️ Settings</h2>
+
 <p style="opacity:.8;margin-top:5px;">Make the app look and feel the way you like.</p>
 
 <div style="display:flex;align-items:center;gap:15px;margin-top:25px;flex-wrap:wrap;">
@@ -718,7 +646,10 @@ Remember Me
 
 <div style="margin-top:25px;">
 <p style="margin-bottom:8px;">🖼️ Change Profile Picture</p>
-<button class="btn-secondary" style="width:auto;padding:10px 20px;" onclick="document.getElementById('profilePic').click()">📷 Choose Photo</button>
+<label for="profilePicSettings" class="btn-secondary" style="display:inline-block;text-align:center;cursor:pointer;width:100%;padding:15px;margin:10px 0;border-radius:10px;">
+📷 Choose New Picture
+</label>
+<input type="file" id="profilePicSettings" onchange="saveProfilePicture(event)" style="display:none;">
 </div>
 
 <div style="margin-top:25px;">
@@ -734,38 +665,115 @@ Remember Me
 </label>
 <span>🔔 Play a sound when I earn a badge</span>
 </div>
+
+</div>
+
+<div id="quizSection" class="card hidden">
+
+<h2>🎮 Quiz Challenge</h2>
+
+<div id="quizLevelChoice">
+<p style="margin:15px 0;">Choose your level:</p>
+<button onclick="chooseQuizLevel('University')">🎓 University</button>
+<button onclick="chooseQuizLevel('SHS')">🏫 SHS</button>
+<button onclick="chooseQuizLevel('JHS')">📘 JHS</button>
+</div>
+
+<div id="quizSubjectChoice" class="hidden">
+<button class="btn-secondary" onclick="showQuizScreen('quizLevelChoice')">← Change Level</button>
+<p style="margin:15px 0;">Choose a subject:</p>
+<div id="quizSubjectList"></div>
+</div>
+
+<div id="quizPlay" class="hidden">
+<p id="quizProgress" style="opacity:.8;margin-bottom:10px;"></p>
+<h3 id="quizQuestionText" style="margin-bottom:15px;"></h3>
+<div id="quizOptions"></div>
+</div>
+
+<div id="quizResults" class="hidden" style="text-align:center;">
+<h3 style="font-size:2rem;margin-bottom:10px;">🎉</h3>
+<p id="quizScoreText" style="font-size:1.2rem;margin-bottom:20px;"></p>
+<button onclick="restartCurrentQuiz()">🔁 Try Again</button>
+<button class="btn-secondary" onclick="showQuizLeaderboard()">🏆 View Leaderboard</button>
+<button class="btn-secondary" onclick="showQuizScreen('quizSubjectChoice')">← Choose Another Subject</button>
+</div>
+
+<div id="quizLeaderboard" class="hidden">
+<button class="btn-secondary" onclick="showQuizScreen('quizResults')">← Back</button>
+<h3 style="margin:15px 0;">🏆 Leaderboard — <span id="leaderboardSubjectName"></span></h3>
+<div id="leaderboardList"></div>
+</div>
+
 </div>
 
 <div id="tasksSection" class="card hidden">
+
 <h2>Study Tasks</h2>
-<input id="taskInput" placeholder="Enter a task" onkeyup="if(event.key==='Enter') addTask()">
-<button onclick="addTask()">Add Task</button>
-<p id="taskStats" style="margin-top:10px;font-size:13px;opacity:.7;"></p>
+
+<input
+id="taskInput"
+placeholder="Enter a task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
 <div id="taskList"></div>
+
 </div>
 
-<div id="badgesSection" class="card hidden">
+   <div id="badgesSection" class="card hidden">
+
 <h2>Achievements</h2>
+
 <div id="badgesList" class="grid" style="margin-top:20px;"></div>
+
 </div>
 
-<div id="progressSection" class="card hidden">
+  <div id="progressSection" class="card hidden">
+
 <div class="card about">
+
 <h2>My Progress</h2>
-<p>Total Notes Created: <strong><span id="totalNotes">0</span></strong></p>
-<p>Profile Picture Added: <strong><span id="profileStatus">No</span></strong></p>
-<p>Best Quiz Score: <strong><span id="bestQuizDisplay">—</span></strong></p>
-<p>Daily Login Streak: <strong><span id="progressStreak">0</span> day(s) 🔥</strong></p>
+
+<p>Total Notes Created:
+<strong><span id="totalNotes">0</span></strong>
+</p>
+
+<p>Profile Picture Added:
+<strong><span id="profileStatus">No</span></strong>
+</p>
+
 </div>
+
 <h2>About the Founder</h2>
 <br>
-<p>Hello, I am <strong>Adeka Martin Delali</strong>, a passionate Creator IT, technology enthusiast, and aspiring software developer.</p>
+<p>
+Hello, I am <strong>Adeka Martin Delali</strong>,
+a passionate Creator IT, technology enthusiast,
+and aspiring software developer.
+</p>
 <br>
-<p>I enjoy building web applications, mobile apps, and games that help people learn, connect, and grow in the digital world.</p>
+<p>
+I enjoy building web applications, mobile apps,
+and games that help people learn, connect,
+and grow in the digital world.
+</p>
 <br>
-<p>Adeka Academy Hub was created with a vision of making education more accessible through technology. By combining modern learning tools, artificial intelligence, online collaboration, and digital resources, the platform aims to empower students and lifelong learners.</p>
+<p>
+Adeka Academy Hub was created with a vision of
+making education more accessible through technology.
+By combining modern learning tools, artificial intelligence,
+online collaboration, and digital resources,
+the platform aims to empower students and lifelong learners.
+</p>
 <br>
-<p>Beyond technology, I have a strong interest in music and basketball. I believe creativity, innovation, and continuous learning are keys to success.</p>
+<p>
+Beyond technology, I have a strong interest in music
+and basketball. I believe creativity, innovation,
+and continuous learning are keys to success.
+</p>
 </div>
 <div class="card">
 <h2>Contact Information</h2>
@@ -777,73 +785,6 @@ Remember Me
 <p>📧 Alvinlurison@gmail.com</p>
 </div>
 </div>
-
-<!-- ===== QUIZ SECTION ===== -->
-<div id="quizSection" class="card hidden">
-<h2>🎯 Quiz Challenge</h2>
-<p style="opacity:.8;margin-top:5px;">Test your knowledge and compete globally!</p>
-
-<!-- Step 1: Choose education level -->
-<div id="quizLevelPicker" style="margin-top:20px;">
-  <h3 style="margin-bottom:10px;">Select Your Level</h3>
-  <button class="quiz-level-btn" onclick="selectLevel('junior')">🏫 Junior High School</button>
-  <button class="quiz-level-btn" onclick="selectLevel('shs')">📘 Senior High School (SHS)</button>
-  <button class="quiz-level-btn" onclick="selectLevel('university')">🎓 University</button>
-</div>
-
-<!-- Step 2: Choose subject/course -->
-<div id="quizSubjectPicker" class="hidden" style="margin-top:20px;">
-  <button class="btn-secondary" style="width:auto;margin-bottom:15px;" onclick="backToLevelPicker()">← Back</button>
-  <h3 id="quizLevelLabel" style="margin-bottom:10px;"></h3>
-  <div id="quizSubjectList"></div>
-</div>
-
-<!-- Step 3: Quiz in progress -->
-<div id="quizGame" class="hidden" style="margin-top:10px;">
-  <button class="btn-secondary" style="width:auto;margin-bottom:10px;" onclick="exitQuiz()">← Exit Quiz</button>
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
-    <span id="quizSubjectLabel" style="font-weight:bold;color:#ffd700;"></span>
-    <span id="quizScoreDisplay" style="font-size:14px;">Score: 0</span>
-  </div>
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
-    <p style="font-size:13px;opacity:.7;" id="quizQNum"></p>
-    <span id="quizStreakDisplay"></span>
-  </div>
-  <div class="quiz-progress"><div class="quiz-progress-bar" id="quizProgressBar" style="width:0%"></div></div>
-
-  <div class="quiz-timer-wrap">
-    <div class="quiz-timer" id="quizTimer">15</div>
-  </div>
-
-  <p id="quizQuestion" style="font-size:17px;font-weight:bold;margin-bottom:15px;line-height:1.5;"></p>
-  <div id="quizOptions"></div>
-  <p id="quizFeedback" style="margin-top:12px;font-weight:bold;min-height:22px;"></p>
-  <button id="quizNextBtn" class="hidden" onclick="nextQuestion()" style="margin-top:12px;">Next →</button>
-</div>
-
-<!-- Step 4: Result screen -->
-<div id="quizResult" class="hidden" style="margin-top:10px;text-align:center;">
-  <div style="font-size:3rem;margin-bottom:10px;" id="quizResultEmoji"></div>
-  <h2 id="quizResultTitle"></h2>
-  <p id="quizResultMsg" style="margin:10px 0;opacity:.85;"></p>
-  <p style="font-size:1.4rem;font-weight:bold;color:#ffd700;" id="quizFinalScore"></p>
-  <p id="quizBestMsg" style="font-size:13px;opacity:.7;margin-top:4px;"></p>
-  <button onclick="showLeaderboard()" style="margin-top:15px;">🏆 View Leaderboard</button>
-  <button class="btn-secondary" onclick="replayQuiz()" style="margin-top:10px;">🔄 Play Again</button>
-  <button class="btn-secondary" onclick="backToLevelPicker()" style="margin-top:10px;">🏠 Change Subject</button>
-</div>
-
-<!-- Step 5: Leaderboard -->
-<div id="quizLeaderboard" class="hidden" style="margin-top:10px;">
-  <button class="btn-secondary" style="width:auto;margin-bottom:15px;" onclick="showResultFromLeaderboard()">← Back to Result</button>
-  <h3 style="margin-bottom:12px;">🏆 Global Leaderboard</h3>
-  <p id="leaderboardSubjectLabel" style="font-size:13px;opacity:.7;margin-bottom:10px;"></p>
-  <div id="leaderboardList"></div>
-</div>
-
-</div>
-<!-- ===== END QUIZ SECTION ===== -->
-
 <footer>
 <p>© 2026 Adeka Academy Hub</p>
 <p>Founded by Adeka Martin Delali (Creator IT)</p>
@@ -855,1150 +796,1734 @@ Remember Me
 
 <script>
 
-// =============================================
-// TOAST NOTIFICATIONS
-// =============================================
-function showToast(msg, type="info", duration=3000){
-  const container = document.getElementById("toastContainer");
-  const toast = document.createElement("div");
-  toast.className = "toast " + type;
-  toast.innerText = msg;
-  container.appendChild(toast);
-  setTimeout(() => { toast.remove(); }, duration);
+async function register(){
+
+const fullName =
+document.getElementById("fullName").value;
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+const userCredential =
+await window.createUserWithEmailAndPassword(
+window.auth,
+email,
+password
+);
+
+const user = userCredential.user;
+
+await window.setDoc(
+window.doc(
+window.db,
+"user",
+user.uid
+),
+{
+fullName: fullName,
+email: email
+}
+);
+
+localStorage.setItem(
+"studentName",
+fullName
+);
+
+localStorage.setItem(
+"studentEmail",
+email
+);
+
+document.getElementById("profileName").innerText = fullName;
+document.getElementById("profileEmail").innerText = email;
+
+document.getElementById("auth").style.display = "none";
+document.getElementById("dashboard").classList.remove("hidden");
+document.getElementById("profileSection").classList.remove("hidden");
+document.getElementById("dashboardHome").classList.remove("hidden");
+
+showChatBubble();
+startChatListener();
+showLogoutButton();
+
+window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+});
+
+document.getElementById("message").innerText =
+"Account created successfully!";
+
+setTimeout(() => {
+    document.getElementById("message").innerText = "";
+}, 3000);
+    }catch(error){
+
+        alert(error.message);
 }
 
-// =============================================
-// WELCOME GREETING
-// =============================================
-function setWelcomeGreeting(){
-  const name = localStorage.getItem("studentName");
-  if(!name) return;
-  const hour = new Date().getHours();
-  const time = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
-  const firstName = name.split(" ")[0];
-  document.getElementById("welcomeGreeting").innerText = time + ", " + firstName + " 👋";
+ }
+
+  // Hides every dashboard sub-section. Used by all the "open___()" functions
+  // below so they don't each have to repeat the same list of IDs.
+  function hideAllSections(){
+
+document.getElementById("dashboardHome").classList.add("hidden");
+document.getElementById("tasksSection").classList.add("hidden");
+document.getElementById("badgesSection").classList.add("hidden");
+document.getElementById("progressSection").classList.add("hidden");
+document.getElementById("notesSection").classList.add("hidden");
+document.getElementById("aiTutorSection").classList.add("hidden");
+document.getElementById("meetingSection").classList.add("hidden");
+document.getElementById("audioSection").classList.add("hidden");
+document.getElementById("settingsSection").classList.add("hidden");
+document.getElementById("quizSection").classList.add("hidden");
+
 }
 
-// =============================================
-// DAILY STUDY STREAK
-// =============================================
-function checkDailyStreak(){
-  const today = new Date().toDateString();
-  const lastVisit = localStorage.getItem("lastVisitDate");
-  let streak = parseInt(localStorage.getItem("studyStreak") || "0");
+  // Closes the side menu without ever re-opening it (unlike toggleMenu()).
+  function closeMenu(){
 
-  if(lastVisit === today){
-    // already logged in today, just show streak
-  } else if(lastVisit){
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    if(lastVisit === yesterday.toDateString()){
-      streak++;
-      showToast("🔥 Day " + streak + " streak! Keep it up!", "success");
-    } else {
-      streak = 1;
-      if(localStorage.getItem("studyStreak") > 1){
-        showToast("Streak reset. Start fresh today! 💪", "info");
-      }
-    }
-    localStorage.setItem("lastVisitDate", today);
-    localStorage.setItem("studyStreak", streak);
-  } else {
-    streak = 1;
-    localStorage.setItem("lastVisitDate", today);
-    localStorage.setItem("studyStreak", "1");
-  }
+document.getElementById("sideMenu").classList.remove("show");
 
-  updateStreakUI(streak);
-
-  // Milestone badges
-  if(streak >= 3 && !localStorage.getItem("streak3Badge")){
-    localStorage.setItem("streak3Badge","earned");
-    playBadgeSound();
-    showToast("🏅 3-Day Streak badge earned!","success");
-  }
-  if(streak >= 7 && !localStorage.getItem("streak7Badge")){
-    localStorage.setItem("streak7Badge","earned");
-    playBadgeSound();
-    showToast("⭐ 7-Day Streak badge earned!","success");
-  }
-  if(streak >= 30 && !localStorage.getItem("streak30Badge")){
-    localStorage.setItem("streak30Badge","earned");
-    playBadgeSound();
-    showToast("👑 30-Day Streak badge earned!","success");
-  }
 }
 
-function updateStreakUI(streak){
-  const el = document.getElementById("streakDisplay");
-  document.getElementById("streakCount").innerText = streak;
-  if(streak >= 3){
-    el.classList.remove("cold");
-  } else {
-    el.classList.add("cold");
-  }
+  // The floating "Back" button is shown for every sub-section and always
+  // sits in the same spot (top-left), so it's predictable no matter which
+  // page you're on.
+  function showBackButton(){
+
+document.getElementById("floatingBack").classList.remove("hidden");
+
 }
 
-// =============================================
-// PROFILE PICTURE LIGHTBOX
-// =============================================
-function openLightbox(){
-  const src = document.getElementById("profileImage").src;
-  document.getElementById("lightboxImg").src = src;
-  document.getElementById("picLightbox").classList.remove("hidden");
+function hideBackButton(){
+
+document.getElementById("floatingBack").classList.add("hidden");
+
+}
+
+function showLogoutButton(){
+
+document.getElementById("floatingLogout").classList.remove("hidden");
+
+}
+
+function hideLogoutButton(){
+
+document.getElementById("floatingLogout").classList.add("hidden");
+
+}
+
+function viewProfilePicture(){
+
+document.getElementById("lightboxImage").src =
+document.getElementById("profileImage").src;
+
+document.getElementById("picLightbox").classList.remove("hidden");
+
 }
 
 function closeLightbox(){
-  document.getElementById("picLightbox").classList.add("hidden");
+
+document.getElementById("picLightbox").classList.add("hidden");
+
 }
 
-// =============================================
-// AUTH
-// =============================================
-async function register(){
-  const fullName = document.getElementById("fullName").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  if(!fullName || !email || !password){ showToast("Please fill in all fields", "error"); return; }
-  try{
-    const userCredential = await window.createUserWithEmailAndPassword(window.auth, email, password);
-    const user = userCredential.user;
-    await window.setDoc(window.doc(window.db, "user", user.uid), { fullName, email });
-    localStorage.setItem("studentName", fullName);
-    localStorage.setItem("studentEmail", email);
-    document.getElementById("profileName").innerText = fullName;
-    document.getElementById("profileEmail").innerText = email;
-    document.getElementById("auth").style.display = "none";
-    document.getElementById("dashboard").classList.remove("hidden");
-    document.getElementById("profileSection").classList.remove("hidden");
-    document.getElementById("dashboardHome").classList.remove("hidden");
-    showChatBubble();
-    showFloatingLogout();
-    startChatListener();
-    setWelcomeGreeting();
-    checkDailyStreak();
-    window.scrollTo({ top:0, behavior:"smooth" });
-    showToast("Account created successfully! 🎉", "success");
-  }catch(error){ showToast(error.message, "error", 5000); }
-}
+// ---- Live Class Chat ----
+// A single shared chat room that every logged-in student can read and
+// post to. Uses Firestore's real-time listener (onSnapshot) so new
+// messages appear instantly without anyone needing to refresh.
 
-function hideAllSections(){
-  ["dashboardHome","tasksSection","badgesSection","progressSection","notesSection",
-   "aiTutorSection","meetingSection","audioSection","settingsSection","quizSection"]
-  .forEach(id => document.getElementById(id).classList.add("hidden"));
-}
-
-function closeMenu(){
-  document.getElementById("sideMenu").classList.remove("show");
-  document.getElementById("menuOverlay").style.display = "none";
-}
-
-function showBackButton(){ document.getElementById("floatingBack").classList.remove("hidden"); }
-function hideBackButton(){ document.getElementById("floatingBack").classList.add("hidden"); }
-function showFloatingLogout(){ document.getElementById("floatingLogout").classList.remove("hidden"); }
-function hideFloatingLogout(){ document.getElementById("floatingLogout").classList.add("hidden"); }
-
-// =============================================
-// CHAT
-// =============================================
 let chatUnsubscribe = null;
 
-function showChatBubble(){ document.getElementById("chatBubble").classList.remove("hidden"); }
+function showChatBubble(){
+
+document.getElementById("chatBubble").classList.remove("hidden");
+
+}
 
 function hideChatBubble(){
-  document.getElementById("chatBubble").classList.add("hidden");
-  document.getElementById("chatPanel").classList.remove("show");
+
+document.getElementById("chatBubble").classList.add("hidden");
+document.getElementById("chatPanel").classList.remove("show");
+
 }
 
-function toggleChatPanel(){ document.getElementById("chatPanel").classList.toggle("show"); }
+function toggleChatPanel(){
 
+document.getElementById("chatPanel").classList.toggle("show");
+
+}
+
+// Prevents one student's message from breaking the page or injecting
+// code into everyone else's chat window.
 function escapeHtml(str){
-  const div = document.createElement("div");
-  div.innerText = str;
-  return div.innerHTML;
+
+const div = document.createElement("div");
+div.innerText = str;
+return div.innerHTML;
+
 }
 
-const CHAT_MESSAGE_LIFETIME_MS = 24 * 60 * 60 * 1000;
+// Firestore's native auto-delete (TTL) feature requires a paid plan,
+// so this does the same job for free: any message older than the
+// lifetime below gets deleted whenever someone opens the chat.
+const CHAT_MESSAGE_LIFETIME_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 async function cleanupOldChatMessages(){
-  try{
-    const cutoff = new Date(Date.now() - CHAT_MESSAGE_LIFETIME_MS);
-    const q = window.query(window.collection(window.db,"classChat"), window.where("createdAt","<",cutoff));
-    const snap = await window.getDocs(q);
-    for(const d of snap.docs) await window.deleteDoc(window.doc(window.db,"classChat",d.id));
-  }catch(e){ console.log("Chat cleanup error:", e); }
+
+try{
+
+const cutoff = new Date(Date.now() - CHAT_MESSAGE_LIFETIME_MS);
+
+const q = window.query(
+window.collection(window.db, "classChat"),
+window.where("createdAt", "<", cutoff)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+for(const docSnap of querySnapshot.docs){
+await window.deleteDoc(
+window.doc(window.db, "classChat", docSnap.id)
+);
+}
+
+}catch(error){
+
+console.log("Chat cleanup error:", error);
+
+}
+
 }
 
 async function clearChatHistory(){
-  if(!confirm("Clear the entire class chat for everyone? This can't be undone.")) return;
-  try{
-    const snap = await window.getDocs(window.collection(window.db,"classChat"));
-    for(const d of snap.docs) await window.deleteDoc(window.doc(window.db,"classChat",d.id));
-  }catch(e){ showToast(e.message,"error"); }
+
+const confirmClear = confirm(
+"Clear the entire class chat for everyone? This can't be undone."
+);
+
+if(!confirmClear) return;
+
+try{
+
+const querySnapshot = await window.getDocs(
+window.collection(window.db, "classChat")
+);
+
+for(const docSnap of querySnapshot.docs){
+await window.deleteDoc(
+window.doc(window.db, "classChat", docSnap.id)
+);
+}
+
+}catch(error){
+
+alert(error.message);
+
+}
+
 }
 
 function startChatListener(){
-  if(chatUnsubscribe) return;
-  cleanupOldChatMessages();
-  const q = window.query(
-    window.collection(window.db,"classChat"),
-    window.orderBy("createdAt","asc"),
-    window.limit(50)
-  );
-  chatUnsubscribe = window.onSnapshot(q, (snap) => {
-    let html = "";
-    snap.forEach(d => {
-      const data = d.data();
-      const time = data.createdAt
-        ? new Date(data.createdAt.seconds*1000).toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})
-        : "";
-      html += `<div class="chat-msg"><span class="sender">${escapeHtml(data.name||"Student")}</span><span class="time">${time}</span><p>${escapeHtml(data.text||"")}</p></div>`;
-    });
-    const el = document.getElementById("chatMessages");
-    el.innerHTML = html;
-    el.scrollTop = el.scrollHeight;
-  }, e => console.log("Chat error:",e));
+
+if(chatUnsubscribe){
+return; // already listening, no need to attach twice
+}
+
+cleanupOldChatMessages();
+
+const q = window.query(
+window.collection(window.db, "classChat"),
+window.orderBy("createdAt", "asc"),
+window.limit(50)
+);
+
+chatUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+let html = "";
+
+querySnapshot.forEach((docSnap) => {
+
+const data = docSnap.data();
+
+const time = data.createdAt
+? new Date(data.createdAt.seconds * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+: "";
+
+html += `
+<div class="chat-msg">
+<span class="sender">${escapeHtml(data.name || "Student")}</span>
+<span class="time">${time}</span>
+<p>${escapeHtml(data.text || "")}</p>
+</div>
+`;
+
+});
+
+const messagesDiv = document.getElementById("chatMessages");
+messagesDiv.innerHTML = html;
+messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+}, (error) => {
+
+console.log("Chat listener error:", error);
+
+});
+
 }
 
 function stopChatListener(){
-  if(chatUnsubscribe){ chatUnsubscribe(); chatUnsubscribe=null; }
-  document.getElementById("chatMessages").innerHTML = "";
+
+if(chatUnsubscribe){
+chatUnsubscribe();
+chatUnsubscribe = null;
+}
+
+document.getElementById("chatMessages").innerHTML = "";
+
 }
 
 async function sendChatMessage(){
-  const input = document.getElementById("chatInput");
-  const text = input.value.trim();
-  if(!text) return;
-  const user = window.auth.currentUser;
-  if(!user){ showToast("Please login first","error"); return; }
-  const name = localStorage.getItem("studentName")||"Student";
-  try{
-    await window.addDoc(window.collection(window.db,"classChat"),{uid:user.uid,name,text,createdAt:new Date()});
-    input.value="";
-  }catch(e){ showToast(e.message,"error"); }
+
+const input = document.getElementById("chatInput");
+const text = input.value.trim();
+
+if(!text) return;
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+return;
 }
 
-function openProgress(){
-  hideAllSections();
-  document.getElementById("progressSection").classList.remove("hidden");
-  loadNotes();
-  const best = localStorage.getItem("quizBest");
-  document.getElementById("bestQuizDisplay").innerText = best ? best : "—";
-  document.getElementById("progressStreak").innerText = localStorage.getItem("studyStreak") || "0";
-  closeMenu();
-  showBackButton();
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+await window.addDoc(
+window.collection(window.db, "classChat"),
+{
+uid: user.uid,
+name: name,
+text: text,
+createdAt: new Date()
+}
+);
+
+input.value = "";
+
+}catch(error){
+
+alert(error.message);
+
 }
 
-function saveProfilePicture(event){
-  const file = event.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  const alreadyEarned = !!localStorage.getItem("profileBadge");
-  reader.onload = function(e){
-    document.getElementById("profileImage").src = e.target.result;
-    localStorage.setItem("profilePicture", e.target.result);
-    document.getElementById("profileStatus").innerText = "Yes";
-    localStorage.setItem("profileBadge","earned");
-    if(!alreadyEarned){ playBadgeSound(); showToast("📸 Profile Master badge earned!","success"); }
-    showToast("Profile picture updated!","info");
-  };
-  reader.readAsDataURL(file);
 }
 
-function clearDraft(){
-  localStorage.removeItem("draftNote");
-  document.getElementById("noteText").value = "";
-  updateCharCount();
+  function openProgress(){
+
+hideAllSections();
+
+document
+.getElementById("progressSection")
+.classList.remove("hidden");
+
+loadNotes(); // refresh the notes count shown here
+
+closeMenu();
+showBackButton();
+
+}
+
+   function saveProfilePicture(event){
+
+const file = event.target.files[0];
+
+if(!file) return;
+
+const reader = new FileReader();
+
+const alreadyEarned = !!localStorage.getItem("profileBadge");
+
+reader.onload = function(e){
+
+document.getElementById("profileImage").src =
+e.target.result;
+
+localStorage.setItem(
+"profilePicture",
+e.target.result
+);
+  document.getElementById("profileStatus").innerText =
+"Yes";
+
+  localStorage.setItem(
+"profileBadge",
+"earned"
+);
+
+if(!alreadyEarned){
+playBadgeSound();
+}
+
+};
+
+reader.readAsDataURL(file);
+
+}
+
+  function clearDraft(){
+
+localStorage.removeItem("draftNote");
+
+document.getElementById("noteText").value = "";
+
+updateCharCount();
+
 }
 
 async function login(){
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  try{
-    const userCredential = await window.signInWithEmailAndPassword(window.auth, email, password);
-    const user = userCredential.user;
-    const docSnap = await window.getDoc(window.doc(window.db,"user",user.uid));
-    if(docSnap.exists()){
-      const data = docSnap.data();
-      document.getElementById("profileName").innerText = data.fullName;
-      document.getElementById("profileEmail").innerText = data.email;
-      localStorage.setItem("studentName", data.fullName);
-      localStorage.setItem("studentEmail", data.email);
-      if(document.getElementById("rememberMe").checked){
-        localStorage.setItem("rememberedEmail", email);
-      }else{
-        localStorage.removeItem("rememberedEmail");
-      }
-    }
-    document.getElementById("auth").style.display = "none";
-    document.getElementById("dashboard").classList.remove("hidden");
-    document.getElementById("profileSection").classList.remove("hidden");
-    document.getElementById("dashboardHome").classList.remove("hidden");
-    showChatBubble();
-    showFloatingLogout();
-    startChatListener();
-    setWelcomeGreeting();
-    checkDailyStreak();
-    const savedPic = localStorage.getItem("profilePicture");
-    if(savedPic){
-      document.getElementById("profileImage").src = savedPic;
-      document.getElementById("profileStatus").innerText = "Yes";
-      localStorage.setItem("profileBadge","earned");
-    }
-    window.scrollTo({ top:0, behavior:"smooth" });
-    showToast("Login successful! 👋", "success");
-  }catch(error){ showToast(error.message,"error",5000); }
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+const userCredential =
+await window.signInWithEmailAndPassword(
+window.auth,
+email,
+password
+);
+
+const user = userCredential.user;
+
+const docRef = window.doc(
+window.db,
+"user",
+user.uid
+);
+
+const docSnap = await window.getDoc(docRef);
+
+if(docSnap.exists()){
+
+const data = docSnap.data();
+
+document.getElementById("profileName").innerText =
+data.fullName;
+
+document.getElementById("profileEmail").innerText =
+data.email;
+
+  alert("Welcome back, " + data.fullName + "!");
+
+localStorage.setItem(
+"studentName",
+data.fullName
+);
+
+localStorage.setItem(
+"studentEmail",
+data.email
+);
+  if(document.getElementById("rememberMe").checked){
+
+localStorage.setItem(
+"rememberedEmail",
+email
+);
+
+}else{
+
+localStorage.removeItem(
+"rememberedEmail"
+);
+
+}
+
+}else{
+
+console.log("Document NOT found");
+
+}
+
+document.getElementById("auth")
+.style.display = "none";
+
+document.getElementById("dashboard")
+.classList.remove("hidden");
+
+document.getElementById("profileSection")
+.classList.remove("hidden");
+
+document.getElementById("dashboardHome")
+.classList.remove("hidden");
+
+showChatBubble();
+startChatListener();
+showLogoutButton();
+  const savedPic =
+localStorage.getItem("profilePicture");
+
+if(savedPic){
+
+document.getElementById("profileImage").src =
+savedPic;
+
+document.getElementById("profileStatus").innerText =
+"Yes";
+localStorage.setItem(
+"profileBadge",
+"earned"
+);
+}
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+document.getElementById("message").innerText =
+"Login successful!";
+
+setTimeout(() => {
+document.getElementById("message").innerText = "";
+}, 3000);
+
+}catch(error){
+
+alert(error.message);
+
+}
+
 }
 
 async function logout(){
-  try{
-    stopQuizTimer();
-    await window.signOut(window.auth);
-    localStorage.removeItem("studentName");
-    localStorage.removeItem("studentEmail");
-    document.getElementById("fullName").value="";
-    document.getElementById("email").value="";
-    document.getElementById("password").value="";
-    document.getElementById("profileName").innerText="";
-    document.getElementById("profileEmail").innerText="";
-    document.getElementById("welcomeGreeting").innerText="";
-    document.getElementById("dashboard").classList.add("hidden");
-    document.getElementById("profileSection").classList.add("hidden");
-    document.getElementById("auth").style.display="block";
-    hideAllSections();
-    hideBackButton();
-    hideFloatingLogout();
-    leaveMeeting();
-    leaveAudioRoom();
-    hideChatBubble();
-    stopChatListener();
-    showToast("Logged out. See you soon!", "info");
-  }catch(error){ showToast(error.message,"error"); }
+
+try{
+
+await window.signOut(window.auth);
+
+localStorage.removeItem("studentName");
+localStorage.removeItem("studentEmail");
+
+document.getElementById("fullName").value = "";
+document.getElementById("email").value = "";
+document.getElementById("password").value = "";
+
+document.getElementById("profileName").innerText = "";
+document.getElementById("profileEmail").innerText = "";
+
+document.getElementById("dashboard")
+.classList.add("hidden");
+
+document.getElementById("profileSection")
+.classList.add("hidden");
+
+document.getElementById("auth")
+.style.display = "block";
+
+hideAllSections();
+hideBackButton();
+hideLogoutButton();
+leaveMeeting();
+leaveAudioRoom();
+hideChatBubble();
+stopChatListener();
+
+document.getElementById("message").innerText =
+"Logged out successfully!";
+
+setTimeout(() => {
+    document.getElementById("message").innerText = "";
+}, 3000);
+
+}catch(error){
+
+alert(error.message);
+
 }
 
-function toggleMenu(){
-  const menu = document.getElementById("sideMenu");
-  const overlay = document.getElementById("menuOverlay");
-  menu.classList.toggle("show");
-  overlay.style.display = menu.classList.contains("show") ? "block" : "none";
+}
+
+  function toggleMenu(){
+
+document
+.getElementById("sideMenu")
+.classList.toggle("show");
+
 }
 
 function openAITutor(){
-  hideAllSections();
-  document.getElementById("aiTutorSection").classList.remove("hidden");
-  showBackButton();
+
+hideAllSections();
+
+document
+.getElementById("aiTutorSection")
+.classList.remove("hidden");
+
+showBackButton();
+
+}
+  function askAI(){
+
+const question =
+document.getElementById("userQuestion").value.trim();
+
+if(!question){
+return;
 }
 
-function askAI(){
-  const question = document.getElementById("userQuestion").value.trim();
-  if(!question) return;
-  document.getElementById("aiResponse").innerHTML =
-    "<strong>You asked:</strong> " + question +
-    "<br><br><strong>Adeka AI:</strong> Real AI answers are coming soon! For now, save this question in your Notes so you don't forget it.";
+document.getElementById("aiResponse").innerHTML =
+"<strong>You asked:</strong> " + question +
+"<br><br><strong>Adeka AI:</strong> Real AI answers are coming soon! For now, save this question in your Notes so you don't forget it.";
+
 }
 
 function openMeetingCenter(){
-  hideAllSections();
-  document.getElementById("meetingSection").classList.remove("hidden");
-  showBackButton();
+
+hideAllSections();
+
+document
+.getElementById("meetingSection")
+.classList.remove("hidden");
+
+showBackButton();
+
 }
 
 function openAudioLessons(){
-  hideAllSections();
-  document.getElementById("audioSection").classList.remove("hidden");
-  showBackButton();
+
+hideAllSections();
+
+document
+.getElementById("audioSection")
+.classList.remove("hidden");
+
+showBackButton();
+
 }
 
 function openSettings(){
-  hideAllSections();
-  document.getElementById("settingsSection").classList.remove("hidden");
-  closeMenu();
-  showBackButton();
+
+hideAllSections();
+
+document
+.getElementById("settingsSection")
+.classList.remove("hidden");
+
+closeMenu();
+showBackButton();
+
 }
 
-function updateCharCount(){
-  const text = document.getElementById("noteText").value;
-  document.getElementById("charCount").innerText = text.length;
-  const words = text.trim()==="" ? 0 : text.trim().split(/\s+/).length;
-  document.getElementById("wordCount").innerText = words;
-  localStorage.setItem("draftNote", text);
+// ---- Quiz Challenge ----
+// A small offline question bank, organized by education level and
+// subject. "Offline" because the questions live right here in the code
+// — no internet or AI call is needed to take a quiz. Scores are saved
+// to Firestore so the leaderboard is genuinely global across students.
+
+const QUIZ_DATA = {
+JHS: {
+label: "Junior High School (JHS)",
+subjects: {
+"Mathematics": [
+{ q: "What is 15 + 27?", options: ["32","42","41","52"], answer: 1 },
+{ q: "Simplify: 3x + 5x", options: ["8x","15x","8x\u00b2","53x"], answer: 0 },
+{ q: "What is 7 \u00d7 8?", options: ["54","56","64","49"], answer: 1 },
+{ q: "Which of these is a prime number?", options: ["9","15","17","21"], answer: 2 },
+{ q: "What is half of 90?", options: ["40","45","50","55"], answer: 1 }
+],
+"English Language": [
+{ q: "Choose the correct spelling.", options: ["Recieve","Receive","Receeve","Receve"], answer: 1 },
+{ q: "What is the plural of \"child\"?", options: ["Childs","Childes","Children","Childrens"], answer: 2 },
+{ q: "Identify the noun in: \"The dog barked loudly.\"", options: ["barked","loudly","dog","the"], answer: 2 },
+{ q: "Choose the synonym for \"happy\".", options: ["Sad","Joyful","Angry","Tired"], answer: 1 },
+{ q: "Which sentence is correct?", options: ["She is went to school.","She go to school.","She goes to school.","She going to school."], answer: 2 }
+],
+"Integrated Science": [
+{ q: "What gas do plants absorb from the air for photosynthesis?", options: ["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"], answer: 2 },
+{ q: "The human body has how many lungs?", options: ["1","2","3","4"], answer: 1 },
+{ q: "Water boils at what temperature (\u00b0C) at sea level?", options: ["50","90","100","120"], answer: 2 },
+{ q: "Which organ pumps blood around the body?", options: ["Liver","Heart","Kidney","Lungs"], answer: 1 },
+{ q: "What is the process by which plants make food called?", options: ["Respiration","Digestion","Photosynthesis","Evaporation"], answer: 2 }
+]
+}
+},
+SHS: {
+label: "Senior High School (SHS)",
+subjects: {
+"Core Mathematics": [
+{ q: "Solve for x: 2x + 4 = 14", options: ["4","5","6","7"], answer: 1 },
+{ q: "What is the value of 5\u00b2?", options: ["10","15","20","25"], answer: 3 },
+{ q: "Simplify: (3 + 4) \u00d7 2", options: ["11","14","10","12"], answer: 1 },
+{ q: "What is the gradient of a horizontal line?", options: ["1","Undefined","0","-1"], answer: 2 },
+{ q: "Convert 0.75 to a fraction.", options: ["3/4","7/5","1/4","3/5"], answer: 0 }
+],
+"English Language": [
+{ q: "Choose the correct form: \"He ___ to school every day.\"", options: ["go","goes","going","gone"], answer: 1 },
+{ q: "What part of speech is the word \"quickly\"?", options: ["Noun","Verb","Adjective","Adverb"], answer: 3 },
+{ q: "Identify the antonym of \"generous\".", options: ["Kind","Selfish","Caring","Giving"], answer: 1 },
+{ q: "Which word is spelled correctly?", options: ["Definately","Definitely","Definitly","Definatly"], answer: 1 },
+{ q: "Choose the correctly punctuated sentence.", options: ["Let's eat, she said.","Lets eat, she said.","Let's eat she said.","Lets, eat she said."], answer: 0 }
+],
+"Science": [
+{ q: "What is the chemical symbol for water?", options: ["H2O","O2","CO2","HO2"], answer: 0 },
+{ q: "Which part of the cell controls its activities?", options: ["Cytoplasm","Nucleus","Membrane","Mitochondria"], answer: 1 },
+{ q: "What force pulls objects toward the Earth?", options: ["Magnetism","Friction","Gravity","Tension"], answer: 2 },
+{ q: "What is the powerhouse of the cell?", options: ["Nucleus","Ribosome","Mitochondria","Golgi body"], answer: 2 },
+{ q: "Sound travels fastest through:", options: ["Air","Water","Vacuum","Solids"], answer: 3 }
+]
+}
+},
+University: {
+label: "University",
+subjects: {
+"Mathematics": [
+{ q: "What is the derivative of x\u00b2?", options: ["x","2x","x\u00b2","2"], answer: 1 },
+{ q: "What is the integral of 2x dx?", options: ["x\u00b2 + C","2x\u00b2 + C","x + C","x\u00b2/2 + C"], answer: 0 },
+{ q: "What is the value of \u03c0 (to 2 decimal places)?", options: ["3.14","3.41","3.12","3.16"], answer: 0 },
+{ q: "A matrix with equal rows and columns is called:", options: ["Rectangular","Square","Diagonal","Identity"], answer: 1 },
+{ q: "What is log\u2081\u2080(100)?", options: ["1","2","10","100"], answer: 1 }
+],
+"Computer Science": [
+{ q: "What does CPU stand for?", options: ["Central Process Unit","Central Processing Unit","Computer Personal Unit","Central Processor Utility"], answer: 1 },
+{ q: "Which data structure uses LIFO (Last In, First Out)?", options: ["Queue","Stack","Array","Tree"], answer: 1 },
+{ q: "What does HTML stand for?", options: ["HyperText Markup Language","HighText Machine Language","HyperText Markdown Language","HyperTransfer Markup Language"], answer: 0 },
+{ q: "What is the time complexity of binary search?", options: ["O(n)","O(n\u00b2)","O(log n)","O(1)"], answer: 2 },
+{ q: "Which of these is NOT a programming language?", options: ["Python","HTML","Java","Photoshop"], answer: 3 }
+],
+"General Knowledge": [
+{ q: "What is the capital of Ghana?", options: ["Kumasi","Accra","Tamale","Cape Coast"], answer: 1 },
+{ q: "Which planet is known as the Red Planet?", options: ["Earth","Mars","Jupiter","Venus"], answer: 1 },
+{ q: "What is the largest continent by area?", options: ["Africa","Asia","Europe","Antarctica"], answer: 1 },
+{ q: "How many continents are there?", options: ["5","6","7","8"], answer: 2 },
+{ q: "Which is the longest river in the world?", options: ["Nile","Amazon","Yangtze","Mississippi"], answer: 0 }
+]
+}
+}
+};
+
+let quizLevel = null;
+let quizSubject = null;
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+
+function openQuiz(){
+
+hideAllSections();
+
+document.getElementById("quizSection").classList.remove("hidden");
+
+showQuizScreen("quizLevelChoice");
+showBackButton();
+
+}
+
+function showQuizScreen(screenId){
+
+const screens = ["quizLevelChoice","quizSubjectChoice","quizPlay","quizResults","quizLeaderboard"];
+
+screens.forEach((id) => {
+
+if(id === screenId){
+document.getElementById(id).classList.remove("hidden");
+}else{
+document.getElementById(id).classList.add("hidden");
+}
+
+});
+
+}
+
+function chooseQuizLevel(level){
+
+quizLevel = level;
+
+const subjects = QUIZ_DATA[level].subjects;
+
+let html = "";
+
+Object.keys(subjects).forEach((subjectName) => {
+
+html += `<button onclick="startQuiz('${subjectName}')">${escapeHtml(subjectName)} (${subjects[subjectName].length} Qs)</button>`;
+
+});
+
+document.getElementById("quizSubjectList").innerHTML = html;
+
+showQuizScreen("quizSubjectChoice");
+
+}
+
+function startQuiz(subjectName){
+
+quizSubject = subjectName;
+quizQuestions = QUIZ_DATA[quizLevel].subjects[subjectName];
+quizIndex = 0;
+quizScore = 0;
+
+renderQuizQuestion();
+
+showQuizScreen("quizPlay");
+
+}
+
+function renderQuizQuestion(){
+
+const question = quizQuestions[quizIndex];
+
+document.getElementById("quizProgress").innerText =
+quizSubject + " — Question " + (quizIndex + 1) + " of " + quizQuestions.length;
+
+document.getElementById("quizQuestionText").innerText = question.q;
+
+let html = "";
+
+question.options.forEach((option, i) => {
+
+html += `<button onclick="answerQuiz(${i})">${escapeHtml(option)}</button>`;
+
+});
+
+document.getElementById("quizOptions").innerHTML = html;
+
+}
+
+function answerQuiz(selectedIndex){
+
+const question = quizQuestions[quizIndex];
+
+if(selectedIndex === question.answer){
+quizScore++;
+}
+
+quizIndex++;
+
+if(quizIndex < quizQuestions.length){
+renderQuizQuestion();
+}else{
+finishQuiz();
+}
+
+}
+
+async function finishQuiz(){
+
+document.getElementById("quizScoreText").innerHTML =
+"You scored <strong>" + quizScore + " / " + quizQuestions.length + "</strong> on " + escapeHtml(quizSubject) + "!";
+
+showQuizScreen("quizResults");
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+await window.addDoc(
+window.collection(window.db, "quizScores"),
+{
+uid: user.uid,
+name: name,
+level: quizLevel,
+subject: quizSubject,
+score: quizScore,
+total: quizQuestions.length,
+createdAt: new Date()
+}
+);
+
+}catch(error){
+
+console.log("Could not save quiz score:", error);
+
+}
+
+}
+
+function restartCurrentQuiz(){
+
+quizIndex = 0;
+quizScore = 0;
+
+renderQuizQuestion();
+
+showQuizScreen("quizPlay");
+
+}
+
+async function showQuizLeaderboard(){
+
+document.getElementById("leaderboardList").innerHTML = "Loading...";
+document.getElementById("leaderboardSubjectName").innerText = quizSubject;
+
+showQuizScreen("quizLeaderboard");
+
+try{
+
+// Filtering by subject only (no orderBy combined with it) avoids
+// needing a special Firestore composite index — we just sort the
+// small result set ourselves once it arrives.
+const q = window.query(
+window.collection(window.db, "quizScores"),
+window.where("subject", "==", quizSubject)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+let scores = [];
+
+querySnapshot.forEach((docSnap) => {
+scores.push(docSnap.data());
+});
+
+scores.sort((a, b) => b.score - a.score);
+scores = scores.slice(0, 10);
+
+let rows = "";
+let rank = 1;
+
+scores.forEach((data) => {
+
+rows += `
+<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.1);padding:10px;margin-top:8px;border-radius:10px;">
+<span>#${rank} ${escapeHtml(data.name || "Student")}</span>
+<span><strong>${data.score} / ${data.total}</strong></span>
+</div>
+`;
+
+rank++;
+
+});
+
+document.getElementById("leaderboardList").innerHTML =
+rows || "<p>No scores yet — be the first!</p>";
+
+}catch(error){
+
+document.getElementById("leaderboardList").innerHTML =
+"<p>Couldn't load the leaderboard right now.</p>";
+
+console.log(error);
+
+}
+
+}
+
+ function updateCharCount(){
+
+const text =
+document.getElementById("noteText").value;
+
+document.getElementById("charCount").innerText =
+text.length;
+
+const words =
+text.trim() === ""
+? 0
+: text.trim().split(/\s+/).length;
+
+document.getElementById("wordCount").innerText =
+words;
+
+   localStorage.setItem(
+"draftNote",
+text
+);
+
 }
 
 function openNotes(){
-  hideAllSections();
-  document.getElementById("notesSection").classList.remove("hidden");
+
+hideAllSections();
+
+document
+.getElementById("notesSection")
+.classList.remove("hidden");
+
   loadNotes();
-  loadDraft();
-  showBackButton();
+loadDraft();
+showBackButton();
+
 }
 
-function loadDraft(){
-  const draft = localStorage.getItem("draftNote");
-  if(draft){ document.getElementById("noteText").value=draft; updateCharCount(); }
+  function loadDraft(){
+
+const draft =
+localStorage.getItem("draftNote");
+
+if(draft){
+
+document.getElementById("noteText").value =
+draft;
+
+updateCharCount();
+
 }
 
-let meetingApi=null, audioApi=null;
+}
+
+// Holds the active Jitsi call instances so we can dispose of them cleanly
+// (leaving a call) instead of letting multiple calls pile up in memory.
+let meetingApi = null;
+let audioApi = null;
 
 function joinMeeting(){
-  const code = document.getElementById("meetingCode").value.trim();
-  if(!code){ showToast("Enter a room name first","error"); return; }
-  if(meetingApi){ meetingApi.dispose(); meetingApi=null; }
-  const studentName = localStorage.getItem("studentName")||"Guest";
-  document.getElementById("jitsiMeetingContainer").classList.remove("hidden");
-  document.getElementById("leaveMeetingBtn").classList.remove("hidden");
-  meetingApi = new JitsiMeetExternalAPI("meet.jit.si",{
-    roomName:"AdekaAcademyHub-"+code,
-    parentNode:document.getElementById("jitsiMeetingContainer"),
-    width:"100%",height:480,
-    userInfo:{displayName:studentName},
-    configOverwrite:{prejoinPageEnabled:false}
-  });
+
+const code =
+document.getElementById("meetingCode").value.trim();
+
+if(!code){
+alert("Enter a room name first");
+return;
+}
+
+if(meetingApi){
+meetingApi.dispose();
+meetingApi = null;
+}
+
+const studentName =
+localStorage.getItem("studentName") || "Guest";
+
+document.getElementById("jitsiMeetingContainer").classList.remove("hidden");
+document.getElementById("leaveMeetingBtn").classList.remove("hidden");
+
+meetingApi = new JitsiMeetExternalAPI("meet.jit.si", {
+roomName: "AdekaAcademyHub-" + code,
+parentNode: document.getElementById("jitsiMeetingContainer"),
+width: "100%",
+height: 480,
+userInfo: { displayName: studentName },
+configOverwrite: { prejoinPageEnabled: false }
+});
+
 }
 
 function leaveMeeting(){
-  if(meetingApi){ meetingApi.dispose(); meetingApi=null; }
-  document.getElementById("jitsiMeetingContainer").classList.add("hidden");
-  document.getElementById("jitsiMeetingContainer").innerHTML="";
-  document.getElementById("leaveMeetingBtn").classList.add("hidden");
+
+if(meetingApi){
+meetingApi.dispose();
+meetingApi = null;
+}
+
+document.getElementById("jitsiMeetingContainer").classList.add("hidden");
+document.getElementById("jitsiMeetingContainer").innerHTML = "";
+document.getElementById("leaveMeetingBtn").classList.add("hidden");
+
 }
 
 function joinAudioRoom(){
-  const code = document.getElementById("audioRoomCode").value.trim();
-  if(!code){ showToast("Enter a room name first","error"); return; }
-  if(audioApi){ audioApi.dispose(); audioApi=null; }
-  const studentName = localStorage.getItem("studentName")||"Guest";
-  document.getElementById("jitsiAudioContainer").classList.remove("hidden");
-  document.getElementById("leaveAudioBtn").classList.remove("hidden");
-  audioApi = new JitsiMeetExternalAPI("meet.jit.si",{
-    roomName:"AdekaAcademyHubAudio-"+code,
-    parentNode:document.getElementById("jitsiAudioContainer"),
-    width:"100%",height:480,
-    userInfo:{displayName:studentName},
-    configOverwrite:{prejoinPageEnabled:false,startAudioOnly:true,startWithVideoMuted:true}
-  });
+
+const code =
+document.getElementById("audioRoomCode").value.trim();
+
+if(!code){
+alert("Enter a room name first");
+return;
+}
+
+if(audioApi){
+audioApi.dispose();
+audioApi = null;
+}
+
+const studentName =
+localStorage.getItem("studentName") || "Guest";
+
+document.getElementById("jitsiAudioContainer").classList.remove("hidden");
+document.getElementById("leaveAudioBtn").classList.remove("hidden");
+
+audioApi = new JitsiMeetExternalAPI("meet.jit.si", {
+roomName: "AdekaAcademyHubAudio-" + code,
+parentNode: document.getElementById("jitsiAudioContainer"),
+width: "100%",
+height: 480,
+userInfo: { displayName: studentName },
+configOverwrite: {
+prejoinPageEnabled: false,
+startAudioOnly: true,
+startWithVideoMuted: true
+}
+});
+
 }
 
 function leaveAudioRoom(){
-  if(audioApi){ audioApi.dispose(); audioApi=null; }
-  document.getElementById("jitsiAudioContainer").classList.add("hidden");
-  document.getElementById("jitsiAudioContainer").innerHTML="";
-  document.getElementById("leaveAudioBtn").classList.add("hidden");
+
+if(audioApi){
+audioApi.dispose();
+audioApi = null;
 }
 
-async function saveNote(){
-  const note = document.getElementById("noteText").value;
-  const user = window.auth.currentUser;
-  if(!user){ showToast("Please login first","error"); return; }
-  if(!note.trim()){ showToast("Note is empty","error"); return; }
-  try{
-    await window.addDoc(window.collection(window.db,"notes"),{uid:user.uid,note,createdAt:new Date()});
-    const alreadyEarned = !!localStorage.getItem("firstNoteBadge");
-    localStorage.setItem("firstNoteBadge","earned");
-    if(!alreadyEarned){ playBadgeSound(); showToast("📝 First Note badge earned!","success"); }
-    document.getElementById("noteText").value="";
-    localStorage.removeItem("draftNote");
-    updateCharCount();
-    loadNotes();
-    showToast("Note saved!","success");
-  }catch(e){ showToast(e.message,"error"); }
+document.getElementById("jitsiAudioContainer").classList.add("hidden");
+document.getElementById("jitsiAudioContainer").innerHTML = "";
+document.getElementById("leaveAudioBtn").classList.add("hidden");
+
+}
+
+ async function saveNote(){
+
+const note =
+document.getElementById("noteText").value;
+
+const user =
+window.auth.currentUser;
+
+if(!user){
+
+alert("Please login first");
+return;
+
+}
+
+if(!note.trim()){
+
+alert("Note is empty");
+return;
+
+}
+
+try{
+
+await window.addDoc(
+window.collection(window.db, "notes"),
+{
+uid: user.uid,
+note: note,
+createdAt: new Date()
+}
+);
+  const alreadyEarned = !!localStorage.getItem("firstNoteBadge");
+
+localStorage.setItem(
+"firstNoteBadge",
+"earned"
+);
+
+if(!alreadyEarned){
+playBadgeSound();
+}
+
+document.getElementById("noteText").value = "";
+  localStorage.removeItem("draftNote");
+
+loadNotes();
+}catch(error){
+
+alert(error.message);
+
+}
+
 }
 
 function backToDashboard(){
-  stopQuizTimer();
-  hideAllSections();
-  document.getElementById("dashboardHome").classList.remove("hidden");
-  closeMenu();
-  hideBackButton();
-  leaveMeeting();
-  leaveAudioRoom();
+
+hideAllSections();
+document.getElementById("dashboardHome").classList.remove("hidden");
+closeMenu();
+hideBackButton();
+leaveMeeting();
+leaveAudioRoom();
+
 }
 
-async function loadNotes(){
-  const user = window.auth.currentUser;
-  if(!user) return;
-  const q = window.query(window.collection(window.db,"notes"),window.where("uid","==",user.uid));
-  const snap = await window.getDocs(q);
-  const totalCount = snap.size;
-  let shownCount=0, html="";
-  const search = document.getElementById("searchNotes").value.toLowerCase();
-  snap.forEach(d => {
-    if(!d.data().note.toLowerCase().includes(search)) return;
-    shownCount++;
-    html += `<div style="background:rgba(255,255,255,.1);padding:10px;margin-top:10px;border-radius:10px;">
-      <p style="margin-bottom:6px;">${escapeHtml(d.data().note)}</p>
-      <small style="opacity:.6;">${d.data().createdAt ? new Date(d.data().createdAt.seconds*1000).toLocaleString() : ""}</small>
-      <div style="display:flex;gap:6px;margin-top:6px;">
-      <button class="btn-secondary" style="width:auto;padding:6px 14px;font-size:13px;margin:0;" onclick="editNote('${d.id}',\`${d.data().note.replace(/`/g,"'")}\`)">Edit</button>
-      <button class="btn-danger" style="width:auto;padding:6px 14px;font-size:13px;margin:0;" onclick="deleteNote('${d.id}')">Delete</button>
-      </div>
-    </div>`;
-  });
-  document.getElementById("noteCount").innerText = shownCount;
-  document.getElementById("totalNotes").innerText = totalCount;
-  document.getElementById("savedNotes").innerHTML = html;
+ async function loadNotes(){
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+const q = window.query(
+window.collection(window.db, "notes"),
+window.where("uid", "==", user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+const totalCount = querySnapshot.size;
+let shownCount = 0;
+let html = "";
+   const search =
+document.getElementById("searchNotes")
+.value
+.toLowerCase();
+
+querySnapshot.forEach((docSnap) => {
+
+  if(
+!docSnap.data().note
+.toLowerCase()
+.includes(search)
+){
+return;
+}
+  shownCount++;
+
+html += `
+<div style="
+background:rgba(255,255,255,.1);
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+">
+
+<p>${docSnap.data().note}</p>
+
+<small>
+${docSnap.data().createdAt
+? new Date(
+docSnap.data().createdAt.seconds * 1000
+).toLocaleString()
+: ""}
+</small>
+
+<button class="btn-secondary" onclick="editNote('${docSnap.id}', \`${docSnap.data().note}\`)">
+Edit
+</button>
+
+<button class="btn-danger" onclick="deleteNote('${docSnap.id}')">
+Delete
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("noteCount").innerText =
+shownCount;
+document.getElementById("totalNotes").innerText =
+totalCount;
+document.getElementById("savedNotes").innerHTML =
+html;
+
 }
 
-async function deleteNote(noteId){
-  await window.deleteDoc(window.doc(window.db,"notes",noteId));
-  loadNotes();
+  async function deleteNote(noteId){
+
+await window.deleteDoc(
+window.doc(window.db, "notes", noteId)
+);
+
+loadNotes();
+
 }
 
 async function editNote(noteId, currentNote){
-  const newNote = prompt("Edit your note:", currentNote);
-  if(newNote===null) return;
-  await window.updateDoc(window.doc(window.db,"notes",noteId),{note:newNote});
-  loadNotes();
+
+const newNote = prompt(
+"Edit your note:",
+currentNote
+);
+
+if(newNote === null) return;
+
+await window.updateDoc(
+window.doc(window.db, "notes", noteId),
+{
+note: newNote
+}
+);
+
+loadNotes();
+
 }
 
-function toggleTheme(){
-  const isLight = document.getElementById("themeSwitch").checked;
-  document.body.classList.toggle("lightTheme", isLight);
-  localStorage.setItem("theme", isLight ? "light" : "dark");
+  function toggleTheme(){
+
+const isLight =
+document.getElementById("themeSwitch").checked;
+
+if(isLight){
+
+document.body.classList.add("lightTheme");
+
+localStorage.setItem(
+"theme",
+"light"
+);
+
+}else{
+
+document.body.classList.remove("lightTheme");
+
+localStorage.setItem(
+"theme",
+"dark"
+);
+
 }
 
-function openBadges(){
-  hideAllSections();
-  document.getElementById("badgesSection").classList.remove("hidden");
+}
+
+  function openBadges(){
+
+hideAllSections();
+
+document.getElementById("badgesSection")
+.classList.remove("hidden");
+
   closeMenu();
-  showBackButton();
-  let html = `<div class="box"><div style="font-size:2rem;">🎉</div><h3>Account Created</h3><p>You signed up!</p></div>`;
-  if(localStorage.getItem("profileBadge")) html += `<div class="box"><div style="font-size:2rem;">📸</div><h3>Profile Master</h3><p>Added a profile picture</p></div>`;
-  if(localStorage.getItem("firstNoteBadge")) html += `<div class="box"><div style="font-size:2rem;">📝</div><h3>Note Taker</h3><p>Saved your first note</p></div>`;
-  if(localStorage.getItem("quizCompletedBadge")) html += `<div class="box"><div style="font-size:2rem;">🎯</div><h3>Quiz Champion</h3><p>Completed a quiz</p></div>`;
-  if(localStorage.getItem("streakBadge")) html += `<div class="box"><div style="font-size:2rem;">🔥</div><h3>On Fire!</h3><p>5-answer streak in a quiz</p></div>`;
-  if(localStorage.getItem("streak3Badge")) html += `<div class="box"><div style="font-size:2rem;">🏅</div><h3>3-Day Streak</h3><p>Logged in 3 days in a row</p></div>`;
-  if(localStorage.getItem("streak7Badge")) html += `<div class="box"><div style="font-size:2rem;">⭐</div><h3>7-Day Streak</h3><p>Logged in 7 days in a row</p></div>`;
-  if(localStorage.getItem("streak30Badge")) html += `<div class="box"><div style="font-size:2rem;">👑</div><h3>30-Day Streak</h3><p>Logged in 30 days in a row!</p></div>`;
-  document.getElementById("badgesList").innerHTML = html;
+showBackButton();
+
+let html =
+`<div class="box"><div style="font-size:2rem;">🎉</div><h3>Account Created</h3></div>`;
+
+if(localStorage.getItem("profileBadge")){
+
+html +=
+`<div class="box"><div style="font-size:2rem;">📸</div><h3>Profile Master</h3></div>`;
+
 }
 
-function loadTheme(){
-  const theme = localStorage.getItem("theme");
-  if(theme==="light"){
-    document.body.classList.add("lightTheme");
-    document.getElementById("themeSwitch").checked=true;
-  }
+if(localStorage.getItem("firstNoteBadge")){
+
+html +=
+`<div class="box"><div style="font-size:2rem;">📝</div><h3>First Note Created</h3></div>`;
+
 }
 
-function loadTextSizePref(){
-  setTextSize(localStorage.getItem("textSize")||"normal", false);
+    document.getElementById("badgesList").innerHTML =
+html;
+
+}
+
+  function loadTheme(){
+
+const theme =
+localStorage.getItem("theme");
+
+if(theme === "light"){
+
+document.body.classList.add(
+"lightTheme"
+);
+
+document.getElementById("themeSwitch").checked = true;
+
+}
+
+}
+
+  function loadTextSizePref(){
+
+const size =
+localStorage.getItem("textSize") || "normal";
+
+setTextSize(size, false);
+
 }
 
 function setTextSize(size, save){
-  document.body.classList.remove("text-small","text-normal","text-large");
-  document.body.classList.add("text-"+size);
-  if(save!==false) localStorage.setItem("textSize", size);
+
+document.body.classList.remove(
+"text-small",
+"text-normal",
+"text-large"
+);
+
+document.body.classList.add("text-" + size);
+
+if(save !== false){
+
+localStorage.setItem("textSize", size);
+
 }
 
-function loadSoundPref(){
-  document.getElementById("soundSwitch").checked = localStorage.getItem("badgeSound")==="on";
+}
+
+  function loadSoundPref(){
+
+const soundOn =
+localStorage.getItem("badgeSound") === "on";
+
+document.getElementById("soundSwitch").checked = soundOn;
+
 }
 
 function toggleBadgeSound(){
-  const isOn = document.getElementById("soundSwitch").checked;
-  localStorage.setItem("badgeSound", isOn ? "on" : "off");
-  if(isOn) playBadgeSound();
+
+const isOn =
+document.getElementById("soundSwitch").checked;
+
+localStorage.setItem(
+"badgeSound",
+isOn ? "on" : "off"
+);
+
+if(isOn){
+playBadgeSound();
 }
 
-function playBadgeSound(){
-  if(localStorage.getItem("badgeSound")!=="on") return;
-  playTone([523.25,783.99], "sine", 0.2);
 }
 
-function playQuizCorrect(){
-  playTone([659.25,783.99,1046.50], "sine", 0.15);
+  // A short, cheerful two-note chime built with the Web Audio API —
+  // no sound file needed.
+  function playBadgeSound(){
+
+if(localStorage.getItem("badgeSound") !== "on"){
+return;
 }
 
-function playQuizWrong(){
-  playTone([220,180], "sawtooth", 0.1);
+try{
+
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+const now = ctx.currentTime;
+
+[523.25, 783.99].forEach((freq, i) => {
+
+const osc = ctx.createOscillator();
+const gain = ctx.createGain();
+
+osc.type = "sine";
+osc.frequency.value = freq;
+
+gain.gain.setValueAtTime(0.001, now + i * 0.15);
+gain.gain.linearRampToValueAtTime(0.2, now + i * 0.15 + 0.02);
+gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.3);
+
+osc.connect(gain);
+gain.connect(ctx.destination);
+
+osc.start(now + i * 0.15);
+osc.stop(now + i * 0.15 + 0.3);
+
+});
+
+}catch(error){
+
+console.log("Sound playback not supported:", error);
+
 }
 
-function playTone(freqs, type, vol){
-  try{
-    const ctx = new (window.AudioContext||window.webkitAudioContext)();
-    const now = ctx.currentTime;
-    freqs.forEach((freq,i)=>{
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = type;
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.001, now+i*0.12);
-      gain.gain.linearRampToValueAtTime(vol, now+i*0.12+0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, now+i*0.12+0.25);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start(now+i*0.12);
-      osc.stop(now+i*0.12+0.3);
-    });
-  }catch(e){}
 }
 
-async function readNotesAloud(){
-  const user = window.auth.currentUser;
-  if(!user){ showToast("Please login first","error"); return; }
-  if(!("speechSynthesis" in window)){ showToast("Browser doesn't support text-to-speech","error"); return; }
-  const q = window.query(window.collection(window.db,"notes"),window.where("uid","==",user.uid));
-  const snap = await window.getDocs(q);
-  if(snap.empty){ showToast("No notes saved yet","error"); return; }
-  let fullText="";
-  snap.forEach(d=>{ fullText+=d.data().note+". "; });
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(new SpeechSynthesisUtterance(fullText));
-  showToast("Reading notes aloud...","info");
+  // Fetches the user's own notes and reads them out loud using the
+  // browser's built-in text-to-speech (no extra setup needed).
+  async function readNotesAloud(){
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+return;
+}
+
+if(!("speechSynthesis" in window)){
+alert("Sorry, your browser doesn't support reading text aloud.");
+return;
+}
+
+const q = window.query(
+window.collection(window.db, "notes"),
+window.where("uid", "==", user.uid)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+if(querySnapshot.empty){
+alert("You don't have any notes saved yet.");
+return;
+}
+
+let fullText = "";
+
+querySnapshot.forEach((docSnap) => {
+fullText += docSnap.data().note + ". ";
+});
+
+window.speechSynthesis.cancel();
+
+const utterance = new SpeechSynthesisUtterance(fullText);
+window.speechSynthesis.speak(utterance);
+
 }
 
 function stopReadingNotes(){
-  if("speechSynthesis" in window) window.speechSynthesis.cancel();
+
+if("speechSynthesis" in window){
+window.speechSynthesis.cancel();
 }
 
-function openTasks(){
-  hideAllSections();
-  document.getElementById("tasksSection").classList.remove("hidden");
+}
+
+  function openTasks(){
+
+hideAllSections();
+
+document
+.getElementById("tasksSection")
+.classList.remove("hidden");
+
   closeMenu();
-  showBackButton();
-  loadTasks();
+showBackButton();
+
+loadTasks();
+
 }
 
 function addTask(){
-  const task = document.getElementById("taskInput").value.trim();
-  if(!task) return;
-  let tasks = JSON.parse(localStorage.getItem("tasks")||"[]");
-  tasks.push({ text:task, done:false });
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  document.getElementById("taskInput").value="";
-  loadTasks();
-}
 
-function toggleTask(index){
-  let tasks = JSON.parse(localStorage.getItem("tasks")||"[]");
-  tasks[index].done = !tasks[index].done;
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  loadTasks();
-}
+const task =
+document.getElementById("taskInput").value;
 
-function deleteTask(index){
-  let tasks = JSON.parse(localStorage.getItem("tasks")||"[]");
-  tasks.splice(index,1);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  loadTasks();
+if(!task) return;
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+tasks.push(task);
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+document.getElementById("taskInput").value =
+"";
+
+loadTasks();
+
 }
 
 function loadTasks(){
-  let tasks = JSON.parse(localStorage.getItem("tasks")||"[]");
-  const done = tasks.filter(t=>t.done).length;
-  document.getElementById("taskStats").innerText =
-    tasks.length===0 ? "No tasks yet" : `${done} / ${tasks.length} completed`;
-  let html="";
-  tasks.forEach((task, index)=>{
-    html += `<div style="background:rgba(255,255,255,.1);padding:12px;margin-top:10px;border-radius:10px;display:flex;align-items:center;gap:10px;">
-      <input type="checkbox" ${task.done?"checked":""} onchange="toggleTask(${index})" style="width:20px;height:20px;margin:0;cursor:pointer;accent-color:#ffd700;">
-      <span style="flex:1;${task.done?'text-decoration:line-through;opacity:.5;':''}">${escapeHtml(task.text||task)}</span>
-      <button class="btn-danger" style="width:auto;padding:6px 12px;margin:0;font-size:13px;" onclick="deleteTask(${index})">✕</button>
-    </div>`;
-  });
-  document.getElementById("taskList").innerHTML = html;
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+let html = "";
+
+tasks.forEach((task,index)=>{
+
+html += `
+<div style="
+background:rgba(255,255,255,.1);
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+">
+
+${task}
+
+<button class="btn-danger" style="width:auto;margin-top:0;" onclick="deleteTask(${index})">
+Delete
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("taskList").innerHTML =
+html;
+
 }
 
-async function downloadNotes(){
-  const user = window.auth.currentUser;
-  if(!user){ showToast("Please login first","error"); return; }
-  const q = window.query(window.collection(window.db,"notes"),window.where("uid","==",user.uid));
-  const snap = await window.getDocs(q);
-  let text="";
-  snap.forEach(d=>{ text+=d.data().note+"\n\n"; });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([text],{type:"text/plain"}));
-  a.download = "MyNotes.txt";
-  a.click();
-  showToast("Notes downloaded!","success");
+function deleteTask(index){
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+tasks.splice(index,1);
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+loadTasks();
+
 }
 
-async function deleteAllNotes(){
-  if(!confirm("Delete ALL your notes? This cannot be undone.")) return;
-  const user = window.auth.currentUser;
-  if(!user) return;
-  const q = window.query(window.collection(window.db,"notes"),window.where("uid","==",user.uid));
-  const snap = await window.getDocs(q);
-  for(const d of snap.docs) await window.deleteDoc(window.doc(window.db,"notes",d.id));
-  loadNotes();
-  showToast("All notes deleted","info");
+  async function downloadNotes(){
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+return;
 }
 
-async function resetPassword(){
-  const email = document.getElementById("email").value.trim();
-  if(!email){ showToast("Enter your email first","error"); return; }
-  try{
-    await window.sendPasswordResetEmail(window.auth, email);
-    showToast("Password reset email sent! Check your inbox.","success");
-  }catch(e){ showToast(e.message,"error"); }
+const q = window.query(
+window.collection(window.db,"notes"),
+window.where("uid","==",user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+let text = "";
+
+querySnapshot.forEach((docSnap)=>{
+
+text += docSnap.data().note + "\n\n";
+
+});
+
+const blob = new Blob(
+[text],
+{type:"text/plain"}
+);
+
+const a =
+document.createElement("a");
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+"MyNotes.txt";
+
+a.click();
+
 }
 
-// =============================================
-// QUIZ SYSTEM
-// =============================================
+  async function deleteAllNotes(){
 
-const QUIZ_DATA = {
-  junior: {
-    label: "Junior High School",
-    subjects: {
-      "Mathematics": [
-        { q:"What is 12 × 12?", o:["124","144","136","148"], a:1 },
-        { q:"What is the square root of 64?", o:["6","7","8","9"], a:2 },
-        { q:"What is 25% of 200?", o:["25","40","50","75"], a:2 },
-        { q:"Solve: 3x = 21. What is x?", o:["6","7","8","9"], a:1 },
-        { q:"What is the value of π (pi) to 2 decimal places?", o:["3.12","3.14","3.16","3.18"], a:1 },
-        { q:"What is the perimeter of a square with side 5cm?", o:["15cm","20cm","25cm","10cm"], a:1 },
-        { q:"What is 2³?", o:["6","8","10","12"], a:1 },
-        { q:"How many sides does a hexagon have?", o:["5","6","7","8"], a:1 },
-        { q:"What is the LCM of 4 and 6?", o:["10","12","14","24"], a:1 },
-        { q:"What is 15% of 80?", o:["10","12","14","16"], a:1 }
-      ],
-      "Science": [
-        { q:"What planet is closest to the Sun?", o:["Venus","Earth","Mercury","Mars"], a:2 },
-        { q:"What is the chemical formula of water?", o:["CO2","H2O","O2","NaCl"], a:1 },
-        { q:"What organ pumps blood in the human body?", o:["Liver","Lung","Brain","Heart"], a:3 },
-        { q:"What is the process by which plants make food?", o:["Respiration","Digestion","Photosynthesis","Evaporation"], a:2 },
-        { q:"What gas do plants absorb during photosynthesis?", o:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"], a:2 },
-        { q:"What is the hardest natural substance on Earth?", o:["Iron","Diamond","Gold","Quartz"], a:1 },
-        { q:"What type of animal is a whale?", o:["Fish","Reptile","Mammal","Amphibian"], a:2 },
-        { q:"What is the force that pulls objects toward Earth?", o:["Friction","Gravity","Tension","Magnetism"], a:1 },
-        { q:"How many bones are in the adult human body?", o:["106","206","306","406"], a:1 },
-        { q:"What is the boiling point of water at sea level?", o:["90°C","95°C","100°C","110°C"], a:2 }
-      ],
-      "English": [
-        { q:"What is the plural of 'child'?", o:["Childs","Childes","Children","Childrens"], a:2 },
-        { q:"Which word is an adjective: 'The tall boy ran fast'?", o:["boy","ran","tall","fast"], a:2 },
-        { q:"What punctuation ends a question?", o:[".","!","?",","], a:2 },
-        { q:"Which is the correct spelling?", o:["Recieve","Receive","Recive","Receeve"], a:1 },
-        { q:"What is the opposite of 'ancient'?", o:["Old","Wise","Modern","Historic"], a:2 },
-        { q:"'She sings beautifully.' What is the adverb?", o:["She","sings","beautifully","None"], a:2 },
-        { q:"What is a synonym for 'happy'?", o:["Sad","Angry","Joyful","Tired"], a:2 },
-        { q:"Which sentence is correct?", o:["I goes to school","I go to school","I goed to school","I going to school"], a:1 },
-        { q:"What is the past tense of 'run'?", o:["Runned","Runs","Ran","Running"], a:2 },
-        { q:"How many vowels are in the English alphabet?", o:["4","5","6","7"], a:1 }
-      ],
-      "Social Studies": [
-        { q:"What is the capital city of Ghana?", o:["Kumasi","Tamale","Cape Coast","Accra"], a:3 },
-        { q:"Which ocean is the largest?", o:["Atlantic","Indian","Arctic","Pacific"], a:3 },
-        { q:"How many continents are there on Earth?", o:["5","6","7","8"], a:2 },
-        { q:"What is the currency of Ghana?", o:["Dollar","Naira","Cedi","Pound"], a:2 },
-        { q:"Who was the first president of Ghana?", o:["John Kufuor","Kwame Nkrumah","Jerry Rawlings","Kofi Busia"], a:1 },
-        { q:"In what year did Ghana gain independence?", o:["1955","1956","1957","1958"], a:2 },
-        { q:"What is the largest continent by area?", o:["Africa","Europe","Asia","North America"], a:2 },
-        { q:"What is the longest river in Africa?", o:["Congo","Niger","Zambezi","Nile"], a:3 },
-        { q:"What is the United Nations (UN) headquarters?", o:["London","Paris","New York","Geneva"], a:2 },
-        { q:"Which country is known as the 'Land of the Rising Sun'?", o:["China","Japan","Korea","Vietnam"], a:1 }
-      ],
-      "ICT": [
-        { q:"What does CPU stand for?", o:["Central Processing Unit","Computer Power Unit","Core Processing Utility","Central Program Unit"], a:0 },
-        { q:"What does WWW stand for?", o:["World Wide Web","World Web Works","Wide World Web","Web World Wide"], a:0 },
-        { q:"Which of these is an input device?", o:["Monitor","Printer","Keyboard","Speaker"], a:2 },
-        { q:"What does RAM stand for?", o:["Read Access Memory","Random Access Memory","Run All Memory","Ready All Modules"], a:1 },
-        { q:"Which is NOT a web browser?", o:["Chrome","Firefox","Safari","Windows"], a:3 },
-        { q:"What does USB stand for?", o:["Universal Serial Bus","Unique System Box","Universal System Board","User Serial Bus"], a:0 },
-        { q:"What is the storage unit larger than a Gigabyte?", o:["Megabyte","Kilobyte","Terabyte","Petabyte"], a:2 },
-        { q:"Which of these is a social media platform?", o:["Google Docs","Excel","Instagram","Notepad"], a:2 },
-        { q:"What key is used to delete text to the left of the cursor?", o:["Delete","Backspace","Escape","Enter"], a:1 },
-        { q:"What does 'AI' stand for in technology?", o:["Automatic Interface","Artificial Intelligence","Advanced Internet","Automated Input"], a:1 }
-      ]
-    }
-  },
-  shs: {
-    label: "Senior High School (SHS)",
-    subjects: {
-      "Core Mathematics": [
-        { q:"Simplify: (x² - 4)/(x - 2)", o:["x - 2","x + 2","x² + 2","2x"], a:1 },
-        { q:"What is sin(90°)?", o:["0","0.5","1","-1"], a:2 },
-        { q:"Find the gradient of the line y = 3x + 5", o:["5","3","8","15"], a:1 },
-        { q:"Solve: x² - 5x + 6 = 0", o:["x=1,6","x=2,3","x=3,4","x=1,5"], a:1 },
-        { q:"What is log₁₀(1000)?", o:["2","3","4","10"], a:1 },
-        { q:"Find the area of a circle with radius 7cm (π≈22/7)", o:["44cm²","154cm²","22cm²","88cm²"], a:1 },
-        { q:"What is the sum of angles in a triangle?", o:["90°","180°","270°","360°"], a:1 },
-        { q:"Evaluate: 5! (5 factorial)", o:["25","60","120","150"], a:2 },
-        { q:"If P(A) = 0.4, what is P(A')?", o:["0.4","0.6","0.5","0.8"], a:1 },
-        { q:"What is the derivative of x³?", o:["3x","3x²","x²","2x³"], a:1 }
-      ],
-      "Physics": [
-        { q:"What is Newton's second law of motion?", o:["F=ma","E=mc²","v=u+at","PV=nRT"], a:0 },
-        { q:"What is the SI unit of electric current?", o:["Volt","Watt","Ampere","Ohm"], a:2 },
-        { q:"What type of wave is sound?", o:["Transverse","Longitudinal","Electromagnetic","Seismic"], a:1 },
-        { q:"What is the speed of light in a vacuum?", o:["3×10⁸ m/s","3×10⁶ m/s","3×10¹⁰ m/s","3×10⁴ m/s"], a:0 },
-        { q:"Which law states that pressure and volume are inversely proportional?", o:["Charles' Law","Boyle's Law","Newton's Law","Hooke's Law"], a:1 },
-        { q:"What is the unit of resistance?", o:["Ampere","Volt","Ohm","Watt"], a:2 },
-        { q:"What is the acceleration due to gravity (g)?", o:["8.8 m/s²","9.8 m/s²","10.8 m/s²","11.8 m/s²"], a:1 },
-        { q:"What type of lens converges light rays?", o:["Concave","Convex","Plane","Diverging"], a:1 },
-        { q:"What is the formula for kinetic energy?", o:["mgh","½mv²","mv","Fd"], a:1 },
-        { q:"What happens to resistance when temperature increases in a conductor?", o:["Decreases","Stays same","Increases","Becomes zero"], a:2 }
-      ],
-      "Chemistry": [
-        { q:"What is the atomic number of Carbon?", o:["4","6","8","12"], a:1 },
-        { q:"What is the pH of a neutral solution?", o:["0","7","10","14"], a:1 },
-        { q:"What type of bond is formed by sharing of electrons?", o:["Ionic","Covalent","Metallic","Hydrogen"], a:1 },
-        { q:"What is the chemical symbol for Gold?", o:["Go","Gd","Au","Ag"], a:2 },
-        { q:"Which gas is produced when acids react with metals?", o:["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"], a:3 },
-        { q:"What is the formula for sulphuric acid?", o:["HCl","HNO₃","H₂SO₄","H₂CO₃"], a:2 },
-        { q:"What is the most abundant gas in Earth's atmosphere?", o:["Oxygen","Carbon dioxide","Nitrogen","Argon"], a:2 },
-        { q:"What is Avogadro's number?", o:["6.02×10²²","6.02×10²³","6.02×10²⁴","6.02×10²¹"], a:1 },
-        { q:"What type of reaction releases heat?", o:["Endothermic","Exothermic","Neutralization","Decomposition"], a:1 },
-        { q:"What is the valency of oxygen?", o:["1","2","3","4"], a:1 }
-      ],
-      "Biology": [
-        { q:"What is the powerhouse of the cell?", o:["Nucleus","Ribosome","Mitochondria","Chloroplast"], a:2 },
-        { q:"What is the process of cell division called?", o:["Meiosis","Mitosis","Osmosis","Diffusion"], a:1 },
-        { q:"What is the basic unit of life?", o:["Tissue","Organ","Cell","Atom"], a:2 },
-        { q:"What blood type is the universal donor?", o:["A","B","AB","O"], a:3 },
-        { q:"What is the function of white blood cells?", o:["Carry oxygen","Fight disease","Clot blood","Transport nutrients"], a:1 },
-        { q:"Where does digestion of protein begin?", o:["Mouth","Oesophagus","Stomach","Small intestine"], a:2 },
-        { q:"What is the male reproductive cell called?", o:["Ovum","Zygote","Sperm","Gamete"], a:2 },
-        { q:"What gas do humans exhale?", o:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"], a:2 },
-        { q:"What is the longest bone in the human body?", o:["Humerus","Tibia","Femur","Fibula"], a:2 },
-        { q:"What is the study of plants called?", o:["Zoology","Botany","Ecology","Genetics"], a:1 }
-      ],
-      "Economics": [
-        { q:"What is GDP?", o:["Gross Domestic Product","General Domestic Policy","Gross Daily Profit","General Development Plan"], a:0 },
-        { q:"When price increases, demand generally:", o:["Increases","Stays same","Decreases","Doubles"], a:2 },
-        { q:"What is inflation?", o:["Rise in prices","Fall in prices","Rise in employment","Increase in production"], a:0 },
-        { q:"What is the opportunity cost?", o:["Total cost","Value of next best alternative","Production cost","Marginal cost"], a:1 },
-        { q:"What type of economy does the government control everything?", o:["Market economy","Mixed economy","Command economy","Traditional economy"], a:2 },
-        { q:"What does supply curve show?", o:["Quantity demanded at different prices","Quantity supplied at different prices","Market equilibrium","Consumer preference"], a:1 },
-        { q:"What is barter trade?", o:["Trading with money","Exchange of goods for goods","Buying on credit","Stock exchange"], a:1 },
-        { q:"What is monopoly?", o:["Many sellers","Two sellers","One seller","Few sellers"], a:2 },
-        { q:"What is fiscal policy?", o:["Government spending and taxation","Interest rate changes","Exchange rate control","Trade policy"], a:0 },
-        { q:"What is the law of diminishing returns?", o:["Output increases at same rate","Output eventually decreases with more input","Fixed costs increase","Prices always fall"], a:1 }
-      ]
-    }
-  },
-  university: {
-    label: "University",
-    subjects: {
-      "Computer Science": [
-        { q:"What does OOP stand for?", o:["Object Oriented Programming","Open Ordered Protocol","Output Oriented Processing","Object Output Program"], a:0 },
-        { q:"What is the time complexity of binary search?", o:["O(n)","O(n²)","O(log n)","O(1)"], a:2 },
-        { q:"What does SQL stand for?", o:["Structured Query Language","System Query Logic","Software Query Layer","Sequential Query Line"], a:0 },
-        { q:"Which data structure uses LIFO?", o:["Queue","Stack","Tree","Graph"], a:1 },
-        { q:"What is a primary key in a database?", o:["A foreign key reference","A unique identifier for a record","The first column","An index"], a:1 },
-        { q:"What does HTTP stand for?", o:["HyperText Transfer Protocol","High Transfer Text Protocol","HyperText Transmission Process","Host Transfer Technical Protocol"], a:0 },
-        { q:"What is recursion in programming?", o:["A loop","A function calling itself","A data type","An algorithm"], a:1 },
-        { q:"What is a deadlock in OS?", o:["System crash","Two processes waiting for each other indefinitely","Memory overflow","CPU overload"], a:1 },
-        { q:"Which sorting algorithm has O(n log n) average complexity?", o:["Bubble sort","Selection sort","Merge sort","Insertion sort"], a:2 },
-        { q:"What does API stand for?", o:["Application Programming Interface","Automatic Program Integration","Advanced Protocol Interface","Application Process Input"], a:0 }
-      ],
-      "Mathematics": [
-        { q:"What is the integral of eˣ?", o:["eˣ + c","xeˣ + c","e^(x+1) + c","1/eˣ + c"], a:0 },
-        { q:"What is the determinant of a 2×2 matrix [[a,b],[c,d]]?", o:["ac - bd","ad - bc","ab - cd","ac + bd"], a:1 },
-        { q:"What is Euler's identity?", o:["eⁱπ = 1","eⁱπ + 1 = 0","eⁱπ - 1 = 0","eⁱπ = -1"], a:1 },
-        { q:"What is a bijective function?", o:["One-to-one","Onto","Both one-to-one and onto","Neither"], a:2 },
-        { q:"What is the Pythagorean theorem?", o:["a² + b² = c²","a + b = c","a³ + b³ = c³","ab = c²"], a:0 },
-        { q:"What is the limit of (sin x)/x as x→0?", o:["0","∞","1","undefined"], a:2 },
-        { q:"How many elements are in the power set of a set with 3 elements?", o:["3","6","8","9"], a:2 },
-        { q:"What is the formula for compound interest?", o:["A = P(1 + r)ⁿ","A = P + rn","A = Prn","A = P/rⁿ"], a:0 },
-        { q:"What does the Central Limit Theorem state?", o:["All distributions are normal","Sample means approach normal distribution","Population is always normal","Variance is constant"], a:1 },
-        { q:"What is the derivative of ln(x)?", o:["ln(x)","1/x","x","e^x"], a:1 }
-      ],
-      "Physics": [
-        { q:"What is Schrödinger's equation used for?", o:["Classical mechanics","Quantum mechanics","Thermodynamics","Electrostatics"], a:1 },
-        { q:"What is the SI unit of magnetic flux?", o:["Tesla","Henry","Weber","Gauss"], a:2 },
-        { q:"What does E=mc² represent?", o:["Kinetic energy","Potential energy","Mass-energy equivalence","Electrical energy"], a:2 },
-        { q:"What is the Heisenberg uncertainty principle?", o:["Energy is conserved","Position and momentum cannot both be precisely known","Light speed is constant","Entropy always increases"], a:1 },
-        { q:"What is the photoelectric effect?", o:["Light bending around objects","Electrons emitted when light hits a metal","Light slowing in a medium","Heat from light"], a:1 },
-        { q:"What is entropy a measure of?", o:["Energy","Disorder in a system","Temperature","Pressure"], a:1 },
-        { q:"What are quarks?", o:["Sub-atomic particles making up protons and neutrons","Types of electrons","Forms of light","Atomic nuclei"], a:0 },
-        { q:"What is the unit of inductance?", o:["Farad","Henry","Tesla","Ohm"], a:1 },
-        { q:"What is Bernoulli's principle related to?", o:["Fluid flow and pressure","Thermodynamics","Electromagnetism","Nuclear reactions"], a:0 },
-        { q:"What is the Doppler effect?", o:["Light refraction","Change in wave frequency due to motion","Sound absorption","Wave interference"], a:1 }
-      ],
-      "Business": [
-        { q:"What is SWOT analysis?", o:["Strengths, Weaknesses, Opportunities, Threats","Sales, Wages, Output, Trade","Strategy, Work, Operations, Targets","System, Work, Order, Technology"], a:0 },
-        { q:"What is the difference between gross profit and net profit?", o:["Gross includes all deductions","Net = Revenue minus all costs; Gross = Revenue minus COGS","Net is before tax","They are the same"], a:1 },
-        { q:"What is market segmentation?", o:["Dividing market into groups","Entering new markets","Setting prices","Advertising strategy"], a:0 },
-        { q:"What is a balance sheet?", o:["Income statement","Statement of assets, liabilities, and equity","Cash flow statement","Budget forecast"], a:1 },
-        { q:"What is CSR (Corporate Social Responsibility)?", o:["A tax strategy","Business contributing positively to society","Employee training","Product pricing"], a:1 },
-        { q:"What is the role of a central bank?", o:["Retail banking","Manage national currency and monetary policy","Stock trading","Corporate lending only"], a:1 },
-        { q:"What is price elasticity of demand?", o:["Fixed price","How demand changes with price","Supply relationship","Market size"], a:1 },
-        { q:"What is venture capital?", o:["Government grants","Loans from banks","Investment in startups for equity","Personal savings"], a:2 },
-        { q:"What does B2B stand for?", o:["Business to Business","Buy to Boost","Budget to Budget","Brand to Brand"], a:0 },
-        { q:"What is the purpose of a business plan?", o:["To satisfy legal requirements only","To guide operations and attract funding","To list products","To track expenses"], a:1 }
-      ],
-      "Medicine / Health": [
-        { q:"What does ECG measure?", o:["Brain activity","Heart electrical activity","Blood pressure","Lung capacity"], a:1 },
-        { q:"What is the normal human body temperature?", o:["35°C","36.6°C","37.5°C","38°C"], a:1 },
-        { q:"What is the role of insulin?", o:["Digest proteins","Regulate blood glucose","Fight infections","Carry oxygen"], a:1 },
-        { q:"What type of pathogen causes malaria?", o:["Virus","Bacteria","Protozoan","Fungus"], a:2 },
-        { q:"What does DNA stand for?", o:["Deoxyribonucleic Acid","Distributed Nucleic Acid","Double Nucleic Array","Deoxy Nitrogen Acid"], a:0 },
-        { q:"What is the function of the cerebellum?", o:["Memory","Vision","Balance and coordination","Speech"], a:2 },
-        { q:"What is tachycardia?", o:["Slow heart rate","Fast heart rate","Irregular heart rate","Stopped heart"], a:1 },
-        { q:"What does BMI stand for?", o:["Body Mass Index","Basic Metabolic Intake","Bone Mineral Index","Blood Mass Indicator"], a:0 },
-        { q:"What vitamin is produced by sunlight?", o:["Vitamin A","Vitamin B","Vitamin C","Vitamin D"], a:3 },
-        { q:"What is the most common blood type worldwide?", o:["A+","B+","AB+","O+"], a:3 }
-      ]
-    }
-  }
-};
+const confirmDelete = confirm(
+"Delete ALL your notes?"
+);
 
-let currentLevel=null, currentSubject=null, currentQuestions=[];
-let currentQuestionIndex=0, currentScore=0, currentStreak=0, answered=false;
-let quizTimerInterval=null, timeLeft=15;
-const QUIZ_TIME_PER_Q = 15;
+if(!confirmDelete) return;
 
-function stopQuizTimer(){
-  if(quizTimerInterval){ clearInterval(quizTimerInterval); quizTimerInterval=null; }
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+const q = window.query(
+window.collection(window.db,"notes"),
+window.where("uid","==",user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+for(const docSnap of querySnapshot.docs){
+
+await window.deleteDoc(
+window.doc(
+window.db,
+"notes",
+docSnap.id
+)
+);
+
 }
 
-function startQuizTimer(){
-  stopQuizTimer();
-  timeLeft = QUIZ_TIME_PER_Q;
-  const el = document.getElementById("quizTimer");
-  el.classList.remove("urgent");
-  el.innerText = timeLeft;
-  quizTimerInterval = setInterval(()=>{
-    timeLeft--;
-    el.innerText = timeLeft;
-    if(timeLeft <= 5) el.classList.add("urgent");
-    if(timeLeft <= 0){
-      stopQuizTimer();
-      if(!answered) timeOut();
-    }
-  }, 1000);
+loadNotes();
+
 }
 
-function timeOut(){
-  answered = true;
-  const q = currentQuestions[currentQuestionIndex];
-  document.querySelectorAll(".quiz-option").forEach(b=>b.style.pointerEvents="none");
-  document.getElementById(`opt-${q.a}`).classList.add("correct");
-  document.getElementById("quizFeedback").innerText = "⏰ Time's up! The answer was: " + q.o[q.a];
-  document.getElementById("quizFeedback").style.color = "#ffd700";
-  currentStreak = 0;
-  updateStreakDisplay();
-  document.getElementById("quizNextBtn").classList.remove("hidden");
+  async function resetPassword(){
+
+const email =
+document.getElementById("email").value;
+
+if(!email){
+alert("Enter your email first");
+return;
 }
 
-function openQuiz(){
-  hideAllSections();
-  document.getElementById("quizSection").classList.remove("hidden");
-  showBackButton();
-  showQuizStep("quizLevelPicker");
+try{
+
+await window.sendPasswordResetEmail(
+window.auth,
+email
+);
+
+alert("Password reset email sent!");
+
+}catch(error){
+
+alert(error.message);
+
 }
 
-function showQuizStep(stepId){
-  ["quizLevelPicker","quizSubjectPicker","quizGame","quizResult","quizLeaderboard"]
-  .forEach(id=>document.getElementById(id).classList.add("hidden"));
-  document.getElementById(stepId).classList.remove("hidden");
 }
 
-function selectLevel(level){
-  currentLevel = level;
-  const data = QUIZ_DATA[level];
-  document.getElementById("quizLevelLabel").innerText = data.label + " — Choose a Subject";
-  const subjects = Object.keys(data.subjects);
-  let html="";
-  subjects.forEach(subject=>{
-    const bestKey = "quizBest_"+level+"_"+subject;
-    const best = localStorage.getItem(bestKey);
-    const bestLabel = best ? `<span style="font-size:12px;opacity:.6;">Best: ${best}%</span>` : `<span style="font-size:12px;opacity:.4;">No record yet</span>`;
-    html += `<button class="quiz-subject-btn" onclick="selectSubject('${subject}')">${subject} ${bestLabel}</button>`;
-  });
-  document.getElementById("quizSubjectList").innerHTML = html;
-  showQuizStep("quizSubjectPicker");
+// IMPORTANT: firebase-config.js loads as a module, which executes AFTER
+// this regular script finishes parsing. So any code that touches
+// window.auth must wait for DOMContentLoaded, otherwise window.auth /
+// window.onAuthStateChanged won't exist yet and this would throw an
+// error (which used to silently break the "remember me" + theme code
+// that ran right after it).
+window.addEventListener("DOMContentLoaded", () => {
+
+// Safety net: the chat bubble/panel should never be visible on the
+// login screen. This guarantees a clean state on every fresh page load.
+hideChatBubble();
+
+window.onAuthStateChanged(window.auth, async (user) => {
+
+if(user){
+
+const savedPic =
+localStorage.getItem("profilePicture");
+
+if(savedPic){
+
+document.getElementById("profileImage").src =
+savedPic;
+
+document.getElementById("profileStatus").innerText =
+"Yes";
+
 }
 
-function backToLevelPicker(){
-  stopQuizTimer();
-  currentLevel=null; currentSubject=null;
-  showQuizStep("quizLevelPicker");
+  document.getElementById("currentDate").innerText =
+new Date().toDateString();
+
 }
 
-function selectSubject(subject){
-  currentSubject = subject;
-  const allQs = QUIZ_DATA[currentLevel].subjects[subject];
-  currentQuestions = [...allQs].sort(()=>Math.random()-.5).slice(0,10);
-  currentQuestionIndex=0; currentScore=0; currentStreak=0; answered=false;
-  document.getElementById("quizSubjectLabel").innerText = subject;
-  document.getElementById("quizScoreDisplay").innerText = "Score: 0";
-  showQuizStep("quizGame");
-  renderQuestion();
+});
+
+const rememberedEmail =
+localStorage.getItem(
+"rememberedEmail"
+);
+
+if(rememberedEmail){
+
+document.getElementById("email").value =
+rememberedEmail;
+
 }
 
-function updateStreakDisplay(){
-  const el = document.getElementById("quizStreakDisplay");
-  if(currentStreak >= 2){
-    el.innerHTML = `<span class="streak-badge">🔥 ${currentStreak} streak</span>`;
-  }else{
-    el.innerHTML="";
-  }
-}
+loadTheme();
+loadTextSizePref();
+loadSoundPref();
 
-function renderQuestion(){
-  const q = currentQuestions[currentQuestionIndex];
-  const total = currentQuestions.length;
-  document.getElementById("quizQNum").innerText = `Question ${currentQuestionIndex+1} of ${total}`;
-  document.getElementById("quizProgressBar").style.width = ((currentQuestionIndex/total)*100)+"%";
-  document.getElementById("quizQuestion").innerText = q.q;
-  document.getElementById("quizFeedback").innerText="";
-  document.getElementById("quizNextBtn").classList.add("hidden");
-  answered=false;
-  updateStreakDisplay();
-
-  let html="";
-  q.o.forEach((opt,idx)=>{
-    html += `<button class="quiz-option" id="opt-${idx}" onclick="selectAnswer(${idx})">${opt}</button>`;
-  });
-  document.getElementById("quizOptions").innerHTML = html;
-  startQuizTimer();
-}
-
-function selectAnswer(idx){
-  if(answered) return;
-  answered=true;
-  stopQuizTimer();
-  const q = currentQuestions[currentQuestionIndex];
-  document.querySelectorAll(".quiz-option").forEach(b=>b.style.pointerEvents="none");
-
-  if(idx===q.a){
-    currentScore++;
-    currentStreak++;
-    document.getElementById(`opt-${idx}`).classList.add("correct");
-    document.getElementById("quizFeedback").innerText = "✅ Correct!";
-    document.getElementById("quizFeedback").style.color="#00c864";
-    playQuizCorrect();
-    if(currentStreak===5){
-      localStorage.setItem("streakBadge","earned");
-      showToast("🔥 On Fire! 5-answer streak badge earned!","success");
-    }
-  }else{
-    currentStreak=0;
-    document.getElementById(`opt-${idx}`).classList.add("wrong");
-    document.getElementById(`opt-${q.a}`).classList.add("correct");
-    document.getElementById("quizFeedback").innerText = "❌ Wrong! Correct answer: " + q.o[q.a];
-    document.getElementById("quizFeedback").style.color="#ff5c5c";
-    playQuizWrong();
-  }
-
-  document.getElementById("quizScoreDisplay").innerText="Score: "+currentScore;
-  updateStreakDisplay();
-  document.getElementById("quizNextBtn").classList.remove("hidden");
-}
-
-function nextQuestion(){
-  currentQuestionIndex++;
-  if(currentQuestionIndex>=currentQuestions.length){
-    endQuiz();
-  }else{
-    renderQuestion();
-  }
-}
-
-async function endQuiz(){
-  stopQuizTimer();
-  const total=currentQuestions.length;
-  const pct=Math.round((currentScore/total)*100);
-
-  let emoji,title,msg;
-  if(pct>=90){ emoji="🏆"; title="Outstanding!"; msg="Perfect performance! You are a champion."; }
-  else if(pct>=70){ emoji="🌟"; title="Excellent!"; msg="Great job! You really know your stuff."; }
-  else if(pct>=50){ emoji="😊"; title="Good Job!"; msg="Well done! Keep studying to do even better."; }
-  else if(pct>=30){ emoji="📚"; title="Keep Going!"; msg="Not bad, but there's room to improve."; }
-  else{ emoji="💪"; title="Don't Give Up!"; msg="Keep practicing — everyone starts somewhere!"; }
-
-  document.getElementById("quizResultEmoji").innerText=emoji;
-  document.getElementById("quizResultTitle").innerText=title;
-  document.getElementById("quizResultMsg").innerText=msg;
-  document.getElementById("quizFinalScore").innerText=`${currentScore} / ${total}  (${pct}%)`;
-
-  const bestKey = "quizBest_"+currentLevel+"_"+currentSubject;
-  const prevBest = parseInt(localStorage.getItem(bestKey)||"0");
-  let bestMsg="";
-  if(pct>prevBest){
-    localStorage.setItem(bestKey, pct);
-    localStorage.setItem("quizBest", pct+"%  — "+currentSubject);
-    bestMsg = pct===100 ? "🎉 Perfect score!" : "⬆️ New personal best!";
-  }else if(pct===prevBest){
-    bestMsg = "Matched your best of "+prevBest+"%";
-  }else{
-    bestMsg = "Your best for this subject: "+prevBest+"%";
-  }
-  document.getElementById("quizBestMsg").innerText=bestMsg;
-
-  showQuizStep("quizResult");
-  localStorage.setItem("quizCompletedBadge","earned");
-
-  const user = window.auth.currentUser;
-  if(user){
-    const name=localStorage.getItem("studentName")||"Student";
-    try{
-      await window.addDoc(window.collection(window.db,"quizScores"),{
-        uid:user.uid, name, level:currentLevel, subject:currentSubject,
-        score:currentScore, total, pct, createdAt:new Date()
-      });
-    }catch(e){ console.log("Score save error:",e); }
-  }
-}
-
-function replayQuiz(){ selectSubject(currentSubject); }
-
-async function showLeaderboard(){
-  document.getElementById("leaderboardSubjectLabel").innerText =
-    QUIZ_DATA[currentLevel].label + " — " + currentSubject;
-  document.getElementById("leaderboardList").innerHTML="<p style='opacity:.6;'>Loading...</p>";
-  showQuizStep("quizLeaderboard");
-  try{
-    const q = window.query(
-      window.collection(window.db,"quizScores"),
-      window.where("level","==",currentLevel),
-      window.where("subject","==",currentSubject),
-      window.orderBy("pct","desc"),
-      window.limit(20)
-    );
-    const snap = await window.getDocs(q);
-    if(snap.empty){ document.getElementById("leaderboardList").innerHTML="<p style='opacity:.6;'>No scores yet. Be the first!</p>"; return; }
-    let html="", rank=0;
-    snap.forEach(d=>{
-      rank++;
-      const data=d.data();
-      const rowClass=rank===1?"top1":rank===2?"top2":rank===3?"top3":"";
-      const medal=rank===1?"🥇":rank===2?"🥈":rank===3?"🥉":"#"+rank;
-      html+=`<div class="leaderboard-row ${rowClass}">
-        <span>${medal} ${escapeHtml(data.name)}</span>
-        <span style="font-weight:bold;color:#ffd700;">${data.score}/${data.total} (${data.pct}%)</span>
-      </div>`;
-    });
-    document.getElementById("leaderboardList").innerHTML=html;
-  }catch(e){
-    document.getElementById("leaderboardList").innerHTML="<p style='color:#ff5c5c;'>Could not load leaderboard.</p>";
-  }
-}
-
-function showResultFromLeaderboard(){ showQuizStep("quizResult"); }
-function exitQuiz(){ stopQuizTimer(); backToDashboard(); }
-
-// =============================================
-// DOMContentLoaded
-// =============================================
-window.addEventListener("DOMContentLoaded", ()=>{
-  hideChatBubble();
-  hideFloatingLogout();
-
-  window.onAuthStateChanged(window.auth, async (user)=>{
-    if(user){
-      const savedPic=localStorage.getItem("profilePicture");
-      if(savedPic){
-        document.getElementById("profileImage").src=savedPic;
-        document.getElementById("profileStatus").innerText="Yes";
-      }
-      document.getElementById("currentDate").innerText=new Date().toDateString();
-      setWelcomeGreeting();
-    }
-  });
-
-  const rememberedEmail=localStorage.getItem("rememberedEmail");
-  if(rememberedEmail) document.getElementById("email").value=rememberedEmail;
-
-  loadTheme();
-  loadTextSizePref();
-  loadSoundPref();
-  loadTasks();
 });
 
 </script>
-<script src="https://replit-cdn.com/replit-pill/replit-pill.global.js" data-repl-id="24332768-3ac5-4ff4-8875-229537dac78f"></script></body>
+
+</body>
 </html>
