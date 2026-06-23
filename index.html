@@ -306,9 +306,13 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,.85);
 z-index:2000;
-display:flex;
+display:none;
 align-items:center;
 justify-content:center;
+}
+
+#picLightbox.show{
+display:flex;
 }
 
 #floatingBack{
@@ -337,7 +341,7 @@ background:#000;
 <button id="floatingBack" class="hidden" onclick="backToDashboard()">← Back</button>
 <button id="floatingLogout" class="hidden btn-danger" onclick="logout()">Logout</button>
 
-<div id="picLightbox" class="hidden" onclick="closeLightbox()">
+<div id="picLightbox" onclick="closeLightbox()">
 <img id="lightboxImage" style="max-width:90%;max-height:90%;border-radius:10px;">
 </div>
 
@@ -926,13 +930,13 @@ function viewProfilePicture(){
 document.getElementById("lightboxImage").src =
 document.getElementById("profileImage").src;
 
-document.getElementById("picLightbox").classList.remove("hidden");
+document.getElementById("picLightbox").classList.add("show");
 
 }
 
 function closeLightbox(){
 
-document.getElementById("picLightbox").classList.add("hidden");
+document.getElementById("picLightbox").classList.remove("show");
 
 }
 
