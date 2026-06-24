@@ -1,8 +1,14 @@
 // Minimal service worker for Adeka Academy Hub.
 // Two jobs: (1) makes the site "installable" as an app on phones/desktops,
-// (2) caches the app shell so it opens even with a flaky connection.
-// Live data (Firestore, chat, quiz scores) still needs the internet —
-// only the app's own files are cached here.
+// (2) lets the app still open if someone's offline.
+//
+// IMPORTANT: this uses a "network-first" strategy — every time there's
+// an internet connection, it always fetches the latest version from
+// GitHub first (so your updates show up immediately for everyone with
+// the app installed). It only falls back to the last-saved copy when
+// there's genuinely no connection. Live data (Firestore, chat, quiz
+// scores) still needs the internet regardless — only the app's own
+// files are cached here.
 
 const CACHE_NAME = "adeka-academy-hub-v1";
 const ASSETS_TO_CACHE = [
@@ -31,6 +37,12 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    fetch(event.request)
+      .then((response) => {
+        const responseClone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
