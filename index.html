@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adeka Academy Hub</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#062a54">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Adeka Hub">
 <style>
 *{
 margin:0;
@@ -286,6 +293,36 @@ padding:0;
 margin:0;
 }
 
+#floatingNotesBtn{
+position:fixed;
+bottom:20px;
+left:20px;
+width:60px;
+height:60px;
+border-radius:16px;
+font-size:26px;
+z-index:1000;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+padding:0;
+margin:0;
+background:#2dd4bf;
+}
+
+#floatingAudioBtn{
+position:fixed;
+bottom:90px;
+left:20px;
+width:60px;
+height:60px;
+border-radius:16px;
+font-size:26px;
+z-index:1000;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+padding:0;
+margin:0;
+background:#f472b6;
+}
+
 #floatingLogout{
 position:fixed;
 top:20px;
@@ -313,6 +350,32 @@ justify-content:center;
 
 #picLightbox.show{
 display:flex;
+}
+
+.floatingSquareBtn{
+position:fixed;
+width:56px;
+height:56px;
+border-radius:14px;
+font-size:22px;
+z-index:1000;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+padding:0;
+margin:0;
+line-height:56px;
+text-align:center;
+}
+
+#floatingNotes{
+bottom:90px;
+left:20px;
+background:rgba(45,212,191,.9);
+}
+
+#floatingAudio{
+bottom:20px;
+left:20px;
+background:rgba(244,114,182,.9);
 }
 
 #floatingBack{
@@ -346,6 +409,11 @@ background:#000;
 </div>
 
 <button id="chatBubble" class="hidden" onclick="toggleChatPanel()">💬</button>
+<button id="floatingNotesBtn" class="hidden" onclick="openNotes()" title="Notes">📝</button>
+<button id="floatingAudioBtn" class="hidden" onclick="openAudioLessons()" title="Audio Room">🎧</button>
+
+<button id="floatingNotes" class="hidden floatingSquareBtn" onclick="openNotes()" title="Notes">📝</button>
+<button id="floatingAudio" class="hidden floatingSquareBtn" onclick="openAudioLessons()" title="Audio Room">🎧</button>
 
 <div id="chatPanel">
   <div style="padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center;">
@@ -401,42 +469,34 @@ Forgot Password?
 
 <div id="dashboard" class="hidden">
 
-<div id="profileSection" class="card hidden">
+<div id="profileSection" class="card hidden" style="text-align:center;">
 
 <h2>My Profile</h2>
-
-<p><strong>Name:</strong>
-<span id="profileName"></span>
-</p>
-<p><strong>Email:</strong>
-<span id="profileEmail"></span>
-</p>
-<br>
-
-<label for="profilePic" class="btn-secondary" style="display:inline-block;text-align:center;cursor:pointer;width:100%;padding:15px;margin:10px 0;border-radius:10px;">
-📷 Upload Profile Picture
-</label>
-<input
-type="file"
-id="profilePic"
-onchange="saveProfilePicture(event)"
-style="display:none;">
 
 <img
 id="profileImage"
 onclick="viewProfilePicture()"
 src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' fill='%23ffd700'/><circle cx='60' cy='46' r='22' fill='%23062a54'/><path d='M16 112 Q60 74 104 112 Z' fill='%23062a54'/></svg>"
 style="
-width:120px;
-height:120px;
+width:130px;
+height:130px;
 border-radius:50%;
-margin-top:15px;
+margin:18px auto 20px;
 display:block;
 border:3px solid #ffd700;
 box-shadow:0 4px 16px rgba(0,0,0,.45);
 object-fit:cover;
 cursor:pointer;
 ">
+
+<p style="font-size:1.3rem;"><strong>Name:</strong>
+<span id="profileName"></span>
+</p>
+<p style="font-size:1.1rem;opacity:.9;margin-top:5px;"><strong>Email:</strong>
+<span id="profileEmail"></span>
+</p>
+
+<p style="opacity:.7;font-size:.85rem;margin-top:15px;">📷 Want a new picture? Find it under ⚙️ Settings.</p>
 
 </div>
 
@@ -470,32 +530,39 @@ cursor:pointer;
 ☰ Menu
 </button>
 <p id="currentDate"></p>
+
+<div id="greetingBanner" style="margin-top:20px;">
+<h3 id="greetingText" style="font-size:1.4rem;"></h3>
+<p id="streakText" style="opacity:.85;margin-top:5px;"></p>
+<p id="quoteText" style="opacity:.75;font-style:italic;margin-top:10px;font-size:.9rem;"></p>
+</div>
+
 <div class="grid">
 <div class="box" onclick="openAITutor()">
-📚
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(167,139,250,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📚</div>
 <h3>AI Tutor</h3>
 <p>Powered by Adeka AI</p>
 </div>
 <div class="box" onclick="openMeetingCenter()">
-🎥
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(251,146,60,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎥</div>
 <h3>Meeting Center</h3>
 <p>Join classes and meetings</p>
 </div>
 
 <div class="box" onclick="openNotes()">
-📝
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(45,212,191,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📝</div>
 <h3>Notes</h3>
 <p>Create and save notes</p>
 </div>
 
 <div class="box" onclick="openAudioLessons()">
-🎧
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(244,114,182,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎧</div>
 <h3>Audio Lessons</h3>
 <p>Learn anywhere</p>
 </div>
 
 <div class="box" onclick="openQuiz()">
-🎮
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(74,222,128,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎮</div>
 <h3>Quiz Challenge</h3>
 <p>Test yourself & compete globally</p>
 </div>
@@ -799,6 +866,16 @@ and continuous learning are keys to success.
 <script type="module" src="firebase-config.js"></script>
 
 <script>
+if("serviceWorker" in navigator){
+window.addEventListener("load", () => {
+navigator.serviceWorker.register("sw.js").catch((err) => {
+console.log("Service worker registration failed:", err);
+});
+});
+}
+</script>
+
+<script>
 
 async function register(){
 
@@ -855,6 +932,8 @@ document.getElementById("dashboardHome").classList.remove("hidden");
 showChatBubble();
 startChatListener();
 showLogoutButton();
+showQuickAccessButtons();
+renderGreeting();
 
 window.scrollTo({
     top: 0,
@@ -925,6 +1004,20 @@ document.getElementById("floatingLogout").classList.add("hidden");
 
 }
 
+function showQuickAccessButtons(){
+
+document.getElementById("floatingNotes").classList.remove("hidden");
+document.getElementById("floatingAudio").classList.remove("hidden");
+
+}
+
+function hideQuickAccessButtons(){
+
+document.getElementById("floatingNotes").classList.add("hidden");
+document.getElementById("floatingAudio").classList.add("hidden");
+
+}
+
 function viewProfilePicture(){
 
 document.getElementById("lightboxImage").src =
@@ -950,6 +1043,8 @@ let chatUnsubscribe = null;
 function showChatBubble(){
 
 document.getElementById("chatBubble").classList.remove("hidden");
+document.getElementById("floatingNotesBtn").classList.remove("hidden");
+document.getElementById("floatingAudioBtn").classList.remove("hidden");
 
 }
 
@@ -957,6 +1052,8 @@ function hideChatBubble(){
 
 document.getElementById("chatBubble").classList.add("hidden");
 document.getElementById("chatPanel").classList.remove("show");
+document.getElementById("floatingNotesBtn").classList.add("hidden");
+document.getElementById("floatingAudioBtn").classList.add("hidden");
 
 }
 
@@ -1279,6 +1376,8 @@ document.getElementById("dashboardHome")
 showChatBubble();
 startChatListener();
 showLogoutButton();
+showQuickAccessButtons();
+renderGreeting();
   const savedPic =
 localStorage.getItem("profilePicture");
 
@@ -1343,6 +1442,7 @@ document.getElementById("auth")
 hideAllSections();
 hideBackButton();
 hideLogoutButton();
+hideQuickAccessButtons();
 leaveMeeting();
 leaveAudioRoom();
 hideChatBubble();
@@ -1449,21 +1549,48 @@ subjects: {
 { q: "Simplify: 3x + 5x", options: ["8x","15x","8x\u00b2","53x"], answer: 0 },
 { q: "What is 7 \u00d7 8?", options: ["54","56","64","49"], answer: 1 },
 { q: "Which of these is a prime number?", options: ["9","15","17","21"], answer: 2 },
-{ q: "What is half of 90?", options: ["40","45","50","55"], answer: 1 }
+{ q: "What is half of 90?", options: ["40","45","50","55"], answer: 1 },
+{ q: "What is 12 \u00d7 12?", options: ["120","144","132","154"], answer: 1 },
+{ q: "Which of these numbers is even?", options: ["15","22","33","41"], answer: 1 },
+{ q: "What is 100 \u00f7 4?", options: ["20","25","30","40"], answer: 1 },
+{ q: "What is the perimeter of a square with side 5cm?", options: ["15cm","20cm","25cm","10cm"], answer: 1 },
+{ q: "Which of these decimals is the smallest?", options: ["0.5","0.05","0.55","They are equal"], answer: 1 }
 ],
 "English Language": [
 { q: "Choose the correct spelling.", options: ["Recieve","Receive","Receeve","Receve"], answer: 1 },
 { q: "What is the plural of \"child\"?", options: ["Childs","Childes","Children","Childrens"], answer: 2 },
 { q: "Identify the noun in: \"The dog barked loudly.\"", options: ["barked","loudly","dog","the"], answer: 2 },
 { q: "Choose the synonym for \"happy\".", options: ["Sad","Joyful","Angry","Tired"], answer: 1 },
-{ q: "Which sentence is correct?", options: ["She is went to school.","She go to school.","She goes to school.","She going to school."], answer: 2 }
+{ q: "Which sentence is correct?", options: ["She is went to school.","She go to school.","She goes to school.","She going to school."], answer: 2 },
+{ q: "Choose the correct article: \"___ apple a day keeps the doctor away.\"", options: ["A","An","The","No article"], answer: 1 },
+{ q: "What is the past tense of \"go\"?", options: ["Goed","Gone","Went","Going"], answer: 2 },
+{ q: "Identify the verb in: \"She sings beautifully.\"", options: ["She","sings","beautifully","(none)"], answer: 1 },
+{ q: "Choose the correct word: \"There ___ many students in the hall.\"", options: ["is","was","were","be"], answer: 2 },
+{ q: "What is the opposite of \"difficult\"?", options: ["Hard","Easy","Tough","Complex"], answer: 1 }
 ],
 "Integrated Science": [
 { q: "What gas do plants absorb from the air for photosynthesis?", options: ["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"], answer: 2 },
 { q: "The human body has how many lungs?", options: ["1","2","3","4"], answer: 1 },
 { q: "Water boils at what temperature (\u00b0C) at sea level?", options: ["50","90","100","120"], answer: 2 },
 { q: "Which organ pumps blood around the body?", options: ["Liver","Heart","Kidney","Lungs"], answer: 1 },
-{ q: "What is the process by which plants make food called?", options: ["Respiration","Digestion","Photosynthesis","Evaporation"], answer: 2 }
+{ q: "What is the process by which plants make food called?", options: ["Respiration","Digestion","Photosynthesis","Evaporation"], answer: 2 },
+{ q: "Which of these is a renewable source of energy?", options: ["Coal","Solar","Natural gas","Petroleum"], answer: 1 },
+{ q: "What do we call animals that eat only plants?", options: ["Carnivores","Herbivores","Omnivores","Predators"], answer: 1 },
+{ q: "Which part of a plant absorbs water from the soil?", options: ["Leaf","Stem","Root","Flower"], answer: 2 },
+{ q: "What is the freezing point of water in Celsius?", options: ["0","10","32","100"], answer: 0 },
+{ q: "Which gas do humans breathe in for survival?", options: ["Carbon dioxide","Oxygen","Nitrogen","Hydrogen"], answer: 1 }
+],
+"Social Studies": [
+{ q: "What is the capital city of Ghana?", options: ["Kumasi","Accra","Takoradi","Ho"], answer: 1 },
+{ q: "Which of these is a branch of government?", options: ["Executive","Market","Factory","School"], answer: 0 },
+{ q: "What do we call a person who leads a country as Head of State?", options: ["Minister","President","Governor","Mayor"], answer: 1 },
+{ q: "Which continent is Ghana located in?", options: ["Asia","Africa","Europe","South America"], answer: 1 },
+{ q: "What is the main purpose of the United Nations?", options: ["Trade only","Promote peace and cooperation","Sell goods","Build roads"], answer: 1 },
+{ q: "Which document contains the laws of a country?", options: ["Newspaper","Constitution","Dictionary","Novel"], answer: 1 },
+{ q: "What do we call the buying and selling of goods between countries?", options: ["Tourism","Trade","Farming","Mining"], answer: 1 },
+{ q: "Who is responsible for making laws in a democracy?", options: ["Judges","Police","Parliament","Teachers"], answer: 2 },
+{ q: "What is a community?", options: ["A single person","A group of people living together","A type of food","A building"], answer: 1 },
+{ q: "Which of these promotes good citizenship?", options: ["Littering","Obeying laws","Avoiding taxes","Ignoring rules"], answer: 1 }
 ]
 }
 },
@@ -1475,21 +1602,48 @@ subjects: {
 { q: "What is the value of 5\u00b2?", options: ["10","15","20","25"], answer: 3 },
 { q: "Simplify: (3 + 4) \u00d7 2", options: ["11","14","10","12"], answer: 1 },
 { q: "What is the gradient of a horizontal line?", options: ["1","Undefined","0","-1"], answer: 2 },
-{ q: "Convert 0.75 to a fraction.", options: ["3/4","7/5","1/4","3/5"], answer: 0 }
+{ q: "Convert 0.75 to a fraction.", options: ["3/4","7/5","1/4","3/5"], answer: 0 },
+{ q: "What is the value of 2\u00b3?", options: ["6","8","9","12"], answer: 1 },
+{ q: "Solve: 3(x - 2) = 9", options: ["x=3","x=5","x=4","x=7"], answer: 1 },
+{ q: "What is the sum of angles in a triangle?", options: ["90\u00b0","180\u00b0","270\u00b0","360\u00b0"], answer: 1 },
+{ q: "What is 20% of 150?", options: ["20","30","25","35"], answer: 1 },
+{ q: "Which of these is an irrational number?", options: ["1/2","0.75","\u221a2","4"], answer: 2 }
 ],
 "English Language": [
 { q: "Choose the correct form: \"He ___ to school every day.\"", options: ["go","goes","going","gone"], answer: 1 },
 { q: "What part of speech is the word \"quickly\"?", options: ["Noun","Verb","Adjective","Adverb"], answer: 3 },
 { q: "Identify the antonym of \"generous\".", options: ["Kind","Selfish","Caring","Giving"], answer: 1 },
 { q: "Which word is spelled correctly?", options: ["Definately","Definitely","Definitly","Definatly"], answer: 1 },
-{ q: "Choose the correctly punctuated sentence.", options: ["Let's eat, she said.","Lets eat, she said.","Let's eat she said.","Lets, eat she said."], answer: 0 }
+{ q: "Choose the correctly punctuated sentence.", options: ["Let's eat, she said.","Lets eat, she said.","Let's eat she said.","Lets, eat she said."], answer: 0 },
+{ q: "Identify the correct plural form of \"analysis\".", options: ["Analysises","Analyses","Analysis's","Analysies"], answer: 1 },
+{ q: "Choose the correct conjunction: \"I stayed home ___ it was raining.\"", options: ["and","but","because","or"], answer: 2 },
+{ q: "What is a metaphor?", options: ["A comparison using 'like' or 'as'","A comparison without using 'like' or 'as'","A type of rhyme","A question"], answer: 1 },
+{ q: "Which sentence uses correct subject-verb agreement?", options: ["The team is playing well.","The team are playing well.","The team be playing well.","The team playing well."], answer: 0 },
+{ q: "What is the term for a word that sounds the same as another but has a different meaning?", options: ["Synonym","Antonym","Homophone","Acronym"], answer: 2 }
 ],
 "Science": [
 { q: "What is the chemical symbol for water?", options: ["H2O","O2","CO2","HO2"], answer: 0 },
 { q: "Which part of the cell controls its activities?", options: ["Cytoplasm","Nucleus","Membrane","Mitochondria"], answer: 1 },
 { q: "What force pulls objects toward the Earth?", options: ["Magnetism","Friction","Gravity","Tension"], answer: 2 },
 { q: "What is the powerhouse of the cell?", options: ["Nucleus","Ribosome","Mitochondria","Golgi body"], answer: 2 },
-{ q: "Sound travels fastest through:", options: ["Air","Water","Vacuum","Solids"], answer: 3 }
+{ q: "Sound travels fastest through:", options: ["Air","Water","Vacuum","Solids"], answer: 3 },
+{ q: "What is the unit of electrical resistance?", options: ["Volt","Ampere","Ohm","Watt"], answer: 2 },
+{ q: "Which organ filters blood to produce urine?", options: ["Liver","Kidney","Heart","Stomach"], answer: 1 },
+{ q: "What type of energy is stored in food?", options: ["Kinetic","Potential","Chemical","Nuclear"], answer: 2 },
+{ q: "Which of these is an example of a chemical change?", options: ["Melting ice","Burning wood","Boiling water","Cutting paper"], answer: 1 },
+{ q: "What is the pH of a neutral substance?", options: ["0","7","14","10"], answer: 1 }
+],
+"Social Studies": [
+{ q: "What is democracy?", options: ["Rule by one person","Government by the people","Rule by the military","Rule by the wealthy"], answer: 1 },
+{ q: "What is the role of the judiciary in government?", options: ["Make laws","Interpret and apply laws","Collect taxes","Build infrastructure"], answer: 1 },
+{ q: "What term describes movement of people from rural to urban areas?", options: ["Emigration","Urbanization","Immigration","Globalization"], answer: 1 },
+{ q: "Which organization is Ghana a founding member of in Africa?", options: ["European Union","African Union","NATO","ASEAN"], answer: 1 },
+{ q: "What is the term for a country's income from taxes used for public services?", options: ["Profit","Revenue","Loan","Debt"], answer: 1 },
+{ q: "What does GDP stand for?", options: ["Gross Domestic Product","General Development Plan","Government Defense Policy","Global Demographic Profile"], answer: 0 },
+{ q: "Which of these is a human right?", options: ["Right to education","Right to steal","Right to harm others","Right to ignore laws"], answer: 0 },
+{ q: "What is the term for a system where power is shared between national and regional governments?", options: ["Unitary system","Federal system","Monarchy","Dictatorship"], answer: 1 },
+{ q: "Who is the current head of the Ghanaian government typically called?", options: ["Prime Minister","President","Chancellor","Governor-General"], answer: 1 },
+{ q: "What is the main goal of sustainable development?", options: ["Maximize profit only","Meet present needs without harming future generations","Increase pollution","Reduce population"], answer: 1 }
 ]
 }
 },
@@ -1501,21 +1655,48 @@ subjects: {
 { q: "What is the integral of 2x dx?", options: ["x\u00b2 + C","2x\u00b2 + C","x + C","x\u00b2/2 + C"], answer: 0 },
 { q: "What is the value of \u03c0 (to 2 decimal places)?", options: ["3.14","3.41","3.12","3.16"], answer: 0 },
 { q: "A matrix with equal rows and columns is called:", options: ["Rectangular","Square","Diagonal","Identity"], answer: 1 },
-{ q: "What is log\u2081\u2080(100)?", options: ["1","2","10","100"], answer: 1 }
+{ q: "What is log\u2081\u2080(100)?", options: ["1","2","10","100"], answer: 1 },
+{ q: "What is the derivative of sin(x)?", options: ["cos(x)","-cos(x)","-sin(x)","sin(x)"], answer: 0 },
+{ q: "What is the value of 0! (zero factorial)?", options: ["0","1","Undefined","-1"], answer: 1 },
+{ q: "Which describes a function with no inverse over its full domain?", options: ["A bijective function","A one-to-one function","A many-to-one function","A linear function"], answer: 2 },
+{ q: "What is the sum of the first 5 natural numbers (1 to 5)?", options: ["10","15","20","25"], answer: 1 },
+{ q: "In a right triangle, which theorem relates the sides?", options: ["Pythagorean theorem","Binomial theorem","Bayes' theorem","Fermat's theorem"], answer: 0 }
 ],
 "Computer Science": [
 { q: "What does CPU stand for?", options: ["Central Process Unit","Central Processing Unit","Computer Personal Unit","Central Processor Utility"], answer: 1 },
 { q: "Which data structure uses LIFO (Last In, First Out)?", options: ["Queue","Stack","Array","Tree"], answer: 1 },
 { q: "What does HTML stand for?", options: ["HyperText Markup Language","HighText Machine Language","HyperText Markdown Language","HyperTransfer Markup Language"], answer: 0 },
 { q: "What is the time complexity of binary search?", options: ["O(n)","O(n\u00b2)","O(log n)","O(1)"], answer: 2 },
-{ q: "Which of these is NOT a programming language?", options: ["Python","HTML","Java","Photoshop"], answer: 3 }
+{ q: "Which of these is NOT a programming language?", options: ["Python","HTML","Java","Photoshop"], answer: 3 },
+{ q: "What does RAM stand for?", options: ["Random Access Memory","Read Access Memory","Run Active Memory","Random Active Module"], answer: 0 },
+{ q: "Which of these is an object-oriented programming concept?", options: ["Inheritance","Compilation","Indexing","Looping"], answer: 0 },
+{ q: "What does SQL stand for?", options: ["Structured Query Language","Simple Query Logic","Structured Question Language","System Query Language"], answer: 0 },
+{ q: "Which sorting algorithm has the best average-case time complexity?", options: ["Bubble Sort","Quick Sort","Selection Sort","Insertion Sort"], answer: 1 },
+{ q: "What does the acronym \"API\" stand for?", options: ["Application Programming Interface","Advanced Programming Instruction","Applied Process Integration","Automated Program Interaction"], answer: 0 }
 ],
 "General Knowledge": [
 { q: "What is the capital of Ghana?", options: ["Kumasi","Accra","Tamale","Cape Coast"], answer: 1 },
 { q: "Which planet is known as the Red Planet?", options: ["Earth","Mars","Jupiter","Venus"], answer: 1 },
 { q: "What is the largest continent by area?", options: ["Africa","Asia","Europe","Antarctica"], answer: 1 },
 { q: "How many continents are there?", options: ["5","6","7","8"], answer: 2 },
-{ q: "Which is the longest river in the world?", options: ["Nile","Amazon","Yangtze","Mississippi"], answer: 0 }
+{ q: "Which is the longest river in the world?", options: ["Nile","Amazon","Yangtze","Mississippi"], answer: 0 },
+{ q: "Who proposed the theory of relativity?", options: ["Isaac Newton","Albert Einstein","Stephen Hawking","Niels Bohr"], answer: 1 },
+{ q: "What is the smallest unit of life?", options: ["Atom","Cell","Tissue","Organ"], answer: 1 },
+{ q: "Which gas makes up the majority of Earth's atmosphere?", options: ["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"], answer: 2 },
+{ q: "What year did Ghana gain independence?", options: ["1957","1960","1963","1966"], answer: 0 },
+{ q: "What is the currency of Ghana?", options: ["Naira","Cedi","Franc","Dollar"], answer: 1 }
+],
+"Biology": [
+{ q: "What is the basic unit of heredity?", options: ["Cell","Gene","Atom","Tissue"], answer: 1 },
+{ q: "What process do cells use to divide and produce identical copies?", options: ["Meiosis","Mitosis","Osmosis","Diffusion"], answer: 1 },
+{ q: "Which molecule primarily carries genetic information?", options: ["RNA","DNA","ATP","Protein"], answer: 1 },
+{ q: "What is the function of mitochondria?", options: ["Protein synthesis","Energy production","Waste removal","Cell division"], answer: 1 },
+{ q: "What is photosynthesis primarily used to produce?", options: ["Oxygen and glucose","Carbon dioxide and water","Nitrogen and protein","Salt and minerals"], answer: 0 },
+{ q: "Which kingdom do bacteria belong to?", options: ["Animalia","Plantae","Fungi","Monera"], answer: 3 },
+{ q: "What is the term for an organism's complete set of DNA?", options: ["Genome","Phenotype","Genotype","Chromosome"], answer: 0 },
+{ q: "Which blood type is considered the universal donor?", options: ["A","B","AB","O negative"], answer: 3 },
+{ q: "What is homeostasis?", options: ["Cell division","Maintaining a stable internal environment","Reproduction","Mutation"], answer: 1 },
+{ q: "Which structure controls what enters and leaves a cell?", options: ["Nucleus","Cell membrane","Cytoplasm","Ribosome"], answer: 1 }
 ]
 }
 }
@@ -1938,6 +2119,72 @@ alert(error.message);
 
 }
 
+// ---- Dashboard greeting, study streak & daily quote ----
+// A small "learning platform" touch — nothing here needs the internet,
+// it's all computed from localStorage and the current date.
+
+const DAILY_QUOTES = [
+"Small steps every day lead to big results.",
+"You don't have to be perfect, just consistent.",
+"Every question you ask makes you smarter.",
+"Mistakes are proof that you're trying.",
+"Believe in yourself — you're capable of amazing things.",
+"Discipline today, success tomorrow.",
+"Learning never exhausts the mind.",
+"Stay curious. Stay growing."
+];
+
+function getQuoteOfTheDay(){
+
+const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+return DAILY_QUOTES[dayIndex % DAILY_QUOTES.length];
+
+}
+
+function updateStudyStreak(){
+
+const today = new Date().toDateString();
+const lastVisit = localStorage.getItem("lastVisitDate");
+let streak = parseInt(localStorage.getItem("studyStreak") || "0", 10);
+
+if(lastVisit !== today){
+
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+
+if(lastVisit === yesterday.toDateString()){
+streak++;
+}else{
+streak = 1;
+}
+
+localStorage.setItem("lastVisitDate", today);
+localStorage.setItem("studyStreak", streak.toString());
+
+}
+
+return streak;
+
+}
+
+function renderGreeting(){
+
+const name = localStorage.getItem("studentName") || "Student";
+const firstName = name.split(" ")[0];
+
+const streak = updateStudyStreak();
+
+document.getElementById("greetingText").innerText =
+"👋 Welcome back, " + firstName + "!";
+
+document.getElementById("streakText").innerText =
+"🔥 " + streak + " day" + (streak === 1 ? "" : "s") + " study streak";
+
+document.getElementById("quoteText").innerText =
+"💡 " + getQuoteOfTheDay();
+
+}
+
 function backToDashboard(){
 
 hideAllSections();
@@ -1946,6 +2193,7 @@ closeMenu();
 hideBackButton();
 leaveMeeting();
 leaveAudioRoom();
+renderGreeting();
 
 }
 
@@ -2090,19 +2338,19 @@ document.getElementById("badgesSection")
 showBackButton();
 
 let html =
-`<div class="box"><div style="font-size:2rem;">🎉</div><h3>Account Created</h3></div>`;
+`<div class="box"><div style="width:54px;height:54px;border-radius:50%;background:rgba(255,215,0,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎉</div><h3>Account Created</h3></div>`;
 
 if(localStorage.getItem("profileBadge")){
 
 html +=
-`<div class="box"><div style="font-size:2rem;">📸</div><h3>Profile Master</h3></div>`;
+`<div class="box"><div style="width:54px;height:54px;border-radius:50%;background:rgba(96,165,250,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📸</div><h3>Profile Master</h3></div>`;
 
 }
 
 if(localStorage.getItem("firstNoteBadge")){
 
 html +=
-`<div class="box"><div style="font-size:2rem;">📝</div><h3>First Note Created</h3></div>`;
+`<div class="box"><div style="width:54px;height:54px;border-radius:50%;background:rgba(45,212,191,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📝</div><h3>First Note Created</h3></div>`;
 
 }
 
@@ -2484,6 +2732,7 @@ window.addEventListener("DOMContentLoaded", () => {
 // Safety net: the chat bubble/panel should never be visible on the
 // login screen. This guarantees a clean state on every fresh page load.
 hideChatBubble();
+hideQuickAccessButtons();
 
 window.onAuthStateChanged(window.auth, async (user) => {
 
