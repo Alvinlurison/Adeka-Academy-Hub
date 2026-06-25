@@ -293,39 +293,9 @@ padding:0;
 margin:0;
 }
 
-#floatingNotesBtn{
-position:fixed;
-bottom:20px;
-left:20px;
-width:60px;
-height:60px;
-border-radius:16px;
-font-size:26px;
-z-index:1000;
-box-shadow:0 4px 14px rgba(0,0,0,.45);
-padding:0;
-margin:0;
-background:#2dd4bf;
-}
-
-#floatingAudioBtn{
-position:fixed;
-bottom:90px;
-left:20px;
-width:60px;
-height:60px;
-border-radius:16px;
-font-size:26px;
-z-index:1000;
-box-shadow:0 4px 14px rgba(0,0,0,.45);
-padding:0;
-margin:0;
-background:#f472b6;
-}
-
 #floatingLogout{
 position:fixed;
-top:20px;
+top:90px;
 right:20px;
 width:auto;
 padding:10px 20px;
@@ -333,6 +303,45 @@ z-index:1000;
 border-radius:30px;
 box-shadow:0 4px 14px rgba(0,0,0,.45);
 margin:0;
+}
+
+#helpBtn{
+position:fixed;
+top:20px;
+right:20px;
+width:50px;
+height:50px;
+border-radius:50%;
+font-size:22px;
+z-index:1300;
+padding:0;
+margin:0;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+}
+
+#helpModal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+z-index:1400;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+#helpModal.show{
+display:flex;
+}
+
+#helpModal .card{
+max-width:480px;
+max-height:80vh;
+overflow-y:auto;
+text-align:left;
 }
 
 #picLightbox{
@@ -378,6 +387,12 @@ left:20px;
 background:rgba(244,114,182,.9);
 }
 
+#floatingQuiz{
+bottom:160px;
+left:20px;
+background:rgba(74,222,128,.9);
+}
+
 #floatingBack{
 position:fixed;
 top:20px;
@@ -403,17 +418,44 @@ background:#000;
 <div class="container">
 <button id="floatingBack" class="hidden" onclick="backToDashboard()">← Back</button>
 <button id="floatingLogout" class="hidden btn-danger" onclick="logout()">Logout</button>
+<button id="helpBtn" onclick="toggleHelp()" title="Help">❓</button>
+
+<div id="helpModal">
+  <div class="card">
+    <h2>❓ Help & Getting Started</h2>
+
+    <h3 style="margin-top:20px;">Creating Your Account</h3>
+    <p style="margin-top:8px;">
+    1. Enter your Full Name, Email, and a Password.<br>
+    2. Tap "Create Account".<br>
+    3. You're in — your dashboard loads right away.
+    </p>
+
+    <h3 style="margin-top:20px;">Logging In Again</h3>
+    <p style="margin-top:8px;">
+    1. Enter the same Email and Password you signed up with.<br>
+    2. Tick "Remember Me" so your email is saved for next time.<br>
+    3. Tap "Login".
+    </p>
+
+    <h3 style="margin-top:20px;">Changing Your Profile Picture</h3>
+    <p style="margin-top:8px;">
+    Open the ☰ Menu → ⚙️ Settings → "Choose New Picture".
+    </p>
+
+    <button class="btn-secondary" onclick="toggleHelp()" style="margin-top:20px;">Close</button>
+  </div>
+</div>
 
 <div id="picLightbox" onclick="closeLightbox()">
 <img id="lightboxImage" style="max-width:90%;max-height:90%;border-radius:10px;">
 </div>
 
 <button id="chatBubble" class="hidden" onclick="toggleChatPanel()">💬</button>
-<button id="floatingNotesBtn" class="hidden" onclick="openNotes()" title="Notes">📝</button>
-<button id="floatingAudioBtn" class="hidden" onclick="openAudioLessons()" title="Audio Room">🎧</button>
 
 <button id="floatingNotes" class="hidden floatingSquareBtn" onclick="openNotes()" title="Notes">📝</button>
 <button id="floatingAudio" class="hidden floatingSquareBtn" onclick="openAudioLessons()" title="Audio Room">🎧</button>
+<button id="floatingQuiz" class="hidden floatingSquareBtn" onclick="openQuiz()" title="Quiz Challenge">🎮</button>
 
 <div id="chatPanel">
   <div style="padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center;">
@@ -450,6 +492,7 @@ type="text"
 id="fullName"
 placeholder="Full Name">
 <input type="email" id="email" placeholder="Email Address">
+<input type="tel" id="phoneNumber" placeholder="Phone Number (e.g. 0207276292)">
 <input type="password" id="password" placeholder="Password">
 <label>
 <input type="checkbox" id="rememberMe">
@@ -495,8 +538,6 @@ cursor:pointer;
 <p style="font-size:1.1rem;opacity:.9;margin-top:5px;"><strong>Email:</strong>
 <span id="profileEmail"></span>
 </p>
-
-<p style="opacity:.7;font-size:.85rem;margin-top:15px;">📷 Want a new picture? Find it under ⚙️ Settings.</p>
 
 </div>
 
@@ -565,6 +606,12 @@ cursor:pointer;
 <div style="width:54px;height:54px;border-radius:50%;background:rgba(74,222,128,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎮</div>
 <h3>Quiz Challenge</h3>
 <p>Test yourself & compete globally</p>
+</div>
+
+<div class="box" onclick="openMessages()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(96,165,250,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">💬</div>
+<h3>Messages</h3>
+<p>Chat 1-on-1 or in groups</p>
 </div>
 
 </div> <!-- end grid -->
@@ -724,6 +771,13 @@ Leave Audio Room
 </div>
 
 <div style="margin-top:25px;">
+<p style="margin-bottom:8px;">📞 Phone Number</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Lets friends find you to start a chat. Yours: <strong id="currentPhoneDisplay">Not set</strong></p>
+<input id="phoneNumberSettings" placeholder="Enter phone number">
+<button onclick="updatePhoneNumber()">Save Phone Number</button>
+</div>
+
+<div style="margin-top:25px;">
 <p style="margin-bottom:8px;">🔊 Read My Notes Aloud</p>
 <button onclick="readNotesAloud()">▶️ Start Reading</button>
 <button class="btn-secondary" onclick="stopReadingNotes()">⏹️ Stop Reading</button>
@@ -773,7 +827,68 @@ Leave Audio Room
 <div id="quizLeaderboard" class="hidden">
 <button class="btn-secondary" onclick="showQuizScreen('quizResults')">← Back</button>
 <h3 style="margin:15px 0;">🏆 Leaderboard — <span id="leaderboardSubjectName"></span></h3>
+<p style="opacity:.6;font-size:.8rem;margin-bottom:10px;">Refreshes automatically every 30 seconds</p>
 <div id="leaderboardList"></div>
+</div>
+
+</div>
+
+<div id="messagesSection" class="card hidden">
+
+<h2>💬 Messages</h2>
+
+<div id="conversationListView">
+
+<div style="display:flex;gap:10px;">
+<button style="flex:1;" onclick="showNewChatSearch()">+ New Chat</button>
+<button class="btn-secondary" style="flex:1;" onclick="showNewGroupSetup()">+ New Group</button>
+</div>
+
+<div id="conversationList" style="margin-top:20px;"></div>
+
+</div>
+
+<div id="newChatSearchView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+<h3 style="margin:15px 0;">Start a New Chat</h3>
+
+<input id="searchEmailInput" placeholder="Enter their email or phone number">
+<button onclick="searchUserAndStartChat()">Search & Start Chat</button>
+
+<p id="searchStatus" style="margin-top:10px;opacity:.85;"></p>
+
+</div>
+
+<div id="newGroupSetupView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+<h3 style="margin:15px 0;">Create a Group</h3>
+
+<input id="groupNameInput" placeholder="Group name">
+<input id="groupMemberEmailInput" placeholder="Add member by email or phone">
+<button class="btn-secondary" onclick="addGroupMember()">Add Member</button>
+
+<div id="groupMembersList" style="margin:10px 0;"></div>
+
+<button onclick="createGroup()">Create Group</button>
+
+<p id="groupStatus" style="margin-top:10px;opacity:.85;"></p>
+
+</div>
+
+<div id="chatThreadView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+<h3 id="chatThreadTitle" style="margin:15px 0;"></h3>
+
+<div id="threadMessages" style="height:350px;overflow-y:auto;background:rgba(255,255,255,.06);border-radius:10px;padding:15px;"></div>
+
+<div style="display:flex;gap:8px;margin-top:10px;">
+<input id="threadInput" placeholder="Type a message..." style="margin:0;flex:1;" onkeyup="if(event.key==='Enter') sendThreadMessage();">
+<button onclick="sendThreadMessage()" style="width:auto;margin:0;">Send</button>
+</div>
+
 </div>
 
 </div>
@@ -892,6 +1007,9 @@ document.getElementById("fullName").value;
 const email =
 document.getElementById("email").value;
 
+const phoneNumber =
+document.getElementById("phoneNumber").value.trim();
+
 const password =
 document.getElementById("password").value;
 
@@ -914,7 +1032,8 @@ user.uid
 ),
 {
 fullName: fullName,
-email: email
+email: email,
+phoneNumber: phoneNumber
 }
 );
 
@@ -926,6 +1045,11 @@ fullName
 localStorage.setItem(
 "studentEmail",
 email
+);
+
+localStorage.setItem(
+"studentPhone",
+phoneNumber
 );
 
 document.getElementById("profileName").innerText = fullName;
@@ -964,6 +1088,18 @@ setTimeout(() => {
   // below so they don't each have to repeat the same list of IDs.
   function hideAllSections(){
 
+// Detach any live messaging listeners so they don't keep running
+// (and using up Firestore reads) once you've navigated away.
+if(typeof conversationListUnsubscribe !== "undefined" && conversationListUnsubscribe){
+conversationListUnsubscribe();
+conversationListUnsubscribe = null;
+}
+
+if(typeof threadUnsubscribe !== "undefined" && threadUnsubscribe){
+threadUnsubscribe();
+threadUnsubscribe = null;
+}
+
 document.getElementById("dashboardHome").classList.add("hidden");
 document.getElementById("tasksSection").classList.add("hidden");
 document.getElementById("badgesSection").classList.add("hidden");
@@ -974,6 +1110,7 @@ document.getElementById("meetingSection").classList.add("hidden");
 document.getElementById("audioSection").classList.add("hidden");
 document.getElementById("settingsSection").classList.add("hidden");
 document.getElementById("quizSection").classList.add("hidden");
+document.getElementById("messagesSection").classList.add("hidden");
 
 }
 
@@ -1015,6 +1152,7 @@ function showQuickAccessButtons(){
 
 document.getElementById("floatingNotes").classList.remove("hidden");
 document.getElementById("floatingAudio").classList.remove("hidden");
+document.getElementById("floatingQuiz").classList.remove("hidden");
 
 }
 
@@ -1022,6 +1160,13 @@ function hideQuickAccessButtons(){
 
 document.getElementById("floatingNotes").classList.add("hidden");
 document.getElementById("floatingAudio").classList.add("hidden");
+document.getElementById("floatingQuiz").classList.add("hidden");
+
+}
+
+function toggleHelp(){
+
+document.getElementById("helpModal").classList.toggle("show");
 
 }
 
@@ -1050,8 +1195,6 @@ let chatUnsubscribe = null;
 function showChatBubble(){
 
 document.getElementById("chatBubble").classList.remove("hidden");
-document.getElementById("floatingNotesBtn").classList.remove("hidden");
-document.getElementById("floatingAudioBtn").classList.remove("hidden");
 
 }
 
@@ -1059,8 +1202,6 @@ function hideChatBubble(){
 
 document.getElementById("chatBubble").classList.add("hidden");
 document.getElementById("chatPanel").classList.remove("show");
-document.getElementById("floatingNotesBtn").classList.add("hidden");
-document.getElementById("floatingAudioBtn").classList.add("hidden");
 
 }
 
@@ -1336,7 +1477,8 @@ data.fullName;
 document.getElementById("profileEmail").innerText =
 data.email;
 
-  alert("Welcome back, " + data.fullName + "!");
+  document.getElementById("message").innerText =
+"Welcome back, " + data.fullName + "!";
 
 localStorage.setItem(
 "studentName",
@@ -1346,6 +1488,11 @@ data.fullName
 localStorage.setItem(
 "studentEmail",
 data.email
+);
+
+localStorage.setItem(
+"studentPhone",
+data.phoneNumber || ""
 );
   if(document.getElementById("rememberMe").checked){
 
@@ -1406,9 +1553,6 @@ top:0,
 behavior:"smooth"
 });
 
-document.getElementById("message").innerText =
-"Login successful!";
-
 setTimeout(() => {
 document.getElementById("message").innerText = "";
 }, 3000);
@@ -1429,6 +1573,7 @@ await window.signOut(window.auth);
 
 localStorage.removeItem("studentName");
 localStorage.removeItem("studentEmail");
+localStorage.removeItem("studentPhone");
 
 document.getElementById("fullName").value = "";
 document.getElementById("email").value = "";
@@ -1454,6 +1599,7 @@ leaveMeeting();
 leaveAudioRoom();
 hideChatBubble();
 stopChatListener();
+stopAllBackgroundListeners();
 
 document.getElementById("message").innerText =
 "Logged out successfully!";
@@ -1538,6 +1684,59 @@ document
 
 closeMenu();
 showBackButton();
+
+const currentPhone = localStorage.getItem("studentPhone");
+
+document.getElementById("currentPhoneDisplay").innerText =
+currentPhone || "Not set";
+
+document.getElementById("phoneNumberSettings").value =
+currentPhone || "";
+
+}
+
+async function updatePhoneNumber(){
+
+const phoneNumber =
+document.getElementById("phoneNumberSettings").value.trim();
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+return;
+}
+
+if(!phoneNumber){
+alert("Enter a phone number first");
+return;
+}
+
+try{
+
+await window.setDoc(
+window.doc(window.db, "user", user.uid),
+{ phoneNumber: phoneNumber },
+{ merge: true }
+);
+
+localStorage.setItem("studentPhone", phoneNumber);
+
+document.getElementById("currentPhoneDisplay").innerText =
+phoneNumber;
+
+document.getElementById("message").innerText =
+"Phone number saved!";
+
+setTimeout(() => {
+document.getElementById("message").innerText = "";
+}, 3000);
+
+}catch(error){
+
+alert(error.message);
+
+}
 
 }
 
@@ -1726,7 +1925,15 @@ showBackButton();
 
 }
 
+let leaderboardRefreshInterval = null;
+const LEADERBOARD_REFRESH_MS = 30000; // refresh every 30 seconds while open
+
 function showQuizScreen(screenId){
+
+if(screenId !== "quizLeaderboard" && leaderboardRefreshInterval){
+clearInterval(leaderboardRefreshInterval);
+leaderboardRefreshInterval = null;
+}
 
 const screens = ["quizLevelChoice","quizSubjectChoice","quizPlay","quizResults","quizLeaderboard"];
 
@@ -1863,10 +2070,23 @@ showQuizScreen("quizPlay");
 
 async function showQuizLeaderboard(){
 
-document.getElementById("leaderboardList").innerHTML = "Loading...";
 document.getElementById("leaderboardSubjectName").innerText = quizSubject;
 
 showQuizScreen("quizLeaderboard");
+
+await loadLeaderboardData();
+
+if(leaderboardRefreshInterval){
+clearInterval(leaderboardRefreshInterval);
+}
+
+leaderboardRefreshInterval = setInterval(loadLeaderboardData, LEADERBOARD_REFRESH_MS);
+
+}
+
+async function loadLeaderboardData(){
+
+document.getElementById("leaderboardList").innerHTML = "Loading...";
 
 try{
 
@@ -1916,6 +2136,512 @@ document.getElementById("leaderboardList").innerHTML =
 console.log(error);
 
 }
+
+}
+
+// ---- Direct Messages & Groups ----
+// Lets two students find each other by email and chat privately, or
+// create a group with several people. Built on the same Firestore
+// real-time pattern as Class Chat, just with separate conversation
+// "rooms" instead of one shared room.
+
+let pendingGroupMembers = []; // {uid, name, email} collected while building a new group
+let currentConversationId = null;
+let threadUnsubscribe = null;
+let conversationListUnsubscribe = null;
+let lastLoadedConversations = []; // cache so we can safely look up a title by ID (avoids putting user-typed names into onclick attributes)
+
+function openMessages(){
+
+hideAllSections();
+
+document.getElementById("messagesSection").classList.remove("hidden");
+
+showBackButton();
+
+showMsgScreen("conversationListView");
+loadConversationList();
+
+}
+
+function showMsgScreen(screenId){
+
+const screens = ["conversationListView","newChatSearchView","newGroupSetupView","chatThreadView"];
+
+if(screenId !== "chatThreadView" && threadUnsubscribe){
+threadUnsubscribe();
+threadUnsubscribe = null;
+}
+
+screens.forEach((id) => {
+
+if(id === screenId){
+document.getElementById(id).classList.remove("hidden");
+}else{
+document.getElementById(id).classList.add("hidden");
+}
+
+});
+
+}
+
+function backToConversationList(){
+
+showMsgScreen("conversationListView");
+loadConversationList();
+
+}
+
+function showNewChatSearch(){
+
+document.getElementById("searchEmailInput").value = "";
+document.getElementById("searchStatus").innerText = "";
+
+showMsgScreen("newChatSearchView");
+
+}
+
+function showNewGroupSetup(){
+
+pendingGroupMembers = [];
+
+document.getElementById("groupNameInput").value = "";
+document.getElementById("groupMemberEmailInput").value = "";
+document.getElementById("groupStatus").innerText = "";
+
+renderGroupMembersList();
+
+showMsgScreen("newGroupSetupView");
+
+}
+
+function renderGroupMembersList(){
+
+let html = "";
+
+pendingGroupMembers.forEach((member, i) => {
+
+html += `
+<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.1);padding:8px 12px;margin-top:6px;border-radius:8px;">
+<span>${escapeHtml(member.name)} (${escapeHtml(member.email)})</span>
+<button class="btn-danger" style="width:auto;margin:0;padding:4px 10px;" onclick="removeGroupMember(${i})">✕</button>
+</div>
+`;
+
+});
+
+document.getElementById("groupMembersList").innerHTML = html;
+
+}
+
+function removeGroupMember(index){
+
+pendingGroupMembers.splice(index, 1);
+
+renderGroupMembersList();
+
+}
+
+// Looks up a user document by email OR phone number. Returns
+// {uid, name, email} or null. Tries an exact email match first, then
+// falls back to phone number if no email match is found.
+async function findUserByContact(contact){
+
+const trimmed = contact.trim();
+
+let q = window.query(
+window.collection(window.db, "user"),
+window.where("email", "==", trimmed.toLowerCase())
+);
+
+let querySnapshot = await window.getDocs(q);
+
+if(querySnapshot.empty){
+
+q = window.query(
+window.collection(window.db, "user"),
+window.where("phoneNumber", "==", trimmed)
+);
+
+querySnapshot = await window.getDocs(q);
+
+}
+
+if(querySnapshot.empty){
+return null;
+}
+
+const docSnap = querySnapshot.docs[0];
+const data = docSnap.data();
+
+return { uid: docSnap.id, name: data.fullName, email: data.email };
+
+}
+
+async function addGroupMember(){
+
+const contact = document.getElementById("groupMemberEmailInput").value.trim();
+
+if(!contact){
+return;
+}
+
+const currentUser = window.auth.currentUser;
+const myPhone = localStorage.getItem("studentPhone") || "";
+
+if(currentUser && (
+contact.toLowerCase() === (currentUser.email || "").toLowerCase() ||
+(myPhone && contact === myPhone)
+)){
+document.getElementById("groupStatus").innerText = "That's you — you're already included automatically.";
+return;
+}
+
+if(pendingGroupMembers.some((m) => m.email.toLowerCase() === contact.toLowerCase())){
+document.getElementById("groupStatus").innerText = "That person is already added.";
+return;
+}
+
+document.getElementById("groupStatus").innerText = "Searching...";
+
+const found = await findUserByContact(contact);
+
+if(!found){
+document.getElementById("groupStatus").innerText =
+"No Adeka Academy Hub account found with that email or phone number.";
+return;
+}
+
+pendingGroupMembers.push(found);
+
+document.getElementById("groupMemberEmailInput").value = "";
+document.getElementById("groupStatus").innerText = "Added " + found.name + "!";
+
+renderGroupMembersList();
+
+}
+
+async function createGroup(){
+
+const groupName = document.getElementById("groupNameInput").value.trim();
+
+if(!groupName){
+alert("Enter a group name first");
+return;
+}
+
+if(pendingGroupMembers.length === 0){
+alert("Add at least one member first");
+return;
+}
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+return;
+}
+
+const myName = localStorage.getItem("studentName") || "Student";
+
+const participantUids = [user.uid, ...pendingGroupMembers.map((m) => m.uid)];
+
+const participantNames = {};
+participantNames[user.uid] = myName;
+pendingGroupMembers.forEach((m) => { participantNames[m.uid] = m.name; });
+
+try{
+
+const docRef = await window.addDoc(
+window.collection(window.db, "conversations"),
+{
+type: "group",
+groupName: groupName,
+participants: participantUids,
+participantNames: participantNames,
+createdBy: user.uid,
+createdAt: new Date(),
+lastMessage: "Group created",
+lastMessageAt: new Date()
+}
+);
+
+openThread(docRef.id, "👥 " + groupName);
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+async function searchUserAndStartChat(){
+
+const contact = document.getElementById("searchEmailInput").value.trim();
+
+if(!contact){
+return;
+}
+
+const currentUser = window.auth.currentUser;
+
+if(!currentUser){
+alert("Please login first");
+return;
+}
+
+const myPhone = localStorage.getItem("studentPhone") || "";
+
+if(contact.toLowerCase() === (currentUser.email || "").toLowerCase() ||
+(myPhone && contact === myPhone)){
+document.getElementById("searchStatus").innerText = "You can't message yourself.";
+return;
+}
+
+document.getElementById("searchStatus").innerText = "Searching...";
+
+const found = await findUserByContact(contact);
+
+if(!found){
+document.getElementById("searchStatus").innerText =
+"No Adeka Academy Hub account found with that email or phone number.";
+return;
+}
+
+document.getElementById("searchStatus").innerText = "Found " + found.name + " — opening chat...";
+
+const myName = localStorage.getItem("studentName") || "Student";
+
+// A deterministic ID for direct chats (based on both UIDs, sorted) means
+// the same two people always land in the same conversation instead of
+// creating a new duplicate one every time.
+const directId = "dm_" + [currentUser.uid, found.uid].sort().join("_");
+
+const participantNames = {};
+participantNames[currentUser.uid] = myName;
+participantNames[found.uid] = found.name;
+
+try{
+
+await window.setDoc(
+window.doc(window.db, "conversations", directId),
+{
+type: "direct",
+participants: [currentUser.uid, found.uid],
+participantNames: participantNames,
+createdAt: new Date(),
+lastMessage: "",
+lastMessageAt: new Date()
+},
+{ merge: true }
+);
+
+openThread(directId, found.name);
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+function openThread(conversationId, title){
+
+currentConversationId = conversationId;
+
+document.getElementById("chatThreadTitle").innerText = title;
+document.getElementById("threadMessages").innerHTML = "";
+
+showMsgScreen("chatThreadView");
+
+if(threadUnsubscribe){
+threadUnsubscribe();
+threadUnsubscribe = null;
+}
+
+const q = window.query(
+window.collection(window.db, "conversations", conversationId, "messages"),
+window.orderBy("createdAt", "asc"),
+window.limit(100)
+);
+
+threadUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+let html = "";
+
+querySnapshot.forEach((docSnap) => {
+
+const data = docSnap.data();
+
+const time = data.createdAt
+? new Date(data.createdAt.seconds * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+: "";
+
+html += `
+<div class="chat-msg">
+<span class="sender">${escapeHtml(data.name || "Student")}</span>
+<span class="time">${time}</span>
+<p>${escapeHtml(data.text || "")}</p>
+</div>
+`;
+
+});
+
+const messagesDiv = document.getElementById("threadMessages");
+messagesDiv.innerHTML = html;
+messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+}, (error) => {
+
+console.log("Thread listener error:", error);
+
+});
+
+}
+
+// Safe click handler for the conversation list: only ever passes the
+// Firestore document ID through the onclick attribute (never a
+// user-typed name), then looks the title up from memory. This avoids
+// any risk of someone's name/group name breaking or hijacking the
+// inline JS the way putting raw text into an onclick string could.
+function openThreadById(conversationId){
+
+const convo = lastLoadedConversations.find((c) => c.id === conversationId);
+
+if(!convo) return;
+
+const user = window.auth.currentUser;
+let title;
+
+if(convo.type === "group"){
+title = "👥 " + (convo.groupName || "Group");
+}else{
+const otherUid = convo.participants.find((uid) => uid !== user.uid);
+title = (convo.participantNames && convo.participantNames[otherUid]) || "Direct Chat";
+}
+
+openThread(conversationId, title);
+
+}
+
+async function sendThreadMessage(){
+
+const input = document.getElementById("threadInput");
+const text = input.value.trim();
+
+if(!text || !currentConversationId) return;
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+return;
+}
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+await window.addDoc(
+window.collection(window.db, "conversations", currentConversationId, "messages"),
+{
+uid: user.uid,
+name: name,
+text: text,
+createdAt: new Date()
+}
+);
+
+await window.updateDoc(
+window.doc(window.db, "conversations", currentConversationId),
+{
+lastMessage: text,
+lastMessageAt: new Date()
+}
+);
+
+input.value = "";
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+}
+
+function loadConversationList(){
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+if(conversationListUnsubscribe){
+conversationListUnsubscribe();
+conversationListUnsubscribe = null;
+}
+
+const q = window.query(
+window.collection(window.db, "conversations"),
+window.where("participants", "array-contains", user.uid)
+);
+
+conversationListUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+let conversations = [];
+
+querySnapshot.forEach((docSnap) => {
+conversations.push(Object.assign({ id: docSnap.id }, docSnap.data()));
+});
+
+// Sorting here (instead of in the query) avoids needing a special
+// Firestore composite index for array-contains + orderBy together.
+conversations.sort((a, b) => {
+const aTime = a.lastMessageAt ? a.lastMessageAt.seconds : 0;
+const bTime = b.lastMessageAt ? b.lastMessageAt.seconds : 0;
+return bTime - aTime;
+});
+
+lastLoadedConversations = conversations;
+
+let html = "";
+
+conversations.forEach((convo) => {
+
+let title;
+
+if(convo.type === "group"){
+title = "👥 " + (convo.groupName || "Group");
+}else{
+const otherUid = convo.participants.find((uid) => uid !== user.uid);
+title = (convo.participantNames && convo.participantNames[otherUid]) || "Direct Chat";
+}
+
+const preview = convo.lastMessage
+? convo.lastMessage.slice(0, 40)
+: "No messages yet";
+
+html += `
+<div class="box" style="text-align:left;" onclick="openThreadById('${convo.id}')">
+<h3>${escapeHtml(title)}</h3>
+<p style="opacity:.75;">${escapeHtml(preview)}</p>
+</div>
+`;
+
+});
+
+document.getElementById("conversationList").innerHTML =
+html || "<p style='opacity:.7;margin-top:15px;'>No conversations yet — start one above!</p>";
+
+}, (error) => {
+
+console.log("Conversation list error:", error);
+document.getElementById("conversationList").innerHTML =
+"<p>Couldn't load conversations right now.</p>";
+
+});
 
 }
 
@@ -2192,6 +2918,29 @@ document.getElementById("quoteText").innerText =
 
 }
 
+// Stops any Firestore listeners or intervals that might still be running
+// in the background after leaving a screen or logging out. Without this,
+// listeners from Messages or the quiz leaderboard would keep running
+// (and using up Firestore reads) even after navigating away.
+function stopAllBackgroundListeners(){
+
+if(conversationListUnsubscribe){
+conversationListUnsubscribe();
+conversationListUnsubscribe = null;
+}
+
+if(threadUnsubscribe){
+threadUnsubscribe();
+threadUnsubscribe = null;
+}
+
+if(leaderboardRefreshInterval){
+clearInterval(leaderboardRefreshInterval);
+leaderboardRefreshInterval = null;
+}
+
+}
+
 function backToDashboard(){
 
 hideAllSections();
@@ -2201,6 +2950,7 @@ hideBackButton();
 leaveMeeting();
 leaveAudioRoom();
 renderGreeting();
+stopAllBackgroundListeners();
 
 }
 
