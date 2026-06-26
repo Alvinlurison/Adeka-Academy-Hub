@@ -412,6 +412,79 @@ overflow:hidden;
 margin-top:15px;
 background:#000;
 }
+
+/* Chat wallpaper presets — applied to the message-scroll area of both
+   Class Chat and private Message threads. */
+.wallpaper-default{ background:transparent; }
+.wallpaper-midnight{ background:linear-gradient(135deg,#04152d,#062a54,#0d3f7a); }
+.wallpaper-forest{ background:linear-gradient(135deg,#0b2e1a,#155c34,#1f7a45); }
+.wallpaper-sunset{ background:linear-gradient(135deg,#3a0d12,#7a1f1f,#a8472b); }
+.wallpaper-lavender{ background:linear-gradient(135deg,#1f1b3a,#3d2e6b,#5e4a99); }
+.wallpaper-rosegold{ background:linear-gradient(135deg,#3a1f2a,#6b3d4a,#a8697d); }
+
+.wallpaperSwatch{
+width:100%;
+height:50px;
+border-radius:10px;
+cursor:pointer;
+border:2px solid transparent;
+padding:0;
+margin:0;
+}
+
+.wallpaperSwatch.selected{
+border-color:#ffd700;
+}
+
+/* Stand-alone single-emoji messages render bigger, like a sticker */
+.emoji-only-msg{
+font-size:2.6rem;
+line-height:1.2;
+}
+
+#emojiPicker{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+max-height:260px;
+background:rgba(6,42,84,.98);
+border-top:1px solid rgba(255,255,255,.2);
+z-index:1500;
+display:none;
+flex-direction:column;
+padding:12px;
+}
+
+#emojiPicker.show{
+display:flex;
+}
+
+#emojiPicker .tabs{
+display:flex;
+gap:8px;
+margin-bottom:8px;
+}
+
+#emojiPicker .grid-emoji{
+display:grid;
+grid-template-columns:repeat(8,1fr);
+gap:6px;
+overflow-y:auto;
+}
+
+#emojiPicker .grid-emoji button{
+width:auto;
+padding:6px;
+margin:0;
+background:transparent;
+font-size:1.4rem;
+border-radius:8px;
+}
+
+#emojiPicker .grid-emoji button:hover{
+background:rgba(255,255,255,.15);
+}
 </style>
 </head>
 <body>
@@ -453,6 +526,16 @@ background:#000;
 
 <button id="chatBubble" class="hidden" onclick="toggleChatPanel()">💬</button>
 
+<div id="emojiPicker">
+  <div class="tabs">
+    <button class="btn-secondary" style="width:auto;flex:1;" onclick="showEmojiTab('emoji')">😀 Emoji</button>
+    <button class="btn-secondary" style="width:auto;flex:1;" onclick="showEmojiTab('stickers')">🎉 Stickers</button>
+    <button class="btn-secondary" style="width:auto;flex:0;padding:6px 14px;" onclick="toggleEmojiPicker()">✕</button>
+  </div>
+  <div id="emojiTabEmoji" class="grid-emoji"></div>
+  <div id="emojiTabStickers" class="grid-emoji hidden"></div>
+</div>
+
 <button id="floatingNotes" class="hidden floatingSquareBtn" onclick="openNotes()" title="Notes">📝</button>
 <button id="floatingAudio" class="hidden floatingSquareBtn" onclick="openAudioLessons()" title="Audio Room">🎧</button>
 <button id="floatingQuiz" class="hidden floatingSquareBtn" onclick="openQuiz()" title="Quiz Challenge">🎮</button>
@@ -465,8 +548,10 @@ background:#000;
     <button class="btn-secondary" onclick="toggleChatPanel()" style="width:auto;padding:4px 10px;margin:0;font-size:16px;">✕</button>
     </div>
   </div>
-  <div id="chatMessages" style="flex:1;overflow-y:auto;padding:10px 15px;font-size:14px;color:white;"></div>
-  <div style="display:flex;padding:10px;border-top:1px solid rgba(255,255,255,.15);gap:8px;">
+  <div id="chatMessages" class="wallpaper-default" style="flex:1;overflow-y:auto;padding:10px 15px;font-size:14px;color:white;"></div>
+  <div style="display:flex;padding:10px;border-top:1px solid rgba(255,255,255,.15);gap:6px;">
+    <button class="btn-secondary" onclick="toggleEmojiPicker('chatInput')" style="width:auto;margin:0;padding:10px 12px;">😀</button>
+    <label class="btn-secondary" style="width:auto;margin:0;padding:10px 12px;cursor:pointer;display:flex;align-items:center;">📎<input type="file" accept="image/*" style="display:none;" onchange="sendChatImage(event)"></label>
     <input id="chatInput" placeholder="Type a message..." style="margin:0;flex:1;" onkeyup="if(event.key==='Enter') sendChatMessage();">
     <button onclick="sendChatMessage()" style="width:auto;margin:0;padding:10px 16px;">Send</button>
   </div>
@@ -771,6 +856,18 @@ Leave Audio Room
 </div>
 
 <div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🎨 Chat Wallpaper</p>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+<button class="wallpaperSwatch" id="swatch-default" onclick="setChatWallpaper('default')" style="background:rgba(255,255,255,.15);"></button>
+<button class="wallpaperSwatch" id="swatch-midnight" onclick="setChatWallpaper('midnight')" style="background:linear-gradient(135deg,#04152d,#0d3f7a);"></button>
+<button class="wallpaperSwatch" id="swatch-forest" onclick="setChatWallpaper('forest')" style="background:linear-gradient(135deg,#0b2e1a,#1f7a45);"></button>
+<button class="wallpaperSwatch" id="swatch-sunset" onclick="setChatWallpaper('sunset')" style="background:linear-gradient(135deg,#3a0d12,#a8472b);"></button>
+<button class="wallpaperSwatch" id="swatch-lavender" onclick="setChatWallpaper('lavender')" style="background:linear-gradient(135deg,#1f1b3a,#5e4a99);"></button>
+<button class="wallpaperSwatch" id="swatch-rosegold" onclick="setChatWallpaper('rosegold')" style="background:linear-gradient(135deg,#3a1f2a,#a8697d);"></button>
+</div>
+</div>
+
+<div style="margin-top:25px;">
 <p style="margin-bottom:8px;">📞 Phone Number</p>
 <p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Lets friends find you to start a chat. Yours: <strong id="currentPhoneDisplay">Not set</strong></p>
 <input id="phoneNumberSettings" placeholder="Enter phone number">
@@ -789,6 +886,17 @@ Leave Audio Room
 <span class="slider"></span>
 </label>
 <span>🔔 Play a sound when I earn a badge</span>
+</div>
+
+<div style="margin-top:25px;">
+<div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="notifSwitch" onchange="toggleNotifications()">
+<span class="slider"></span>
+</label>
+<span>🔔 Notify me about new messages</span>
+</div>
+<p id="notifStatus" style="opacity:.7;font-size:.85rem;margin-top:8px;">Works while the app is open in a tab (even in the background) — only buzzes your phone when fully closed once a paid upgrade is added later.</p>
 </div>
 
 </div>
@@ -882,9 +990,11 @@ Leave Audio Room
 <button class="btn-secondary" onclick="backToConversationList()">← Back</button>
 <h3 id="chatThreadTitle" style="margin:15px 0;"></h3>
 
-<div id="threadMessages" style="height:350px;overflow-y:auto;background:rgba(255,255,255,.06);border-radius:10px;padding:15px;"></div>
+<div id="threadMessages" class="wallpaper-default" style="height:350px;overflow-y:auto;background:rgba(255,255,255,.06);border-radius:10px;padding:15px;"></div>
 
-<div style="display:flex;gap:8px;margin-top:10px;">
+<div style="display:flex;gap:6px;margin-top:10px;">
+<button class="btn-secondary" onclick="toggleEmojiPicker('threadInput')" style="width:auto;margin:0;padding:10px 12px;">😀</button>
+<label class="btn-secondary" style="width:auto;margin:0;padding:10px 12px;cursor:pointer;display:flex;align-items:center;">📎<input type="file" accept="image/*" style="display:none;" onchange="sendThreadImage(event)"></label>
 <input id="threadInput" placeholder="Type a message..." style="margin:0;flex:1;" onkeyup="if(event.key==='Enter') sendThreadMessage();">
 <button onclick="sendThreadMessage()" style="width:auto;margin:0;">Send</button>
 </div>
@@ -1062,6 +1172,7 @@ document.getElementById("dashboardHome").classList.remove("hidden");
 
 showChatBubble();
 startChatListener();
+startGlobalDmListener();
 showLogoutButton();
 showQuickAccessButtons();
 renderGreeting();
@@ -1088,8 +1199,10 @@ setTimeout(() => {
   // below so they don't each have to repeat the same list of IDs.
   function hideAllSections(){
 
-// Detach any live messaging listeners so they don't keep running
-// (and using up Firestore reads) once you've navigated away.
+// The conversation-list and thread listeners are screen-specific and
+// stop here. The globalDmUnsubscribe listener (for notifications) is
+// separate and keeps running in the background regardless — see
+// startGlobalDmListener().
 if(typeof conversationListUnsubscribe !== "undefined" && conversationListUnsubscribe){
 conversationListUnsubscribe();
 conversationListUnsubscribe = null;
@@ -1191,6 +1304,87 @@ document.getElementById("picLightbox").classList.remove("show");
 // messages appear instantly without anyone needing to refresh.
 
 let chatUnsubscribe = null;
+let isInitialClassChatLoad = true;
+
+// ---- Notifications (free, foreground version) ----
+// True background push (notifying even when the app/tab is fully
+// closed) needs Firebase Cloud Messaging + a server trigger, which
+// needs the paid Blaze plan. This version works while the app is open
+// in any tab (even unfocused) — it just can't wake up a closed app.
+
+function showAppNotification(title, body, onClick){
+
+if(localStorage.getItem("notificationsEnabled") !== "on") return;
+if(!("Notification" in window) || Notification.permission !== "granted") return;
+
+try{
+
+const notification = new Notification(title, { body: body, icon: "icon-192.png" });
+
+if(onClick){
+
+notification.onclick = function(){
+window.focus();
+notification.close();
+onClick();
+};
+
+}
+
+}catch(error){
+console.log("Notification error:", error);
+}
+
+}
+
+async function toggleNotifications(){
+
+const wantsOn = document.getElementById("notifSwitch").checked;
+
+if(!wantsOn){
+localStorage.setItem("notificationsEnabled", "off");
+document.getElementById("notifStatus").innerText =
+"Notifications turned off.";
+return;
+}
+
+if(!("Notification" in window)){
+document.getElementById("notifSwitch").checked = false;
+document.getElementById("notifStatus").innerText =
+"Sorry, your browser doesn't support notifications.";
+return;
+}
+
+const permission = await Notification.requestPermission();
+
+if(permission === "granted"){
+
+localStorage.setItem("notificationsEnabled", "on");
+
+document.getElementById("notifStatus").innerText =
+"✅ Notifications on — works while the app is open (even in another tab).";
+
+}else{
+
+document.getElementById("notifSwitch").checked = false;
+localStorage.setItem("notificationsEnabled", "off");
+
+document.getElementById("notifStatus").innerText =
+"Blocked — enable notifications for this site in your browser settings if you change your mind.";
+
+}
+
+}
+
+function loadNotificationPref(){
+
+const isOn = localStorage.getItem("notificationsEnabled") === "on"
+&& "Notification" in window
+&& Notification.permission === "granted";
+
+document.getElementById("notifSwitch").checked = isOn;
+
+}
 
 function showChatBubble(){
 
@@ -1289,6 +1483,8 @@ return; // already listening, no need to attach twice
 
 cleanupOldChatMessages();
 
+isInitialClassChatLoad = true;
+
 const q = window.query(
 window.collection(window.db, "classChat"),
 window.orderBy("createdAt", "asc"),
@@ -1296,6 +1492,36 @@ window.limit(50)
 );
 
 chatUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+// Notify about genuinely new messages (skip the initial historical
+// batch that fires the moment we first attach this listener).
+if(!isInitialClassChatLoad){
+
+const user = window.auth.currentUser;
+
+querySnapshot.docChanges().forEach((change) => {
+
+if(change.type !== "added") return;
+
+const data = change.doc.data();
+
+if(user && data.uid === user.uid) return; // it was me, skip
+
+const chatIsOpenAndFocused =
+document.getElementById("chatPanel").classList.contains("show") &&
+document.hasFocus();
+
+if(chatIsOpenAndFocused) return;
+
+const preview = data.imageData ? "📷 Photo" : (data.text || "New message");
+
+showAppNotification("💬 " + (data.name || "Class Chat"), preview);
+
+});
+
+}
+
+isInitialClassChatLoad = false;
 
 let html = "";
 
@@ -1307,11 +1533,21 @@ const time = data.createdAt
 ? new Date(data.createdAt.seconds * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
 : "";
 
+let bodyHtml;
+
+if(data.imageData){
+bodyHtml = `<img src="${data.imageData}" style="max-width:200px;border-radius:10px;margin-top:5px;display:block;">`;
+}else if(isEmojiOnlyMessage(data.text)){
+bodyHtml = `<p class="emoji-only-msg">${escapeHtml(data.text)}</p>`;
+}else{
+bodyHtml = `<p>${escapeHtml(data.text || "")}</p>`;
+}
+
 html += `
 <div class="chat-msg">
 <span class="sender">${escapeHtml(data.name || "Student")}</span>
 <span class="time">${time}</span>
-<p>${escapeHtml(data.text || "")}</p>
+${bodyHtml}
 </div>
 `;
 
@@ -1375,6 +1611,290 @@ input.value = "";
 alert(error.message);
 
 }
+
+}
+
+// ---- Emoji picker, stickers & image sending ----
+// Shared between Class Chat and private Message threads. Images are
+// stored as compressed base64 text directly inside the chat message
+// (no Firebase Storage / paid plan needed) — this keeps it free, at
+// the cost of modest image quality.
+
+let activeEmojiTarget = null;
+
+const EMOJI_LIST = ["😀","😁","😂","🤣","😊","😍","😘","😜","🤔","😎","🙄","😢","😭","😡","🥳","😴","👍","👎","👏","🙏","💪","🤝","✌️","🤞","❤️","💛","💚","💙","💜","🔥","✨","🎉","🎓","📚","✅","❌","⭐","💯","🙌","👀","🤗","😬","😅","🥺","😇","🤩","🫡","🤓","😏","🚀","💡","📌","⏰","☀️","🌙","☕","🍎","⚽","🏀","🎵","💬","📷","👋","🤦"];
+const STICKER_LIST = ["🎉","🔥","💯","👍","❤️","😂","🥳","🙌","👏","💪","🎓","✅","😍","🤩","🚀","⭐"];
+
+function toggleEmojiPicker(targetInputId){
+
+const picker = document.getElementById("emojiPicker");
+
+if(!targetInputId){
+picker.classList.remove("show");
+activeEmojiTarget = null;
+return;
+}
+
+if(picker.classList.contains("show") && activeEmojiTarget === targetInputId){
+picker.classList.remove("show");
+activeEmojiTarget = null;
+return;
+}
+
+activeEmojiTarget = targetInputId;
+renderEmojiGrid();
+renderStickerGrid();
+showEmojiTab("emoji");
+picker.classList.add("show");
+
+}
+
+function showEmojiTab(tab){
+
+document.getElementById("emojiTabEmoji").classList.toggle("hidden", tab !== "emoji");
+document.getElementById("emojiTabStickers").classList.toggle("hidden", tab !== "stickers");
+
+}
+
+function renderEmojiGrid(){
+
+let html = "";
+
+EMOJI_LIST.forEach((e) => {
+html += `<button onclick="insertEmoji('${e}')">${e}</button>`;
+});
+
+document.getElementById("emojiTabEmoji").innerHTML = html;
+
+}
+
+function renderStickerGrid(){
+
+let html = "";
+
+STICKER_LIST.forEach((e) => {
+html += `<button onclick="sendSticker('${e}')" style="font-size:2rem;">${e}</button>`;
+});
+
+document.getElementById("emojiTabStickers").innerHTML = html;
+
+}
+
+function insertEmoji(emoji){
+
+if(!activeEmojiTarget) return;
+
+const input = document.getElementById(activeEmojiTarget);
+input.value += emoji;
+input.focus();
+
+}
+
+function sendSticker(emoji){
+
+if(activeEmojiTarget === "chatInput"){
+document.getElementById("chatInput").value = emoji;
+sendChatMessage();
+}else if(activeEmojiTarget === "threadInput"){
+document.getElementById("threadInput").value = emoji;
+sendThreadMessage();
+}
+
+toggleEmojiPicker();
+
+}
+
+// A message that's short and has no regular letters/numbers in it is
+// treated as "just an emoji" and rendered bigger, like a sticker.
+function isEmojiOnlyMessage(text){
+
+if(!text) return false;
+
+const trimmed = text.trim();
+
+if(trimmed.length === 0 || trimmed.length > 10) return false;
+
+return !/[a-zA-Z0-9]/.test(trimmed);
+
+}
+
+// Shrinks an image client-side (via canvas) and returns it as a base64
+// JPEG string, small enough to fit directly inside a Firestore message
+// document — this avoids needing Firebase Storage (which requires a
+// paid plan) for something as simple as a chat photo.
+function compressImageToBase64(file, maxWidth, quality){
+
+return new Promise((resolve, reject) => {
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+const img = new Image();
+
+img.onload = function(){
+
+let width = img.width;
+let height = img.height;
+
+if(width > maxWidth){
+height = Math.round(height * (maxWidth / width));
+width = maxWidth;
+}
+
+const canvas = document.createElement("canvas");
+canvas.width = width;
+canvas.height = height;
+
+const ctx = canvas.getContext("2d");
+ctx.drawImage(img, 0, 0, width, height);
+
+resolve(canvas.toDataURL("image/jpeg", quality));
+
+};
+
+img.onerror = reject;
+img.src = e.target.result;
+
+};
+
+reader.onerror = reject;
+reader.readAsDataURL(file);
+
+});
+
+}
+
+async function sendChatImage(event){
+
+const file = event.target.files[0];
+
+if(!file) return;
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+event.target.value = "";
+return;
+}
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+const base64 = await compressImageToBase64(file, 550, 0.6);
+
+if(base64.length > 700000){
+alert("That image is too large even after compressing. Try a smaller photo.");
+event.target.value = "";
+return;
+}
+
+await window.addDoc(
+window.collection(window.db, "classChat"),
+{
+uid: user.uid,
+name: name,
+imageData: base64,
+createdAt: new Date()
+}
+);
+
+}catch(error){
+
+alert("Couldn't send image: " + error.message);
+
+}
+
+event.target.value = "";
+
+}
+
+async function sendThreadImage(event){
+
+const file = event.target.files[0];
+
+if(!file || !currentConversationId) return;
+
+const user = window.auth.currentUser;
+
+if(!user){
+alert("Please login first");
+event.target.value = "";
+return;
+}
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+const base64 = await compressImageToBase64(file, 550, 0.6);
+
+if(base64.length > 700000){
+alert("That image is too large even after compressing. Try a smaller photo.");
+event.target.value = "";
+return;
+}
+
+await window.addDoc(
+window.collection(window.db, "conversations", currentConversationId, "messages"),
+{
+uid: user.uid,
+name: name,
+imageData: base64,
+createdAt: new Date()
+}
+);
+
+await window.updateDoc(
+window.doc(window.db, "conversations", currentConversationId),
+{
+lastMessage: "📷 Photo",
+lastMessageAt: new Date(),
+lastMessageSenderUid: user.uid
+}
+);
+
+}catch(error){
+
+alert("Couldn't send image: " + error.message);
+
+}
+
+event.target.value = "";
+
+}
+
+// ---- Chat wallpaper ----
+const WALLPAPER_OPTIONS = ["default","midnight","forest","sunset","lavender","rosegold"];
+
+function setChatWallpaper(name){
+
+WALLPAPER_OPTIONS.forEach((w) => {
+
+document.getElementById("chatMessages").classList.remove("wallpaper-" + w);
+document.getElementById("threadMessages").classList.remove("wallpaper-" + w);
+
+const swatch = document.getElementById("swatch-" + w);
+if(swatch) swatch.classList.remove("selected");
+
+});
+
+document.getElementById("chatMessages").classList.add("wallpaper-" + name);
+document.getElementById("threadMessages").classList.add("wallpaper-" + name);
+
+const selectedSwatch = document.getElementById("swatch-" + name);
+if(selectedSwatch) selectedSwatch.classList.add("selected");
+
+localStorage.setItem("chatWallpaper", name);
+
+}
+
+function loadWallpaperPref(){
+
+const saved = localStorage.getItem("chatWallpaper") || "default";
+setChatWallpaper(saved);
 
 }
 
@@ -1529,6 +2049,7 @@ document.getElementById("dashboardHome")
 
 showChatBubble();
 startChatListener();
+startGlobalDmListener();
 showLogoutButton();
 showQuickAccessButtons();
 renderGreeting();
@@ -1599,6 +2120,7 @@ leaveMeeting();
 leaveAudioRoom();
 hideChatBubble();
 stopChatListener();
+stopGlobalDmListener();
 stopAllBackgroundListeners();
 
 document.getElementById("message").innerText =
@@ -2112,11 +2634,27 @@ scores = scores.slice(0, 10);
 let rows = "";
 let rank = 1;
 
+const medals = { 1: "🥇", 2: "🥈", 3: "🥉" };
+const medalBg = {
+1: "rgba(255,215,0,.18)",
+2: "rgba(192,192,192,.18)",
+3: "rgba(205,127,50,.18)"
+};
+const medalBorder = {
+1: "rgba(255,215,0,.5)",
+2: "rgba(192,192,192,.5)",
+3: "rgba(205,127,50,.5)"
+};
+
 scores.forEach((data) => {
 
+const badge = medals[rank] || ("#" + rank);
+const bg = medalBg[rank] || "rgba(255,255,255,.1)";
+const border = medalBorder[rank] || "rgba(255,255,255,.15)";
+
 rows += `
-<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.1);padding:10px;margin-top:8px;border-radius:10px;">
-<span>#${rank} ${escapeHtml(data.name || "Student")}</span>
+<div style="display:flex;justify-content:space-between;align-items:center;background:${bg};border:1px solid ${border};padding:10px;margin-top:8px;border-radius:10px;">
+<span>${badge} ${escapeHtml(data.name || "Student")}</span>
 <span><strong>${data.score} / ${data.total}</strong></span>
 </div>
 `;
@@ -2150,6 +2688,79 @@ let currentConversationId = null;
 let threadUnsubscribe = null;
 let conversationListUnsubscribe = null;
 let lastLoadedConversations = []; // cache so we can safely look up a title by ID (avoids putting user-typed names into onclick attributes)
+
+// A separate listener that runs for the whole session (started at
+// login, like Class Chat), purely so DM/group notifications work no
+// matter which screen you're currently on — not just while the
+// Messages section happens to be open.
+let globalDmUnsubscribe = null;
+let isInitialGlobalDmLoad = true;
+
+function startGlobalDmListener(){
+
+if(globalDmUnsubscribe) return;
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+isInitialGlobalDmLoad = true;
+
+const q = window.query(
+window.collection(window.db, "conversations"),
+window.where("participants", "array-contains", user.uid)
+);
+
+globalDmUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+if(isInitialGlobalDmLoad){
+isInitialGlobalDmLoad = false;
+return;
+}
+
+querySnapshot.docChanges().forEach((change) => {
+
+if(change.type !== "added" && change.type !== "modified") return;
+
+const data = change.doc.data();
+
+if(!data.lastMessageSenderUid || data.lastMessageSenderUid === user.uid) return;
+
+const threadIsOpenAndFocused =
+currentConversationId === change.doc.id &&
+!document.getElementById("messagesSection").classList.contains("hidden") &&
+document.hasFocus();
+
+if(threadIsOpenAndFocused) return;
+
+let title;
+
+if(data.type === "group"){
+title = "👥 " + (data.groupName || "Group");
+}else{
+title = (data.participantNames && data.participantNames[data.lastMessageSenderUid]) || "New message";
+}
+
+showAppNotification(title, data.lastMessage || "New message");
+
+});
+
+}, (error) => {
+
+console.log("Global DM listener error:", error);
+
+});
+
+}
+
+function stopGlobalDmListener(){
+
+if(globalDmUnsubscribe){
+globalDmUnsubscribe();
+globalDmUnsubscribe = null;
+}
+
+}
 
 function openMessages(){
 
@@ -2362,7 +2973,8 @@ participantNames: participantNames,
 createdBy: user.uid,
 createdAt: new Date(),
 lastMessage: "Group created",
-lastMessageAt: new Date()
+lastMessageAt: new Date(),
+lastMessageSenderUid: user.uid
 }
 );
 
@@ -2479,11 +3091,21 @@ const time = data.createdAt
 ? new Date(data.createdAt.seconds * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
 : "";
 
+let bodyHtml;
+
+if(data.imageData){
+bodyHtml = `<img src="${data.imageData}" style="max-width:200px;border-radius:10px;margin-top:5px;display:block;">`;
+}else if(isEmojiOnlyMessage(data.text)){
+bodyHtml = `<p class="emoji-only-msg">${escapeHtml(data.text)}</p>`;
+}else{
+bodyHtml = `<p>${escapeHtml(data.text || "")}</p>`;
+}
+
 html += `
 <div class="chat-msg">
 <span class="sender">${escapeHtml(data.name || "Student")}</span>
 <span class="time">${time}</span>
-<p>${escapeHtml(data.text || "")}</p>
+${bodyHtml}
 </div>
 `;
 
@@ -2558,7 +3180,8 @@ await window.updateDoc(
 window.doc(window.db, "conversations", currentConversationId),
 {
 lastMessage: text,
-lastMessageAt: new Date()
+lastMessageAt: new Date(),
+lastMessageSenderUid: user.uid
 }
 );
 
@@ -3530,6 +4153,8 @@ rememberedEmail;
 loadTheme();
 loadTextSizePref();
 loadSoundPref();
+loadWallpaperPref();
+loadNotificationPref();
 
 });
 
