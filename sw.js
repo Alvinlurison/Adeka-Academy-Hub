@@ -9,8 +9,14 @@
 // there's genuinely no connection. Live data (Firestore, chat, quiz
 // scores) still needs the internet regardless — only the app's own
 // files are cached here.
+//
+// { cache: "no-store" } below is important: without it, the browser's
+// own HTTP cache could quietly hand back a recently-fetched copy of
+// index.html instead of actually reaching GitHub, even though this
+// service worker is trying to go "network-first." This forces a real
+// network round-trip every time so updates always show up.
 
-const CACHE_NAME = "adeka-academy-hub-v1";
+const CACHE_NAME = "adeka-academy-hub-v2";
 const ASSETS_TO_CACHE = [
   "./",
   "./index.html",
@@ -20,6 +26,7 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
   );
@@ -27,17 +34,20 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-      )
-    )
+    Promise.all([
+      caches.keys().then((keys) =>
+        Promise.all(
+          keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        )
+      ),
+      self.clients.claim()
+    ])
   );
 });
 
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    fetch(event.request)
+    fetch(event.request, { cache: "no-store" })
       .then((response) => {
         const responseClone = response.clone();
         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
