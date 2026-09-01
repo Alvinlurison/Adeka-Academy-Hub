@@ -1,0 +1,6619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Adeka Academy Hub</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#062a54">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Adeka Hub">
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#04152d,#062a54,#0d3f7a);
+min-height:100vh;
+color:white;
+padding:20px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+.logo{
+width:220px;
+border-radius:20px;
+display:block;
+margin:auto;
+margin-bottom:20px;
+}
+
+.header{
+text-align:center;
+margin-bottom:30px;
+}
+
+.header h1{
+font-size:2.5rem;
+text-shadow:0 2px 14px rgba(255,215,0,.4);
+}
+
+.header p{
+color:#ffd700;
+}
+
+.card{
+background:rgba(255,255,255,.1);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:20px;
+margin-bottom:25px;
+border:1px solid rgba(255,255,255,.15);
+box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+
+input{
+width:100%;
+padding:15px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:15px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:#ffd700;
+font-weight:bold;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+opacity:.9;
+}
+
+/* !important here is deliberate: this guarantees "hidden" always wins
+   no matter how specific some other CSS rule is (e.g. an #id selector
+   that also sets display). Without this, a few different elements
+   ended up stuck visible despite having class="hidden" — this is a
+   blanket fix for that whole category of bug. */
+.hidden{
+display:none !important;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.convoAvatar{
+width:48px;
+height:48px;
+min-width:48px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #ffd700;
+}
+
+.convoAvatarInitial,
+.convoAvatarGroup{
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(255,215,0,.2);
+color:#ffd700;
+font-weight:bold;
+font-size:1.2rem;
+}
+
+.box{
+background:rgba(255,255,255,.1);
+padding:25px;
+border-radius:15px;
+text-align:center;
+border:1px solid rgba(255,255,255,.15);
+cursor:pointer;
+transition:transform .2s, box-shadow .2s, background .2s;
+}
+
+.box:hover{
+transform:translateY(-4px);
+background:rgba(255,255,255,.18);
+box-shadow:0 10px 24px rgba(0,0,0,.35);
+}
+
+.box h3{
+margin-top:10px;
+margin-bottom:10px;
+}
+
+.about{
+line-height:1.8;
+}
+
+#sideMenu{
+position:fixed;
+top:0;
+left:-320px;
+width:300px;
+max-width:82vw;
+height:100%;
+background:#062a54;
+padding:24px;
+z-index:999;
+overflow:auto;
+transition:0.3s;
+}
+
+#sideMenu.show{
+left:0;
+}
+
+#sideMenu button{
+margin-bottom:12px;
+padding:16px 18px;
+font-size:17px;
+}
+
+footer{
+text-align:center;
+margin-top:40px;
+padding:20px;
+border-top:1px solid rgba(255,255,255,.2);
+}
+
+.lightTheme{
+background:white;
+color:black;
+}
+
+.lightTheme .card,
+.lightTheme .box{
+background:#f0f0f0;
+color:black;
+}
+
+.lightTheme .header p{
+color:#b8860b;
+}
+
+body.text-small{
+font-size:14px;
+}
+
+body.text-normal{
+font-size:16px;
+}
+
+body.text-large{
+font-size:19px;
+}
+
+.btn-secondary{
+background:rgba(255,255,255,.15) !important;
+color:white !important;
+border:1px solid rgba(255,255,255,.3) !important;
+}
+
+.lightTheme .btn-secondary{
+background:rgba(0,0,0,.08) !important;
+color:black !important;
+border:1px solid rgba(0,0,0,.2) !important;
+}
+
+.btn-danger{
+background:#ff5c5c !important;
+color:white !important;
+}
+
+.switch{
+position:relative;
+display:inline-block;
+width:56px;
+height:30px;
+margin:10px 0;
+}
+
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+.slider{
+position:absolute;
+cursor:pointer;
+top:0; left:0; right:0; bottom:0;
+background-color:rgba(255,255,255,.25);
+border-radius:30px;
+transition:.3s;
+}
+
+.slider:before{
+position:absolute;
+content:"";
+height:24px;
+width:24px;
+left:3px;
+bottom:3px;
+background-color:white;
+border-radius:50%;
+transition:.3s;
+}
+
+input:checked + .slider{
+background-color:#ffd700;
+}
+
+input:checked + .slider:before{
+transform:translateX(26px);
+}
+
+.chat-msg{
+margin-bottom:12px;
+display:flex;
+}
+
+.chat-msg.own{
+justify-content:flex-end;
+}
+
+.chat-msg.other{
+justify-content:flex-start;
+}
+
+.chat-msg .bubble{
+max-width:75%;
+background:rgba(255,255,255,.1);
+padding:8px 12px;
+border-radius:12px;
+}
+
+.chat-msg.own .bubble{
+background:rgba(255,215,0,.22);
+}
+
+.chat-msg .sender{
+color:#ffd700;
+font-weight:bold;
+display:block;
+}
+
+.lightTheme .chat-msg .sender{
+color:#b8860b;
+}
+
+.chat-msg .time{
+opacity:.6;
+font-size:11px;
+margin-left:6px;
+}
+
+/* WhatsApp-style message bubbles: your messages on the right, theirs
+   on the left. */
+.msg-row{
+display:flex;
+margin-bottom:10px;
+}
+
+.msg-row.mine{
+justify-content:flex-end;
+}
+
+.msg-row.theirs{
+justify-content:flex-start;
+}
+
+.msg-bubble{
+max-width:75%;
+padding:8px 12px;
+border-radius:14px;
+}
+
+.msg-bubble.mine{
+background:rgba(255,215,0,.22);
+border:1px solid rgba(255,215,0,.4);
+border-top-right-radius:4px;
+}
+
+.msg-bubble.theirs{
+background:rgba(255,255,255,.12);
+border:1px solid rgba(255,255,255,.18);
+border-top-left-radius:4px;
+}
+
+.msg-sender{
+font-weight:bold;
+font-size:.8rem;
+color:#ffd700;
+margin-bottom:2px;
+display:block;
+}
+
+.lightTheme .msg-sender{
+color:#b8860b;
+}
+
+.msg-time{
+font-size:.7rem;
+opacity:.6;
+margin-top:4px;
+text-align:right;
+}
+
+.msg-actions{
+display:flex;
+gap:4px;
+margin-top:4px;
+}
+
+.msg-actions button{
+width:auto;
+padding:2px 6px;
+margin:0;
+background:transparent;
+font-size:.8rem;
+opacity:.55;
+border-radius:6px;
+}
+
+.msg-actions button:hover{
+opacity:1;
+background:rgba(255,255,255,.15);
+}
+
+.msg-reply-quote{
+border-left:3px solid #ffd700;
+padding:4px 8px;
+margin-bottom:6px;
+background:rgba(0,0,0,.15);
+border-radius:6px;
+font-size:.8rem;
+opacity:.85;
+}
+
+.msg-deleted{
+font-style:italic;
+opacity:.6;
+font-size:.85rem;
+}
+
+.msg-reactions{
+display:inline-block;
+background:rgba(0,0,0,.25);
+border-radius:12px;
+padding:2px 8px;
+font-size:.8rem;
+margin-top:4px;
+}
+
+.replyPreviewBar{
+display:none;
+padding:8px 12px;
+border-top:1px solid rgba(255,255,255,.15);
+background:rgba(0,0,0,.2);
+align-items:center;
+justify-content:space-between;
+gap:10px;
+}
+
+.replyPreviewBar.show{
+display:flex;
+}
+
+#chatPanel{
+position:fixed;
+top:0;
+right:-360px;
+width:340px;
+max-width:90vw;
+height:100%;
+background:rgba(6,42,84,.97);
+border-left:1px solid rgba(255,255,255,.2);
+box-shadow:-8px 0 30px rgba(0,0,0,.5);
+z-index:1200;
+display:flex;
+flex-direction:column;
+overflow:hidden;
+transition:right .3s ease;
+}
+
+#chatPanel.show{
+right:0;
+}
+
+#chatBubble{
+position:fixed;
+bottom:20px;
+right:20px;
+width:60px;
+height:60px;
+border-radius:50%;
+font-size:26px;
+z-index:1000;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+padding:0;
+margin:0;
+}
+
+#floatingLogout{
+position:fixed;
+top:90px;
+right:20px;
+width:auto;
+padding:10px 20px;
+z-index:1000;
+border-radius:30px;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+margin:0;
+}
+#helpBtn{
+position:fixed;
+top:20px;
+right:20px;
+width:50px;
+height:50px;
+border-radius:50%;
+font-size:22px;
+z-index:1300;
+padding:0;
+margin:0;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+}
+
+/* Mini profile chip — always visible at top-left when logged in.
+   Tapping it opens the account switcher (change/logout options). */
+#miniProfile{
+position:fixed;
+top:16px;
+left:16px;
+align-items:center;
+gap:8px;
+background:rgba(6,42,84,.85);
+backdrop-filter:blur(8px);
+border:1px solid rgba(255,255,255,.2);
+border-radius:30px;
+padding:4px 12px 4px 4px;
+z-index:1300;
+cursor:pointer;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+transition:background .2s;
+}
+
+#miniProfile:not(.hidden){
+display:flex;
+}
+
+#miniProfile:hover{
+background:rgba(6,42,84,1);
+}
+
+#miniProfilePic{
+width:36px;
+height:36px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #ffd700;
+}
+
+#miniProfileName{
+font-size:.8rem;
+font-weight:bold;
+color:white;
+max-width:140px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.lightTheme #miniProfile{
+background:rgba(240,240,240,.92);
+border-color:rgba(0,0,0,.15);
+}
+
+.lightTheme #miniProfileName{
+color:#062a54;
+}
+
+#accountSwitcherModal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+z-index:2100;
+display:none;
+align-items:flex-start;
+justify-content:flex-start;
+padding:80px 16px 16px;
+}
+
+#accountSwitcherModal.show{
+display:flex;
+}
+
+#accountSwitcherModal .card{
+width:100%;
+max-width:340px;
+text-align:center;
+padding:32px 26px;
+}
+
+#accountSwitcherModal .card button{
+padding:17px;
+font-size:1.02rem;
+margin-bottom:12px;
+}
+
+#helpModal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+z-index:1400;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+#helpModal.show{
+display:flex;
+}
+
+#helpModal .card{
+max-width:480px;
+max-height:80vh;
+overflow-y:auto;
+text-align:left;
+}
+
+#picLightbox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.85);
+z-index:2000;
+display:none;
+align-items:center;
+justify-content:center;
+}
+
+#picLightbox.show{
+display:flex;
+}
+
+/* Shared overlay style for the custom modals that replace native
+   confirm()/prompt() dialogs (action sheet, delete choice, class PIN). */
+.customModalOverlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+z-index:2200;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.customModalOverlay.show{
+display:flex;
+}
+
+.customModalOverlay .card{
+max-width:340px;
+text-align:center;
+}
+
+#appToast{
+position:fixed;
+bottom:90px;
+left:50%;
+transform:translateX(-50%) translateY(20px);
+background:rgba(20,20,30,.96);
+color:white;
+padding:12px 20px;
+border-radius:10px;
+font-size:.9rem;
+z-index:3000;
+opacity:0;
+pointer-events:none;
+transition:opacity .3s, transform .3s;
+max-width:85%;
+text-align:center;
+box-shadow:0 4px 14px rgba(0,0,0,.4);
+}
+
+#appToast.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+.floatingSquareBtn{
+position:fixed;
+width:56px;
+height:56px;
+border-radius:14px;
+font-size:22px;
+z-index:1000;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+padding:0;
+margin:0;
+line-height:56px;
+text-align:center;
+}
+
+#floatingNotes{
+bottom:85px;
+left:20px;
+background:rgba(45,212,191,.9);
+}
+
+#floatingAudio{
+bottom:20px;
+left:20px;
+background:rgba(244,114,182,.9);
+}
+
+#floatingQuiz{
+bottom:150px;
+left:20px;
+background:rgba(74,222,128,.9);
+}
+
+#floatingBack{
+position:fixed;
+bottom:90px;
+right:20px;
+width:auto;
+padding:8px 16px;
+z-index:1001;
+border-radius:30px;
+box-shadow:0 4px 14px rgba(0,0,0,.45);
+}
+
+.callContainer{
+width:100%;
+height:min(480px, 70vh);
+border-radius:15px;
+overflow:hidden;
+margin-top:15px;
+background:#000;
+}
+
+/* Chat wallpaper presets — applied to the message-scroll area of both
+   Class Chat and private Message threads. */
+/* Custom image wallpaper for chat areas — set by the user via Settings */
+.wallpaper-default,
+.wallpaper-midnight,
+.wallpaper-forest,
+.wallpaper-sunset,
+.wallpaper-lavender,
+.wallpaper-rosegold{
+background:transparent;
+}
+
+/* When a custom wallpaper image is set, it's applied via inline style.
+   This class just ensures the image covers the whole area properly. */
+.chat-wallpaper-img{
+background-size:cover !important;
+background-position:center !important;
+background-repeat:no-repeat !important;
+}
+
+/* Stand-alone single-emoji messages render bigger, like a sticker */
+.emoji-only-msg{
+font-size:2.6rem;
+line-height:1.2;
+}
+
+#emojiPicker{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+max-height:260px;
+background:rgba(6,42,84,.98);
+border-top:1px solid rgba(255,255,255,.2);
+z-index:1500;
+display:none;
+flex-direction:column;
+padding:12px;
+}
+
+#emojiPicker.show{
+display:flex;
+}
+
+#emojiPicker .tabs{
+display:flex;
+gap:8px;
+margin-bottom:8px;
+}
+
+#emojiPicker .grid-emoji{
+display:none;
+grid-template-columns:repeat(8,1fr);
+gap:6px;
+overflow-y:auto;
+}
+
+#emojiPicker .grid-emoji.active{
+display:grid;
+}
+
+#emojiPicker .grid-emoji button{
+width:auto;
+padding:6px;
+margin:0;
+background:transparent;
+font-size:1.4rem;
+border-radius:8px;
+}
+
+#emojiPicker .grid-emoji button:hover{
+background:rgba(255,255,255,.15);
+}
+
+/* ---- Landscape & responsive layout ---- */
+
+/* When the screen is wider than it is tall (landscape on phone),
+   shrink the header, tighten spacing, and make the grid fill the
+   extra horizontal space so nothing feels stretched or cropped. */
+@media (orientation: landscape) and (max-height: 500px){
+
+body{
+padding:10px;
+}
+
+.header{
+margin-bottom:12px;
+}
+
+.header h1{
+font-size:1.6rem;
+}
+
+.logo{
+width:100px;
+margin-bottom:10px;
+}
+
+.card{
+padding:15px;
+margin-bottom:15px;
+}
+
+.grid{
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+gap:12px;
+}
+
+.box{
+padding:14px;
+}
+
+#miniProfile{
+top:8px;
+left:8px;
+padding:3px 10px 3px 3px;
+}
+
+#miniProfilePic{
+width:28px;
+height:28px;
+}
+
+#miniProfileName{
+font-size:.72rem;
+}
+
+#floatingBack{
+bottom:80px;
+right:8px;
+left:auto;
+top:auto;
+padding:6px 12px;
+font-size:.85rem;
+}
+
+#floatingLogout{
+top:55px;
+right:8px;
+padding:6px 12px;
+font-size:.85rem;
+}
+
+#helpBtn{
+top:8px;
+right:8px;
+width:38px;
+height:38px;
+font-size:16px;
+}
+
+#chatPanel{
+width:100%;
+right:-100%;
+}
+
+#chatPanel.show{
+right:0;
+}
+
+}
+
+/* Tablets and wider screens — two-column card layout */
+@media (min-width: 700px){
+
+.grid{
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+}
+
+.card{
+padding:30px;
+}
+
+}
+
+/* Very wide screens — keep content centred and readable */
+@media (min-width: 1024px){
+
+body{
+padding:30px;
+}
+
+.container{
+max-width:900px;
+}
+
+}
+/* ---- Opening splash: hanging lamp swings + glows blue, revealing
+   the app name and tagline, before fading out to the real app. ---- */
+
+#introOverlay{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:linear-gradient(135deg,#04152d,#062a54,#0d3f7a);
+z-index:5000;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+cursor:pointer;
+}
+
+#introOverlay.introFadeOut{
+animation:introOverlayFade .6s ease forwards;
+}
+
+@keyframes introOverlayFade{
+from{opacity:1;visibility:visible;}
+to{opacity:0;visibility:hidden;}
+}
+
+.introLogoWatermark{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:52vw;
+max-width:380px;
+opacity:.10;
+z-index:0;
+pointer-events:none;
+}
+
+.introLogoWatermark img{
+width:100%;
+display:block;
+border-radius:14%;
+}
+
+.introLampWrap{
+position:absolute;
+top:8%;
+display:flex;
+flex-direction:column;
+align-items:center;
+opacity:0;
+animation:introFadeSimple .4s ease forwards;
+z-index:1;
+}
+
+.introCord{
+width:2px;
+height:70px;
+background:rgba(255,255,255,.35);
+}
+
+.introLamp{
+width:76px;
+height:52px;
+background:linear-gradient(180deg,#1a5a94,#0d3f7a);
+clip-path:polygon(32% 0%, 68% 0%, 100% 100%, 0% 100%);
+position:relative;
+transform-origin:top center;
+box-shadow:inset 0 -6px 10px rgba(0,0,0,.25);
+animation:introSwing 2.6s ease-out forwards;
+animation-delay:3s;
+}
+
+.introLampCap{
+width:20px;
+height:8px;
+background:#0a2c52;
+border-radius:3px 3px 0 0;
+margin-bottom:-1px;
+}
+
+.introBulbGlow{
+position:absolute;
+bottom:-10px;
+left:50%;
+width:20px;height:20px;
+border-radius:50%;
+background:#7fd8ff;
+transform:translateX(-50%) scale(0);
+box-shadow:0 0 0 rgba(127,216,255,0);
+animation:introBulbOn 1s ease forwards;
+animation-delay:5.5s;
+}
+
+@keyframes introSwing{
+0%{transform:rotate(0deg);}
+20%{transform:rotate(-22deg);}
+40%{transform:rotate(16deg);}
+60%{transform:rotate(-9deg);}
+80%{transform:rotate(4deg);}
+100%{transform:rotate(0deg);}
+}
+
+@keyframes introBulbOn{
+from{transform:translateX(-50%) scale(0);box-shadow:0 0 0 rgba(127,216,255,0);}
+to{transform:translateX(-50%) scale(1);box-shadow:0 0 60px 30px rgba(79,195,247,.85);}
+}
+
+.introLightCone{
+width:320px;
+max-width:80vw;
+height:360px;
+background:radial-gradient(ellipse at top, rgba(127,216,255,.55) 0%, rgba(79,195,247,.22) 35%, rgba(79,195,247,0) 72%);
+margin-top:-8px;
+opacity:0;
+animation:introFadeSimple 1.2s ease forwards;
+animation-delay:5.6s;
+}
+
+.introTextWrap{
+text-align:center;
+margin-top:26vh;
+padding:0 20px;
+position:relative;
+z-index:1;
+}
+
+.introAppName{
+font-size:2.1rem;
+font-weight:bold;
+color:#fff;
+text-shadow:0 2px 20px rgba(79,195,247,.55);
+white-space:nowrap;
+}
+
+.introAppName span{
+display:inline-block;
+opacity:0;
+transform:translateX(-14px);
+animation:introLetterIn .7s ease forwards;
+}
+
+.introTagline{
+opacity:0;
+color:#4fc3f7;
+margin-top:8px;
+letter-spacing:.5px;
+animation:introFadeSimple 1s ease forwards;
+animation-delay:2.6s;
+}
+
+@keyframes introLetterIn{
+from{opacity:0;transform:translateX(-14px);}
+to{opacity:1;transform:translateX(0);}
+}
+
+@keyframes introFadeSimple{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+@media (max-width:420px){
+.introAppName{font-size:1.5rem;}
+}
+
+/* ---- Redesigned sign-in card: glowing pendant lamp + pill-style
+   fields, in the app's blue tones instead of the reference's green. ---- */
+
+.authLampWrap{
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-bottom:6px;
+}
+
+.authCord{
+width:2px;
+height:34px;
+background:rgba(255,255,255,.3);
+}
+
+.authLampCap{
+width:16px;
+height:6px;
+background:#0a2c52;
+border-radius:2px 2px 0 0;
+margin-bottom:-1px;
+}
+
+.authLamp{
+width:54px;
+height:36px;
+background:linear-gradient(180deg,#1a5a94,#0d3f7a);
+clip-path:polygon(32% 0%, 68% 0%, 100% 100%, 0% 100%);
+position:relative;
+box-shadow:inset 0 -4px 8px rgba(0,0,0,.25);
+}
+
+.authBulbGlow{
+position:absolute;
+bottom:-8px;
+left:50%;
+transform:translateX(-50%);
+width:16px;
+height:16px;
+border-radius:50%;
+background:#7fd8ff;
+animation:authGlowPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes authGlowPulse{
+0%,100%{box-shadow:0 0 25px 12px rgba(79,195,247,.45);}
+50%{box-shadow:0 0 42px 20px rgba(79,195,247,.75);}
+}
+
+.authTitle{
+text-align:center;
+font-size:1.6rem;
+margin-top:6px;
+}
+
+.authTitleAccent{
+color:#4fc3f7;
+}
+
+.authSubtitle{
+text-align:center;
+opacity:.7;
+font-size:.85rem;
+margin-top:2px;
+margin-bottom:18px;
+}
+
+.authField{
+display:flex;
+align-items:center;
+gap:10px;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,255,255,.18);
+border-radius:30px;
+padding:0 16px;
+margin:10px 0;
+}
+
+.authField input{
+background:transparent;
+border:none;
+color:#fff;
+padding:14px 0;
+margin:0;
+width:100%;
+}
+
+.authField input::placeholder{
+color:rgba(255,255,255,.55);
+}
+
+.authField select{
+background:transparent;
+border:none;
+color:#fff;
+padding:14px 0;
+margin:0;
+width:100%;
+font-size:16px;
+-webkit-appearance:none;
+appearance:none;
+}
+
+.authField select option{
+color:#000;
+}
+
+.lightTheme .authField select{
+color:#000;
+}
+
+.lightTheme .authField{
+background:rgba(0,0,0,.05);
+border-color:rgba(0,0,0,.15);
+}
+
+.lightTheme .authField input{
+color:#000;
+}
+
+.authFieldIcon{
+opacity:.85;
+font-size:1.05rem;
+}
+
+.authRemember{
+display:flex;
+align-items:center;
+gap:10px;
+margin:14px 2px;
+cursor:pointer;
+}
+
+.authRemember input{
+width:18px;
+height:18px;
+cursor:pointer;
+}
+
+.authRemember span{
+font-size:.9rem;
+}
+
+.authPrimaryBtn{
+background:linear-gradient(45deg,#0d47a1,#29b6f6) !important;
+color:#fff !important;
+font-weight:bold;
+box-shadow:0 6px 18px rgba(41,182,246,.35);
+}
+
+.authPrimaryBtn:hover{
+opacity:.92;
+}
+
+</style>
+</head>
+<body>
+<div id="introOverlay">
+<div class="introLogoWatermark"><img src="logo.png" alt=""></div>
+<div class="introLampWrap">
+<div class="introCord"></div>
+<div class="introLampCap"></div>
+<div class="introLamp"><div class="introBulbGlow"></div></div>
+<div class="introLightCone"></div>
+</div>
+<div class="introTextWrap">
+<h1 class="introAppName" id="introAppName">Adeka Academy Hub</h1>
+<p class="introTagline">Learn • Connect • Grow</p>
+</div>
+</div>
+<script>
+(function(){
+var nameEl = document.getElementById("introAppName");
+if(nameEl){
+var text = nameEl.textContent;
+nameEl.textContent = "";
+Array.prototype.forEach.call(text, function(ch, i){
+var span = document.createElement("span");
+span.textContent = (ch === " ") ? "\u00A0" : ch;
+span.style.animationDelay = (0.3 + i * 0.09) + "s";
+nameEl.appendChild(span);
+});
+}
+})();
+</script>
+<script>
+(function(){
+var overlay = document.getElementById("introOverlay");
+if(!overlay) return;
+var TOTAL_MS = 7200;
+var done = false;
+function finishIntro(){
+if(done) return;
+done = true;
+overlay.classList.add("introFadeOut");
+setTimeout(function(){ overlay.classList.add("hidden"); }, 650);
+}
+var timer = setTimeout(finishIntro, TOTAL_MS);
+overlay.addEventListener("click", function(){ clearTimeout(timer); finishIntro(); });
+})();
+</script>
+
+<div class="container">
+<button id="floatingBack" class="hidden" onclick="backToDashboard()">← Back</button>
+<button id="floatingLogout" class="hidden btn-danger" onclick="logout()">Logout</button>
+<button id="helpBtn" onclick="toggleHelp()" title="Help">❓</button>
+
+<!-- Mini profile chip: always visible when logged in, top-left corner -->
+<div id="miniProfile" class="hidden" onclick="openAccountSwitcher()">
+<img id="miniProfilePic"
+src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' fill='%23ffd700'/><circle cx='18' cy='14' r='7' fill='%23062a54'/><path d='M4 34 Q18 22 32 34 Z' fill='%23062a54'/></svg>">
+<span id="miniProfileName">Student</span>
+</div>
+
+<div id="accountSwitcherModal" onclick="if(event.target===this) closeAccountSwitcher()">
+<div class="card">
+<img id="switcherPic" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #ffd700;margin:0 auto 10px;display:block;"
+src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'><rect width='72' height='72' fill='%23ffd700'/><circle cx='36' cy='28' r='14' fill='%23062a54'/><path d='M8 68 Q36 44 64 68 Z' fill='%23062a54'/></svg>">
+<h3 id="switcherName" style="margin-bottom:2px;"></h3>
+<p id="switcherRole" style="opacity:.8;font-size:.8rem;color:#ffd700;margin-bottom:4px;"></p>
+<p id="switcherEmail" style="opacity:.7;font-size:.85rem;margin-bottom:20px;"></p>
+<button onclick="closeAccountSwitcher(); openSettings();">⚙️ Settings</button>
+<button class="btn-secondary" onclick="closeAccountSwitcher(); viewProfilePicture();">🖼️ View My Picture</button>
+<button class="btn-secondary" onclick="switchAccount()">🔄 Change Account</button>
+<button class="btn-danger" onclick="closeAccountSwitcher(); logout();">Logout</button>
+<button class="btn-secondary" onclick="closeAccountSwitcher()" style="margin-top:5px;">Cancel</button>
+</div>
+</div>
+
+<div id="helpModal">
+  <div class="card">
+    <h2>❓ Help & Getting Started</h2>
+
+    <h3 style="margin-top:20px;">Creating Your Account</h3>
+    <p style="margin-top:8px;">
+    1. Enter your Full Name, Email, and a Password.<br>
+    2. Tap "Create Account".<br>
+    3. You're in — your dashboard loads right away.
+    </p>
+
+    <h3 style="margin-top:20px;">Logging In Again</h3>
+    <p style="margin-top:8px;">
+    1. Enter the same Email and Password you signed up with.<br>
+    2. Tick "Remember me" to save your name and email so they auto-fill next time.<br>
+    3. Tap "Login".
+    </p>
+
+    <h3 style="margin-top:20px;">Changing Your Profile Picture</h3>
+    <p style="margin-top:8px;">
+    Open the ☰ Menu → ⚙️ Settings → "Choose New Picture".
+    </p>
+
+    <button class="btn-secondary" onclick="toggleHelp()" style="margin-top:20px;">Close</button>
+  </div>
+</div>
+
+<div id="picLightbox" onclick="closeLightbox()">
+<img id="lightboxImage" style="max-width:90%;max-height:90%;border-radius:10px;">
+</div>
+
+<div id="messageActionSheet" class="customModalOverlay" onclick="if(event.target===this) closeActionSheet()">
+<div class="card">
+<h3 style="margin-bottom:15px;">Message Options</h3>
+<button class="btn-secondary" onclick="actionSheetReact()">😀 React</button>
+<button class="btn-secondary" onclick="actionSheetReply()">↩️ Reply</button>
+<button class="btn-secondary" id="actionSheetEditBtn" onclick="actionSheetEdit()">✏️ Edit</button>
+<button class="btn-danger" onclick="actionSheetDelete()">🗑️ Delete</button>
+<button class="btn-secondary" onclick="closeActionSheet()">Cancel</button>
+</div>
+</div>
+
+<div id="deleteChoiceModal" class="customModalOverlay" onclick="if(event.target===this) closeDeleteChoiceModal()">
+<div class="card">
+<h3 id="deleteChoiceTitle" style="margin-bottom:15px;"></h3>
+<button class="btn-danger" id="deleteForEveryoneBtn" onclick="executeDeleteChoice('everyone')">Delete for Everyone</button>
+<button class="btn-secondary" onclick="executeDeleteChoice('me')">Delete for Me Only</button>
+<button class="btn-secondary" onclick="closeDeleteChoiceModal()">Cancel</button>
+</div>
+</div>
+
+<div id="classPinModal" class="customModalOverlay" onclick="if(event.target===this) closeClassPinModal()">
+<div class="card">
+<h2>🔒 Class Chat</h2>
+<p style="opacity:.8;margin-top:10px;">Class Chat is shared by everyone using this app worldwide. Enter your class PIN to join:</p>
+<input id="classPinModalInput" placeholder="Enter PIN" style="margin-top:15px;" onkeyup="if(event.key==='Enter') submitClassPin();">
+<p id="classPinModalError" style="color:#ff5c5c;font-size:.85rem;margin-top:5px;"></p>
+<button onclick="submitClassPin()">Join Class Chat</button>
+<button class="btn-secondary" onclick="closeClassPinModal()">Cancel</button>
+</div>
+</div>
+
+<div id="genericConfirmModal" class="customModalOverlay" onclick="if(event.target===this) closeGenericConfirm()">
+<div class="card">
+<p id="genericConfirmText" style="margin-bottom:15px;"></p>
+<button class="btn-danger" id="genericConfirmYesBtn" onclick="genericConfirmYes()">Yes</button>
+<button class="btn-secondary" onclick="closeGenericConfirm()">Cancel</button>
+</div>
+</div>
+
+<div id="genericPromptModal" class="customModalOverlay" onclick="if(event.target===this) closeGenericPrompt()">
+<div class="card">
+<p id="genericPromptText" style="margin-bottom:10px;"></p>
+<textarea id="genericPromptInput" style="width:100%;min-height:100px;padding:12px;border-radius:8px;border:none;font-size:16px;"></textarea>
+<button onclick="genericPromptSubmit()">Save</button>
+<button class="btn-secondary" onclick="closeGenericPrompt()">Cancel</button>
+</div>
+</div>
+
+<div id="editNicknameModal" class="customModalOverlay" onclick="if(event.target===this) closeEditNicknameModal()">
+<div class="card">
+<h3 style="margin-bottom:10px;">✏️ Edit Display Name</h3>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:10px;">This only changes how they appear to you — it doesn't change their actual account name.</p>
+<input id="editNicknameInput" placeholder="Enter a name">
+<button onclick="saveNickname()">Save</button>
+<button class="btn-secondary" onclick="resetNickname()">Reset to Real Name</button>
+<button class="btn-secondary" onclick="closeEditNicknameModal()">Cancel</button>
+</div>
+</div>
+
+<div id="reactionPicker" class="customModalOverlay" onclick="if(event.target===this) closeReactionPicker()">
+<div class="card" style="max-width:300px;">
+<div style="display:flex;justify-content:space-around;font-size:1.8rem;">
+<span onclick="sendReaction('👍')" style="cursor:pointer;">👍</span>
+<span onclick="sendReaction('❤️')" style="cursor:pointer;">❤️</span>
+<span onclick="sendReaction('😂')" style="cursor:pointer;">😂</span>
+<span onclick="sendReaction('😮')" style="cursor:pointer;">😮</span>
+<span onclick="sendReaction('😢')" style="cursor:pointer;">😢</span>
+<span onclick="sendReaction('🙏')" style="cursor:pointer;">🙏</span>
+</div>
+<button class="btn-secondary" onclick="closeReactionPicker()" style="margin-top:15px;">Cancel</button>
+</div>
+</div>
+
+<button id="chatBubble" class="hidden" onclick="openClassChatGuarded()">💬</button>
+
+<div id="welcomeToast" style="
+position:fixed;
+top:80px;
+left:50%;
+transform:translateX(-50%) translateY(-20px);
+background:rgba(6,42,84,.97);
+color:white;
+padding:14px 22px;
+border-radius:14px;
+z-index:3500;
+opacity:0;
+pointer-events:none;
+transition:opacity .4s, transform .4s;
+text-align:center;
+box-shadow:0 6px 24px rgba(0,0,0,.5);
+border:1px solid rgba(255,215,0,.3);
+min-width:220px;
+max-width:85vw;
+display:none;
+">
+<p id="welcomeToastName" style="font-weight:bold;font-size:1rem;color:#ffd700;"></p>
+<p id="welcomeToastStreak" style="font-size:.85rem;opacity:.9;margin-top:3px;"></p>
+<p id="welcomeToastQuote" style="font-size:.75rem;opacity:.7;font-style:italic;margin-top:4px;"></p>
+</div>
+
+<div id="emojiPicker">
+  <div class="tabs">
+    <button class="btn-secondary" style="width:auto;flex:1;" onclick="showEmojiTab('emoji')">😀 Emoji</button>
+    <button class="btn-secondary" style="width:auto;flex:1;" onclick="showEmojiTab('stickers')">🎉 Stickers</button>
+    <button class="btn-secondary" style="width:auto;flex:0;padding:6px 14px;" onclick="toggleEmojiPicker()">✕</button>
+  </div>
+  <div id="emojiTabEmoji" class="grid-emoji active"></div>
+  <div id="emojiTabStickers" class="grid-emoji"></div>
+</div>
+
+<button id="floatingNotes" class="hidden floatingSquareBtn" onclick="openNotes()" title="Notes">📝</button>
+<button id="floatingAudio" class="hidden floatingSquareBtn" onclick="openAudioLessons()" title="Audio Room">🎧</button>
+<button id="floatingQuiz" class="hidden floatingSquareBtn" onclick="openQuiz()" title="Quiz Challenge">🎮</button>
+
+<div id="chatPanel">
+  <div style="padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.15);">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <strong>💬 Class Chat</strong>
+    <div style="display:flex;gap:6px;">
+    <button class="btn-danger" onclick="clearChatHistory()" style="width:auto;padding:4px 10px;margin:0;font-size:14px;" title="Clear chat for everyone">🗑️</button>
+    <button class="btn-secondary" onclick="toggleChatPanel()" style="width:auto;padding:4px 10px;margin:0;font-size:16px;">✕</button>
+    </div>
+    </div>
+    <p style="font-size:.7rem;opacity:.6;margin-top:4px;">Swipe to reply, hold to react, tap for more options</p>
+  </div>
+  <div id="chatMessages" class="wallpaper-default" style="flex:1;overflow-y:auto;padding:10px 15px;font-size:14px;color:white;"></div>
+  <div id="chatReplyBar" class="replyPreviewBar">
+    <span id="chatReplyText" style="font-size:.85rem;opacity:.85;"></span>
+    <button class="btn-secondary" onclick="cancelComposerContext('classChat')" style="width:auto;padding:4px 10px;margin:0;">✕</button>
+  </div>
+  <div style="display:flex;padding:10px;border-top:1px solid rgba(255,255,255,.15);gap:6px;">
+    <button class="btn-secondary" onclick="toggleEmojiPicker('chatInput')" style="width:auto;margin:0;padding:10px 12px;">😀</button>
+    <label class="btn-secondary" style="width:auto;margin:0;padding:10px 12px;cursor:pointer;display:flex;align-items:center;">📎<input type="file" accept="image/*" style="display:none;" onchange="sendChatImage(event)"></label>
+    <button id="micBtn-chatInput" class="btn-secondary" onclick="toggleVoiceRecording('classChat')" style="width:auto;margin:0;padding:10px 12px;">🎤</button>
+    <input id="chatInput" placeholder="Type a message..." style="margin:0;flex:1;" onkeyup="if(event.key==='Enter') sendChatMessage();">
+    <button onclick="sendChatMessage()" style="width:44px;height:44px;border-radius:50%;margin:0;padding:0;font-size:18px;flex-shrink:0;">➤</button>
+  </div>
+</div>
+
+<img src="logo.png" class="logo" alt="Adeka Academy Hub Logo">
+<div class="header">
+    <h1>Adeka Academy Hub</h1>
+    <p>Learn • Connect • Grow</p>
+
+    <p id="message"
+       style="color:#00ff88;
+              font-weight:bold;
+              margin-top:10px;">
+    </p>
+</div>
+
+<div class="card" id="auth">
+
+<div class="authLampWrap">
+<div class="authCord"></div>
+<div class="authLampCap"></div>
+<div class="authLamp"><div class="authBulbGlow"></div></div>
+</div>
+
+<h2 class="authTitle">Welcome <span class="authTitleAccent">Back</span></h2>
+<p class="authSubtitle">Sign in to continue learning</p>
+
+<div class="authField">
+<span class="authFieldIcon">👤</span>
+<input
+type="text"
+id="fullName"
+placeholder="Full Name">
+</div>
+
+<div class="authField">
+<span class="authFieldIcon">📧</span>
+<input type="email" id="email" placeholder="Email Address">
+</div>
+
+<div class="authField">
+<span class="authFieldIcon">📱</span>
+<input type="tel" id="phoneNumber" placeholder="Phone Number (with country code)">
+</div>
+
+<div class="authField">
+<span class="authFieldIcon">🔒</span>
+<input type="password" id="password" placeholder="Password">
+</div>
+
+<div class="authField">
+<span class="authFieldIcon">🎓</span>
+<select id="userRole">
+<option value="Student">I'm a Student</option>
+<option value="Tutor">I'm a Tutor</option>
+<option value="Teacher">I'm a Teacher</option>
+<option value="Head Teacher/Principal">I'm a Head Teacher / Principal</option>
+<option value="Headmaster/Headmistress">I'm a Headmaster / Headmistress</option>
+<option value="Parent/Guardian">I'm a Parent / Guardian</option>
+</select>
+</div>
+<p style="opacity:.65;font-size:.8rem;margin:-4px 4px 6px;">Only used when creating a new account</p>
+
+<label class="authRemember">
+<input type="checkbox" id="rememberMe" checked>
+<span>Remember me on this device</span>
+</label>
+
+<button class="authPrimaryBtn" onclick="register()">
+Create Account
+</button>
+<button class="authPrimaryBtn" onclick="login()">
+Sign In →
+</button>
+<button class="btn-secondary" onclick="resetPassword()">
+Forgot Password?
+</button>
+
+</div> <!-- closes auth card -->
+
+<div id="dashboard" class="hidden">
+
+<!-- profileName/Email/Image kept hidden for JS references -->
+<span id="profileName" style="display:none;"></span>
+<span id="profileEmail" style="display:none;"></span>
+<img id="profileImage" style="display:none;">
+
+<div id="sideMenu">
+
+<button onclick="openProgress()">
+📊 Progress
+</button>
+
+<button onclick="openTasks()">
+✅ Study Tasks
+</button>
+
+<button onclick="openBadges()">
+🏆 Achievements
+</button>
+
+<button onclick="openSettings()">
+⚙️ Settings
+</button>
+
+<button class="btn-secondary" onclick="toggleMenu()">
+❌ Close
+</button>
+
+</div>
+<div class="card" id="dashboardHome">
+<h2>Dashboard</h2>
+
+<button class="btn-secondary" onclick="toggleMenu()" style="width:auto;padding:10px 15px;">
+☰ Menu
+</button>
+<p id="currentDate"></p>
+
+<div id="greetingBanner" style="display:none;"></div>
+
+<div class="grid">
+<div class="box" onclick="openAITutor()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(167,139,250,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📚</div>
+<h3>AI Tutor</h3>
+<p>Powered by Adeka AI</p>
+</div>
+<div class="box" onclick="openMeetingCenter()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(251,146,60,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎥</div>
+<h3>Meeting Center</h3>
+<p>Join classes and meetings</p>
+</div>
+
+<div class="box" onclick="openNotes()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(45,212,191,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📝</div>
+<h3>Notes</h3>
+<p>Create and save notes</p>
+</div>
+
+<div class="box" onclick="openAudioLessons()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(244,114,182,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎧</div>
+<h3>Audio Lessons</h3>
+<p>Learn anywhere</p>
+</div>
+
+<div class="box" onclick="openQuiz()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(74,222,128,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎮</div>
+<h3>Quiz Challenge</h3>
+<p>Test yourself & compete globally</p>
+</div>
+
+<div class="box" onclick="openMessages()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(96,165,250,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">💬</div>
+<h3>Messages</h3>
+<p>Chat 1-on-1 or in groups</p>
+</div>
+
+</div> <!-- end grid -->
+
+<div class="card" style="margin-top:20px;">
+<h2>Contact Information</h2>
+<br>
+<p>📞 0207276292</p>
+<br>
+<p>📞 0205106768</p>
+<br>
+<p>📧 Alvinlurison@gmail.com</p>
+</div>
+
+</div> <!-- end dashboard card -->
+
+<div id="notesSection" class="card hidden">
+
+<h2>My Notes</h2>
+
+<textarea
+id="noteText"
+oninput="updateCharCount()"
+placeholder="Write your notes here..."
+style="
+width:100%;
+height:200px;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+"></textarea>
+
+<p>
+Characters:
+<span id="charCount">0</span>
+</p>
+
+<p>
+Words:
+<span id="wordCount">0</span>
+</p>
+
+<button onclick="saveNote()">
+Save Note
+</button>
+<button class="btn-secondary" onclick="clearDraft()">
+Clear Draft
+</button>
+<button class="btn-secondary" onclick="downloadNotes()">
+Download My Notes
+</button>
+<button class="btn-danger" onclick="deleteAllNotes()">
+Delete All Notes
+</button>
+
+<input
+id="searchNotes"
+placeholder="Search notes..."
+onkeyup="loadNotes()">
+<h3 style="margin-top:20px;">
+Saved Notes (<span id="noteCount">0</span>)
+<p>
+Maximum Notes Recommended: 100
+</p>
+</h3>
+
+<div id="savedNotes"></div>
+
+</div>
+
+<div id="aiTutorSection" class="card hidden">
+
+<h2>🤖 Adeka AI Tutor</h2>
+<p style="opacity:.75;font-size:.85rem;margin-bottom:10px;">Ask anything — attach a photo or file if you want help with it too.</p>
+
+<p id="aiKeyWarning" class="hidden" style="background:rgba(255,92,92,.15);border:1px solid rgba(255,92,92,.4);padding:10px 12px;border-radius:8px;font-size:.85rem;margin-bottom:12px;">
+No AI key set yet. Open ⚙️ Settings → 🤖 AI Tutor API Key (free) to activate this.
+</p>
+
+<div id="aiChatMessages" style="max-height:50vh;overflow-y:auto;margin-bottom:10px;"></div>
+
+<div id="aiAttachPreview" class="hidden" style="margin-bottom:8px;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+<span id="aiAttachPreviewName" style="font-size:.85rem;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+<button class="btn-secondary" style="width:auto;padding:4px 10px;margin:0;" onclick="clearAiAttachment()">✕</button>
+</div>
+
+<div style="display:flex;gap:8px;align-items:center;">
+<label for="aiAttachInput" class="btn-secondary" style="width:auto;padding:15px;margin:0;cursor:pointer;" title="Attach photo or file">📎</label>
+<input type="file" id="aiAttachInput" accept="image/*,.pdf,.txt" onchange="handleAiAttachment(event)" style="display:none;">
+<input id="userQuestion" placeholder="Ask a question..." style="flex:1;margin:0;" onkeyup="if(event.key==='Enter') askAI();">
+<button onclick="askAI()" style="width:auto;padding:15px 20px;margin:0;">Send</button>
+</div>
+
+</div>
+<div id="meetingSection" class="card hidden">
+
+<h2>Meeting Center</h2>
+
+<p>Start or join a live video class — right here in the app, no other software needed.</p>
+
+<input
+id="meetingCode"
+placeholder="Enter a Room Name (e.g. math-class-1)">
+
+<button onclick="joinMeeting()">
+Start / Join Meeting
+</button>
+
+<button class="btn-danger hidden" onclick="leaveMeeting()" id="leaveMeetingBtn">
+Leave Meeting
+</button>
+
+<div id="jitsiMeetingContainer" class="callContainer hidden"></div>
+
+</div>
+
+<div id="audioSection" class="card hidden">
+
+<h2>Live Audio Room</h2>
+
+<p>Voice-only room for lessons and live chat — lighter on data than video, still all in-app.</p>
+
+<input
+id="audioRoomCode"
+placeholder="Enter a Room Name (e.g. study-group-1)">
+
+<button onclick="joinAudioRoom()">
+Start / Join Audio Room
+</button>
+
+<button class="btn-danger hidden" onclick="leaveAudioRoom()" id="leaveAudioBtn">
+Leave Audio Room
+</button>
+
+<div id="jitsiAudioContainer" class="callContainer hidden"></div>
+
+<h3 style="margin-top:25px;">Recorded Lessons</h3>
+
+<audio controls style="width:100%;margin-top:10px;">
+  <source src="lesson1.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<div id="settingsSection" class="card hidden">
+
+<h2>⚙️ Settings</h2>
+
+<p style="opacity:.8;margin-top:5px;">Make the app look and feel the way you like.</p>
+
+<div style="display:flex;align-items:center;gap:15px;margin-top:25px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="themeSwitch" onchange="toggleTheme()">
+<span class="slider"></span>
+</label>
+<span>🌙 / ☀️ Dark / Light Mode</span>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🔠 Text Size</p>
+<div style="display:flex;gap:10px;">
+<button class="btn-secondary" style="width:auto;flex:1;" onclick="setTextSize('small')">Small</button>
+<button class="btn-secondary" style="width:auto;flex:1;" onclick="setTextSize('normal')">Normal</button>
+<button class="btn-secondary" style="width:auto;flex:1;" onclick="setTextSize('large')">Large</button>
+</div>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🖼️ Change Profile Picture</p>
+<label for="profilePicSettings" class="btn-secondary" style="display:inline-block;text-align:center;cursor:pointer;width:100%;padding:15px;margin:10px 0;border-radius:10px;">
+📷 Choose New Picture
+</label>
+<input type="file" id="profilePicSettings" onchange="saveProfilePicture(event)" style="display:none;">
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🎨 Chat Wallpaper</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:10px;">Choose any photo from your device as the background for all your chats — just like WhatsApp.</p>
+<label for="wallpaperFileInput" class="btn-secondary" style="display:inline-block;text-align:center;cursor:pointer;width:100%;padding:15px;margin:10px 0;border-radius:10px;">
+🖼️ Choose Wallpaper Photo
+</label>
+<input type="file" id="wallpaperFileInput" accept="image/*" onchange="setChatWallpaperFromFile(event)" style="display:none;">
+<button class="btn-secondary" onclick="removeChatWallpaper()">✕ Remove Wallpaper</button>
+</div>
+
+<div style="display:flex;align-items:center;gap:15px;margin-top:25px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="autoDeleteSwitch" onchange="toggleAutoDelete()">
+<span class="slider"></span>
+</label>
+<span>🗑️ Auto-delete messages after 24 hours</span>
+</div>
+<p style="opacity:.6;font-size:.8rem;margin-top:5px;">Applies to Class Chat and private Messages. You can still delete any message manually anytime (tap 🗑️ on it) — choosing "for everyone" or "just for you".</p>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">📞 Phone Number</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Lets friends find you to start a chat. Yours: <strong id="currentPhoneDisplay">Not set</strong></p>
+<input id="phoneNumberSettings" placeholder="Enter phone number">
+<button onclick="updatePhoneNumber()">Save Phone Number</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🔒 Class Chat PIN</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Class Chat is shared by everyone with the app, worldwide — this PIN keeps random strangers out. Set it once, then only share it with your real students.</p>
+<input id="classChatPinInput" placeholder="Set or change the PIN">
+<button onclick="setClassChatPin()">Save PIN</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🔊 Read My Notes Aloud</p>
+<button onclick="readNotesAloud()">▶️ Start Reading</button>
+<button class="btn-secondary" onclick="stopReadingNotes()">⏹️ Stop Reading</button>
+</div>
+
+<div style="display:flex;align-items:center;gap:15px;margin-top:25px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="soundSwitch" onchange="toggleBadgeSound()">
+<span class="slider"></span>
+</label>
+<span>🔔 Play a sound when I earn a badge</span>
+</div>
+
+<div style="margin-top:25px;">
+<div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="notifSwitch" onchange="toggleNotifications()">
+<span class="slider"></span>
+</label>
+<span>🔔 Notify me about new messages</span>
+</div>
+<p id="notifStatus" style="opacity:.7;font-size:.85rem;margin-top:8px;">Works while the app is open in a tab (even in the background) — only buzzes your phone when fully closed once a paid upgrade is added later.</p>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🎓 Your Role</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Lets others see whether you're a student, tutor, teacher, etc.</p>
+<select id="roleSettingsSelect" style="width:100%;padding:15px;margin:10px 0;border:none;border-radius:10px;font-size:16px;">
+<option value="Student">Student</option>
+<option value="Tutor">Tutor</option>
+<option value="Teacher">Teacher</option>
+<option value="Head Teacher/Principal">Head Teacher / Principal</option>
+<option value="Headmaster/Headmistress">Headmaster / Headmistress</option>
+<option value="Parent/Guardian">Parent / Guardian</option>
+</select>
+<button onclick="saveRoleSetting()">Save Role</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🤖 AI Tutor API Key (free)</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Get a free key at aistudio.google.com (Google AI Studio) — no card needed. It is stored only on this device and sent straight to Google when you ask a question, never through any other server. Anyone with access to this device/browser could technically view it, so don't reuse a key you care about keeping private.</p>
+<p id="aiKeyStatus" style="opacity:.8;font-size:.85rem;margin-bottom:8px;">Status: checking...</p>
+<input id="aiApiKeyInput" placeholder="Paste your Google AI (Gemini) API key" type="password">
+<button onclick="saveAiApiKey()">Save Key</button>
+<button class="btn-secondary" onclick="clearAiApiKey()">Remove Key</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">📞 Contact Us</p>
+<p style="opacity:.85;font-size:.9rem;">0207276292</p>
+<p style="opacity:.85;font-size:.9rem;">0205106768</p>
+<p style="opacity:.85;font-size:.9rem;">Alvinlurison@gmail.com</p>
+</div>
+
+</div>
+
+<div id="quizSection" class="card hidden">
+
+<h2>🎮 Quiz Challenge</h2>
+
+<div id="quizLevelChoice">
+<p style="margin:15px 0;">Choose your level:</p>
+<button onclick="chooseQuizLevel('University')">🎓 University</button>
+<button onclick="chooseQuizLevel('SHS')">🏫 SHS</button>
+<button onclick="chooseQuizLevel('JHS')">📘 JHS</button>
+</div>
+
+<div id="quizSubjectChoice" class="hidden">
+<button class="btn-secondary" onclick="showQuizScreen('quizLevelChoice')">← Change Level</button>
+<p style="margin:15px 0;">Choose a subject:</p>
+<div id="quizSubjectList"></div>
+</div>
+
+<div id="quizPlay" class="hidden">
+<p id="quizProgress" style="opacity:.8;margin-bottom:10px;"></p>
+<h3 id="quizQuestionText" style="margin-bottom:15px;"></h3>
+<div id="quizOptions"></div>
+</div>
+
+<div id="quizResults" class="hidden" style="text-align:center;">
+<h3 style="font-size:2rem;margin-bottom:10px;">🎉</h3>
+<p id="quizScoreText" style="font-size:1.2rem;margin-bottom:20px;"></p>
+<button onclick="restartCurrentQuiz()">🔁 Try Again</button>
+<button class="btn-secondary" onclick="showQuizLeaderboard()">🏆 View Leaderboard</button>
+<button class="btn-secondary" onclick="showQuizScreen('quizSubjectChoice')">← Choose Another Subject</button>
+</div>
+
+<div id="quizLeaderboard" class="hidden">
+<button class="btn-secondary" onclick="showQuizScreen('quizResults')">← Back</button>
+<h3 style="margin:15px 0;">🏆 Leaderboard — <span id="leaderboardSubjectName"></span></h3>
+<p style="opacity:.6;font-size:.8rem;margin-bottom:10px;">Refreshes automatically every 30 seconds</p>
+<div id="leaderboardList"></div>
+</div>
+
+</div>
+
+<div id="messagesSection" class="card hidden">
+
+<h2>💬 Messages</h2>
+
+<div id="conversationListView">
+
+<div style="display:flex;gap:10px;">
+<button style="flex:1;" onclick="showNewChatSearch()">+ New Chat</button>
+<button class="btn-secondary" style="flex:1;" onclick="showNewGroupSetup()">+ New Group</button>
+</div>
+
+<div id="conversationList" style="margin-top:20px;"></div>
+
+</div>
+
+<div id="newChatSearchView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+<h3 style="margin:15px 0;">Start a New Chat</h3>
+
+<input id="searchEmailInput" placeholder="Enter their email or phone number">
+<button onclick="searchUserAndStartChat()">Search & Start Chat</button>
+
+<p id="searchStatus" style="margin-top:10px;opacity:.85;"></p>
+
+</div>
+
+<div id="newGroupSetupView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+<h3 style="margin:15px 0;">Create a Group</h3>
+
+<input id="groupNameInput" placeholder="Group name">
+<input id="groupMemberEmailInput" placeholder="Add member by email or phone">
+<button class="btn-secondary" onclick="addGroupMember()">Add Member</button>
+
+<div id="groupMembersList" style="margin:10px 0;"></div>
+
+<button onclick="createGroup()">Create Group</button>
+
+<p id="groupStatus" style="margin-top:10px;opacity:.85;"></p>
+
+</div>
+
+<div id="chatThreadView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+
+<div style="display:flex;align-items:center;gap:12px;margin:15px 0;">
+<img id="threadHeaderPic" src="" style="width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;display:none;">
+<div style="flex:1;">
+<h3 id="chatThreadTitle" style="margin:0;"></h3>
+</div>
+<button class="btn-secondary" id="threadEditNameBtn" onclick="openEditNicknameModal()" style="width:auto;padding:6px 10px;margin:0;">✏️</button>
+</div>
+
+<p style="font-size:.7rem;opacity:.6;margin-top:-10px;margin-bottom:10px;">Swipe to reply, hold to react, tap for more options</p>
+
+<div id="threadMessages" class="wallpaper-default" style="height:min(350px, 55vh);overflow-y:auto;border-radius:10px;padding:15px;"></div>
+
+<div id="threadReplyBar" class="replyPreviewBar">
+<span id="threadReplyText" style="font-size:.85rem;opacity:.85;"></span>
+<button class="btn-secondary" onclick="cancelComposerContext('thread')" style="width:auto;padding:4px 10px;margin:0;">✕</button>
+</div>
+
+<div style="display:flex;gap:6px;margin-top:10px;">
+<button class="btn-secondary" onclick="toggleEmojiPicker('threadInput')" style="width:auto;margin:0;padding:10px 12px;">😀</button>
+<label class="btn-secondary" style="width:auto;margin:0;padding:10px 12px;cursor:pointer;display:flex;align-items:center;">📎<input type="file" accept="image/*" style="display:none;" onchange="sendThreadImage(event)"></label>
+<button id="micBtn-threadInput" class="btn-secondary" onclick="toggleVoiceRecording('thread')" style="width:auto;margin:0;padding:10px 12px;">🎤</button>
+<input id="threadInput" placeholder="Type a message..." style="margin:0;flex:1;" onkeyup="if(event.key==='Enter') sendThreadMessage();">
+<button onclick="sendThreadMessage()" style="width:44px;height:44px;border-radius:50%;margin:0;padding:0;font-size:18px;flex-shrink:0;">➤</button>
+</div>
+
+</div>
+
+</div>
+
+<div id="tasksSection" class="card hidden">
+
+<h2>Study Tasks</h2>
+
+<input
+id="taskInput"
+placeholder="Enter a task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<div id="taskList"></div>
+
+</div>
+
+   <div id="badgesSection" class="card hidden">
+
+<h2>Achievements</h2>
+
+<div id="badgesList" class="grid" style="margin-top:20px;"></div>
+
+</div>
+
+  <div id="progressSection" class="card hidden">
+
+<div class="card about">
+
+<h2>My Progress</h2>
+
+<p>Total Notes Created:
+<strong><span id="totalNotes">0</span></strong>
+</p>
+
+<p>Profile Picture Added:
+<strong><span id="profileStatus">No</span></strong>
+</p>
+
+</div>
+
+<h2>About Us</h2>
+<br>
+<p>
+Hello, I am <strong>Adeka Martin Delali</strong>,
+a passionate Creator IT, technology enthusiast,
+and aspiring software developer.
+</p>
+<br>
+<p>
+I enjoy building web applications, mobile apps,
+and games that help people learn, connect,
+and grow in the digital world.
+</p>
+<br>
+<p>
+Adeka Academy Hub was created with a vision of
+making education more accessible through technology.
+By combining modern learning tools, artificial intelligence,
+online collaboration, and digital resources,
+the platform aims to empower students and lifelong learners.
+</p>
+<br>
+<p>
+Beyond technology, I have a strong interest in music
+and basketball. I believe creativity, innovation,
+and continuous learning are keys to success.
+</p>
+<br>
+<p>
+Alongside me is <strong>Celestine Husunu</strong>, who has been a
+constant part of this journey — testing the app every step of the
+way and offering the encouragement and support that kept me
+motivated to see it through.
+</p>
+</div>
+</div>
+<footer>
+<p>© 2026 Adeka Academy Hub</p>
+<p>Founded by Adeka Martin Delali (Creator IT) & Celestine Husunu</p>
+</footer>
+</div>
+
+<script src="https://meet.jit.si/external_api.js"></script>
+<script src="quiz-data.js"></script>
+<script type="module" src="firebase-config.js"></script>
+
+<script>
+if("serviceWorker" in navigator){
+window.addEventListener("load", () => {
+navigator.serviceWorker.register("sw.js").catch((err) => {
+console.log("Service worker registration failed:", err);
+});
+});
+}
+</script>
+
+<script>
+
+async function register(){
+
+const fullName =
+document.getElementById("fullName").value;
+
+const email =
+document.getElementById("email").value;
+
+const phoneNumber =
+document.getElementById("phoneNumber").value.trim();
+
+const password =
+document.getElementById("password").value;
+
+const role =
+document.getElementById("userRole").value;
+
+try{
+
+const userCredential =
+await window.createUserWithEmailAndPassword(
+window.auth,
+email,
+password
+);
+
+const user = userCredential.user;
+
+await window.setDoc(
+window.doc(
+window.db,
+"user",
+user.uid
+),
+{
+fullName: fullName,
+email: email,
+phoneNumber: phoneNumber,
+role: role
+}
+);
+
+localStorage.setItem(
+"studentName",
+fullName
+);
+
+localStorage.setItem(
+"studentEmail",
+email
+);
+
+localStorage.setItem(
+"studentPhone",
+phoneNumber
+);
+
+localStorage.setItem(
+"studentRole",
+role
+);
+
+if(document.getElementById("rememberMe").checked){
+localStorage.setItem("rememberedEmail", email);
+localStorage.setItem("rememberedName", fullName);
+}else{
+localStorage.removeItem("rememberedEmail");
+localStorage.removeItem("rememberedName");
+}
+
+document.getElementById("profileName").innerText = fullName;
+document.getElementById("profileEmail").innerText = email;
+
+document.getElementById("auth").style.display = "none";
+document.getElementById("dashboard").classList.remove("hidden");
+/* profileSection removed */
+document.getElementById("dashboardHome").classList.remove("hidden");
+
+showChatBubble();
+startGlobalDmListener();
+showLogoutButton();
+showQuickAccessButtons();
+renderGreeting();
+updateMiniProfile();
+
+window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+});
+
+document.getElementById("message").innerText =
+"Account created successfully!";
+
+setTimeout(() => {
+    document.getElementById("message").innerText = "";
+}, 3000);
+    }catch(error){
+
+        showToast(error.message);
+}
+
+ }
+
+  // Hides every dashboard sub-section. Used by all the "open___()" functions
+  // below so they don't each have to repeat the same list of IDs.
+  function hideAllSections(){
+
+// The conversation-list and thread listeners are screen-specific and
+// stop here. The globalDmUnsubscribe listener (for notifications) is
+// separate and keeps running in the background regardless — see
+// startGlobalDmListener().
+if(typeof conversationListUnsubscribe !== "undefined" && conversationListUnsubscribe){
+conversationListUnsubscribe();
+conversationListUnsubscribe = null;
+}
+
+if(typeof threadUnsubscribe !== "undefined" && threadUnsubscribe){
+threadUnsubscribe();
+threadUnsubscribe = null;
+}
+
+document.getElementById("dashboardHome").classList.add("hidden");
+document.getElementById("tasksSection").classList.add("hidden");
+document.getElementById("badgesSection").classList.add("hidden");
+document.getElementById("progressSection").classList.add("hidden");
+document.getElementById("notesSection").classList.add("hidden");
+document.getElementById("aiTutorSection").classList.add("hidden");
+document.getElementById("meetingSection").classList.add("hidden");
+document.getElementById("audioSection").classList.add("hidden");
+document.getElementById("settingsSection").classList.add("hidden");
+document.getElementById("quizSection").classList.add("hidden");
+document.getElementById("messagesSection").classList.add("hidden");
+
+}
+
+  // Closes the side menu without ever re-opening it (unlike toggleMenu()).
+  function closeMenu(){
+
+document.getElementById("sideMenu").classList.remove("show");
+
+}
+
+  // The floating "Back" button is shown for every sub-section and always
+  // sits in the same spot (top-left), so it's predictable no matter which
+  // page you're on.
+  function showBackButton(){
+
+document.getElementById("floatingBack").classList.remove("hidden");
+
+}
+
+function hideBackButton(){
+
+document.getElementById("floatingBack").classList.add("hidden");
+
+}
+
+function showLogoutButton(){
+
+document.getElementById("floatingLogout").classList.remove("hidden");
+
+}
+
+function hideLogoutButton(){
+
+document.getElementById("floatingLogout").classList.add("hidden");
+
+}
+
+function showQuickAccessButtons(){
+
+document.getElementById("floatingNotes").classList.remove("hidden");
+document.getElementById("floatingAudio").classList.remove("hidden");
+document.getElementById("floatingQuiz").classList.remove("hidden");
+
+}
+
+function hideQuickAccessButtons(){
+
+document.getElementById("floatingNotes").classList.add("hidden");
+document.getElementById("floatingAudio").classList.add("hidden");
+document.getElementById("floatingQuiz").classList.add("hidden");
+
+}
+
+function toggleHelp(){
+
+document.getElementById("helpModal").classList.toggle("show");
+
+}
+
+function viewProfilePicture(){
+
+const pic = localStorage.getItem("profilePicture") || document.getElementById("profileImage").src;
+
+if(!pic || pic.indexOf("data:") !== 0){
+showToast("No profile picture set yet");
+return;
+}
+
+document.getElementById("lightboxImage").src = pic;
+
+document.getElementById("picLightbox").classList.add("show");
+
+}
+
+function closeLightbox(){
+
+document.getElementById("picLightbox").classList.remove("show");
+
+}
+
+// ---- Live Class Chat ----
+// A single shared chat room that every logged-in student can read and
+// post to. Uses Firestore's real-time listener (onSnapshot) so new
+// messages appear instantly without anyone needing to refresh.
+
+let chatUnsubscribe = null;
+let isInitialClassChatLoad = true;
+
+// ---- Notifications (free, foreground version) ----
+// True background push (notifying even when the app/tab is fully
+// closed) needs Firebase Cloud Messaging + a server trigger, which
+// needs the paid Blaze plan. This version works while the app is open
+// in any tab (even unfocused) — it just can't wake up a closed app.
+
+function showAppNotification(title, body, onClick){
+
+if(localStorage.getItem("notificationsEnabled") !== "on") return;
+if(!("Notification" in window) || Notification.permission !== "granted") return;
+
+try{
+
+const notification = new Notification(title, { body: body, icon: "icon-192.png" });
+
+if(onClick){
+
+notification.onclick = function(){
+window.focus();
+notification.close();
+onClick();
+};
+
+}
+
+}catch(error){
+console.log("Notification error:", error);
+}
+
+}
+
+async function toggleNotifications(){
+
+const wantsOn = document.getElementById("notifSwitch").checked;
+
+if(!wantsOn){
+localStorage.setItem("notificationsEnabled", "off");
+document.getElementById("notifStatus").innerText =
+"Notifications turned off.";
+return;
+}
+
+if(!("Notification" in window)){
+document.getElementById("notifSwitch").checked = false;
+document.getElementById("notifStatus").innerText =
+"Sorry, your browser doesn't support notifications.";
+return;
+}
+
+const permission = await Notification.requestPermission();
+
+if(permission === "granted"){
+
+localStorage.setItem("notificationsEnabled", "on");
+
+document.getElementById("notifStatus").innerText =
+"✅ Notifications on — works while the app is open (even in another tab).";
+
+}else{
+
+document.getElementById("notifSwitch").checked = false;
+localStorage.setItem("notificationsEnabled", "off");
+
+document.getElementById("notifStatus").innerText =
+"Blocked — enable notifications for this site in your browser settings if you change your mind.";
+
+}
+
+}
+
+function loadNotificationPref(){
+
+const isOn = localStorage.getItem("notificationsEnabled") === "on"
+&& "Notification" in window
+&& Notification.permission === "granted";
+
+document.getElementById("notifSwitch").checked = isOn;
+
+}
+
+function showChatBubble(){
+
+document.getElementById("chatBubble").classList.remove("hidden");
+
+}
+
+function hideChatBubble(){
+
+document.getElementById("chatBubble").classList.add("hidden");
+document.getElementById("chatPanel").classList.remove("show");
+
+}
+
+function toggleChatPanel(){
+
+document.getElementById("chatPanel").classList.toggle("show");
+
+}
+
+// Class Chat is shared by EVERY account on the app, worldwide — not
+// just your students. This requires a PIN before it opens, and (most
+// importantly) the same check is enforced in your Firestore Security
+// Rules, not just here in the UI — so it's real access control, not
+// just something a stranger could bypass by poking around with dev
+// tools. See the rule snippet provided alongside this update.
+function openClassChatGuarded(){
+
+if(document.getElementById("chatPanel").classList.contains("show")){
+toggleChatPanel();
+return;
+}
+
+if(localStorage.getItem("classChatVerified") === "yes"){
+startChatListener();
+toggleChatPanel();
+return;
+}
+
+document.getElementById("classPinModalError").innerText = "";
+document.getElementById("classPinModalInput").value = "";
+document.getElementById("classPinModal").classList.add("show");
+
+}
+
+function closeClassPinModal(){
+
+document.getElementById("classPinModal").classList.remove("show");
+
+}
+
+async function submitClassPin(){
+
+const enteredPin = document.getElementById("classPinModalInput").value.trim();
+
+if(!enteredPin) return;
+
+const errorEl = document.getElementById("classPinModalError");
+
+try{
+
+const pinDoc = await window.getDoc(
+window.doc(window.db, "settings", "classChat")
+);
+
+const correctPin = pinDoc.exists() ? pinDoc.data().pin : null;
+
+if(!correctPin){
+errorEl.innerText = "No class PIN has been set up yet. Ask your app admin to set one under Settings.";
+return;
+}
+
+if(enteredPin !== correctPin){
+errorEl.innerText = "Incorrect PIN. Try again.";
+return;
+}
+
+const user = window.auth.currentUser;
+
+if(user){
+
+await window.setDoc(
+window.doc(window.db, "user", user.uid),
+{ classChatVerified: true },
+{ merge: true }
+);
+
+}
+
+localStorage.setItem("classChatVerified", "yes");
+
+closeClassPinModal();
+startChatListener();
+toggleChatPanel();
+
+}catch(error){
+
+errorEl.innerText = "Couldn't verify PIN right now: " + error.message;
+
+}
+
+}
+
+// Lightweight, non-blocking toast — replaces plain showToast(...) calls
+// (which used to be alert()) so warnings/errors don't show the
+// "yoursite.github.io says" browser branding either.
+function showToast(message){
+
+let toast = document.getElementById("appToast");
+
+if(!toast){
+toast = document.createElement("div");
+toast.id = "appToast";
+document.body.appendChild(toast);
+}
+
+toast.innerText = message;
+toast.classList.add("show");
+
+clearTimeout(window._toastTimeout);
+
+window._toastTimeout = setTimeout(() => {
+toast.classList.remove("show");
+}, 3200);
+
+}
+
+// Generic replacements for confirm() and prompt() so every yes/no
+// choice or text-entry dialog in the app looks the same (and never
+// shows browser branding).
+let genericConfirmCallback = null;
+let genericPromptCallback = null;
+
+function showConfirmModal(message, yesLabel, onYes){
+
+document.getElementById("genericConfirmText").innerText = message;
+document.getElementById("genericConfirmYesBtn").innerText = yesLabel || "Yes";
+genericConfirmCallback = onYes;
+
+document.getElementById("genericConfirmModal").classList.add("show");
+
+}
+
+function genericConfirmYes(){
+
+const callback = genericConfirmCallback;
+closeGenericConfirm();
+
+if(callback) callback();
+
+}
+
+function closeGenericConfirm(){
+
+genericConfirmCallback = null;
+document.getElementById("genericConfirmModal").classList.remove("show");
+
+}
+
+function showPromptModal(message, defaultValue, onSubmit){
+
+document.getElementById("genericPromptText").innerText = message;
+document.getElementById("genericPromptInput").value = defaultValue || "";
+genericPromptCallback = onSubmit;
+
+document.getElementById("genericPromptModal").classList.add("show");
+
+}
+
+function genericPromptSubmit(){
+
+const value = document.getElementById("genericPromptInput").value;
+const callback = genericPromptCallback;
+
+closeGenericPrompt();
+
+if(callback) callback(value);
+
+}
+
+function closeGenericPrompt(){
+
+genericPromptCallback = null;
+document.getElementById("genericPromptModal").classList.remove("show");
+
+}
+
+// Lets a user set a local-only nickname for someone they're messaging
+// — same idea as saving a contact name in WhatsApp. It's stored only
+// on this device and never changes the other person's actual account.
+function openEditNicknameModal(){
+
+if(!currentThreadOtherUid) return;
+
+const existing = localStorage.getItem("contactNickname_" + currentThreadOtherUid) || "";
+
+document.getElementById("editNicknameInput").value = existing;
+document.getElementById("editNicknameModal").classList.add("show");
+
+}
+
+function closeEditNicknameModal(){
+
+document.getElementById("editNicknameModal").classList.remove("show");
+
+}
+
+function saveNickname(){
+
+if(!currentThreadOtherUid) return;
+
+const value = document.getElementById("editNicknameInput").value.trim();
+
+if(value){
+localStorage.setItem("contactNickname_" + currentThreadOtherUid, value);
+document.getElementById("chatThreadTitle").innerText = value;
+}
+
+closeEditNicknameModal();
+
+}
+
+function resetNickname(){
+
+if(!currentThreadOtherUid) return;
+
+localStorage.removeItem("contactNickname_" + currentThreadOtherUid);
+
+const convo = lastLoadedConversations.find((c) => c.id === currentConversationId);
+
+if(convo && convo.participantNames){
+document.getElementById("chatThreadTitle").innerText =
+convo.participantNames[currentThreadOtherUid] || "Direct Chat";
+}
+
+closeEditNicknameModal();
+
+}
+
+async function setClassChatPin(){
+
+const newPin = document.getElementById("classChatPinInput").value.trim();
+
+if(!newPin){
+showToast("Enter a PIN first");
+return;
+}
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+return;
+}
+
+try{
+
+await window.setDoc(
+window.doc(window.db, "settings", "classChat"),
+{ pin: newPin },
+{ merge: true }
+);
+
+document.getElementById("classChatPinInput").value = "";
+
+document.getElementById("message").innerText = "Class Chat PIN updated!";
+
+setTimeout(() => {
+document.getElementById("message").innerText = "";
+}, 3000);
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+// Prevents one student's message from breaking the page or injecting
+// code into everyone else's chat window.
+function escapeHtml(str){
+
+const div = document.createElement("div");
+div.innerText = str;
+return div.innerHTML;
+
+}
+
+// Firestore's native auto-delete (TTL) feature requires a paid plan,
+// so this does the same job for free: any message older than the
+// lifetime below gets deleted whenever someone opens the chat. Can be
+// turned off in Settings.
+const CHAT_MESSAGE_LIFETIME_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+function isAutoDeleteEnabled(){
+return localStorage.getItem("autoDeleteMessages") !== "off"; // on by default
+}
+
+async function cleanupOldChatMessages(){
+
+if(!isAutoDeleteEnabled()) return;
+
+try{
+
+const cutoff = new Date(Date.now() - CHAT_MESSAGE_LIFETIME_MS);
+
+const q = window.query(
+window.collection(window.db, "classChat"),
+window.where("createdAt", "<", cutoff)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+for(const docSnap of querySnapshot.docs){
+await window.deleteDoc(
+window.doc(window.db, "classChat", docSnap.id)
+);
+}
+
+}catch(error){
+
+console.log("Chat cleanup error:", error);
+
+}
+
+}
+
+async function cleanupOldThreadMessages(conversationId){
+
+if(!isAutoDeleteEnabled()) return;
+
+try{
+
+const cutoff = new Date(Date.now() - CHAT_MESSAGE_LIFETIME_MS);
+
+const q = window.query(
+window.collection(window.db, "conversations", conversationId, "messages"),
+window.where("createdAt", "<", cutoff)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+for(const docSnap of querySnapshot.docs){
+await window.deleteDoc(
+window.doc(window.db, "conversations", conversationId, "messages", docSnap.id)
+);
+}
+
+}catch(error){
+
+console.log("Thread cleanup error:", error);
+
+}
+
+}
+
+function loadAutoDeletePref(){
+
+document.getElementById("autoDeleteSwitch").checked = isAutoDeleteEnabled();
+
+}
+
+function toggleAutoDelete(){
+
+const isOn = document.getElementById("autoDeleteSwitch").checked;
+
+localStorage.setItem("autoDeleteMessages", isOn ? "on" : "off");
+
+}
+
+function clearChatHistory(){
+
+showConfirmModal(
+"Clear the entire class chat for everyone? This can't be undone.",
+"Clear Chat",
+async () => {
+
+try{
+
+const querySnapshot = await window.getDocs(
+window.collection(window.db, "classChat")
+);
+
+for(const docSnap of querySnapshot.docs){
+await window.deleteDoc(
+window.doc(window.db, "classChat", docSnap.id)
+);
+}
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+);
+
+}
+
+function startChatListener(){
+
+if(chatUnsubscribe){
+return; // already listening, no need to attach twice
+}
+
+cleanupOldChatMessages();
+
+isInitialClassChatLoad = true;
+
+const q = window.query(
+window.collection(window.db, "classChat"),
+window.orderBy("createdAt", "asc"),
+window.limit(50)
+);
+
+chatUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+// Notify about genuinely new messages (skip the initial historical
+// batch that fires the moment we first attach this listener).
+if(!isInitialClassChatLoad){
+
+const user = window.auth.currentUser;
+
+querySnapshot.docChanges().forEach((change) => {
+
+if(change.type !== "added") return;
+
+const data = change.doc.data();
+
+if(user && data.uid === user.uid) return; // it was me, skip
+
+const chatIsOpenAndFocused =
+document.getElementById("chatPanel").classList.contains("show") &&
+document.hasFocus();
+
+if(chatIsOpenAndFocused) return;
+
+const preview = data.audioData ? "🎤 Voice message" : (data.imageData ? "📷 Photo" : (data.text || "New message"));
+
+showAppNotification("💬 " + (data.name || "Class Chat"), preview);
+
+});
+
+}
+
+isInitialClassChatLoad = false;
+
+const currentUid = window.auth.currentUser ? window.auth.currentUser.uid : null;
+
+let html = "";
+lastLoadedChatMessages = {};
+
+querySnapshot.forEach((docSnap) => {
+
+const data = docSnap.data();
+
+lastLoadedChatMessages[docSnap.id] = data;
+
+html += renderMessageBubble("classChat", docSnap.id, data, currentUid);
+
+});
+
+const messagesDiv = document.getElementById("chatMessages");
+messagesDiv.innerHTML = html;
+messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+}, (error) => {
+
+console.log("Chat listener error:", error);
+
+});
+
+}
+
+function stopChatListener(){
+
+if(chatUnsubscribe){
+chatUnsubscribe();
+chatUnsubscribe = null;
+}
+
+document.getElementById("chatMessages").innerHTML = "";
+
+}
+
+async function sendChatMessage(){
+
+const input = document.getElementById("chatInput");
+const text = input.value.trim();
+
+if(!text) return;
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+return;
+}
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+if(activeEdit && activeEdit.scope === "classChat"){
+
+await window.updateDoc(
+window.doc(window.db, "classChat", activeEdit.docId),
+{ text: text, edited: true }
+);
+
+cancelComposerContext("classChat");
+return;
+
+}
+
+const messageData = {
+uid: user.uid,
+name: name,
+text: text,
+createdAt: new Date()
+};
+
+if(activeReply && activeReply.scope === "classChat"){
+messageData.replyToName = activeReply.name;
+messageData.replyToText = activeReply.text;
+}
+
+await window.addDoc(
+window.collection(window.db, "classChat"),
+messageData
+);
+
+input.value = "";
+cancelComposerContext("classChat");
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+// ---- Emoji picker, stickers & image sending ----
+// Shared between Class Chat and private Message threads. Images are
+// stored as compressed base64 text directly inside the chat message
+// (no Firebase Storage / paid plan needed) — this keeps it free, at
+// the cost of modest image quality.
+
+let activeEmojiTarget = null;
+
+const EMOJI_LIST = ["😀","😁","😂","🤣","😊","😍","😘","😜","🤔","😎","🙄","😢","😭","😡","🥳","😴","👍","👎","👏","🙏","💪","🤝","✌️","🤞","❤️","💛","💚","💙","💜","🔥","✨","🎉","🎓","📚","✅","❌","⭐","💯","🙌","👀","🤗","😬","😅","🥺","😇","🤩","🫡","🤓","😏","🚀","💡","📌","⏰","☀️","🌙","☕","🍎","⚽","🏀","🎵","💬","📷","👋","🤦"];
+const STICKER_LIST = ["🎉","🔥","💯","👍","❤️","😂","🥳","🙌","👏","💪","🎓","✅","😍","🤩","🚀","⭐"];
+
+function toggleEmojiPicker(targetInputId){
+
+const picker = document.getElementById("emojiPicker");
+
+if(!targetInputId){
+picker.classList.remove("show");
+activeEmojiTarget = null;
+return;
+}
+
+if(picker.classList.contains("show") && activeEmojiTarget === targetInputId){
+picker.classList.remove("show");
+activeEmojiTarget = null;
+return;
+}
+
+activeEmojiTarget = targetInputId;
+renderEmojiGrid();
+renderStickerGrid();
+showEmojiTab("emoji");
+picker.classList.add("show");
+
+}
+
+function showEmojiTab(tab){
+
+document.getElementById("emojiTabEmoji").classList.toggle("active", tab === "emoji");
+document.getElementById("emojiTabStickers").classList.toggle("active", tab === "stickers");
+
+}
+
+function renderEmojiGrid(){
+
+let html = "";
+
+EMOJI_LIST.forEach((e) => {
+html += `<button onclick="insertEmoji('${e}')">${e}</button>`;
+});
+
+document.getElementById("emojiTabEmoji").innerHTML = html;
+
+}
+
+function renderStickerGrid(){
+
+let html = "";
+
+STICKER_LIST.forEach((e) => {
+html += `<button onclick="sendSticker('${e}')" style="font-size:2rem;">${e}</button>`;
+});
+
+document.getElementById("emojiTabStickers").innerHTML = html;
+
+}
+
+function insertEmoji(emoji){
+
+if(!activeEmojiTarget) return;
+
+const input = document.getElementById(activeEmojiTarget);
+input.value += emoji;
+input.focus();
+
+}
+
+function sendSticker(emoji){
+
+if(activeEmojiTarget === "chatInput"){
+document.getElementById("chatInput").value = emoji;
+sendChatMessage();
+}else if(activeEmojiTarget === "threadInput"){
+document.getElementById("threadInput").value = emoji;
+sendThreadMessage();
+}
+
+toggleEmojiPicker();
+
+}
+
+// A message that's short and has no regular letters/numbers in it is
+// treated as "just an emoji" and rendered bigger, like a sticker.
+function isEmojiOnlyMessage(text){
+
+if(!text) return false;
+
+const trimmed = text.trim();
+
+if(trimmed.length === 0 || trimmed.length > 10) return false;
+
+return !/[a-zA-Z0-9]/.test(trimmed);
+
+}
+
+// ---- Message bubbles: reply, edit, delete ----
+// A cache of the currently-rendered messages (keyed by doc id) so the
+// reply/edit/delete buttons can look up the real message content
+// safely, instead of embedding user-typed text directly inside onclick
+// attributes (which would be fragile and a potential injection risk).
+
+let lastLoadedChatMessages = {};
+let lastLoadedThreadMessages = {};
+let activeReply = null; // { scope, name, text }
+let activeEdit = null;  // { scope, docId }
+
+function getMessageCache(scope){
+return scope === "classChat" ? lastLoadedChatMessages : lastLoadedThreadMessages;
+}
+
+function renderMessageBubble(scope, docId, data, currentUid){
+
+if(data.hiddenFor && data.hiddenFor.includes(currentUid)){
+return "";
+}
+
+const isMine = data.uid === currentUid;
+const side = isMine ? "mine" : "theirs";
+
+const time = data.createdAt
+? new Date(data.createdAt.seconds * 1000).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+: "";
+
+if(data.deleted){
+return `
+<div class="msg-row ${side}">
+<div class="msg-bubble ${side}" data-doc-id="${docId}">
+<p class="msg-deleted">🚫 This message was deleted</p>
+<div class="msg-time">${time}</div>
+</div>
+</div>
+`;
+}
+
+let bodyHtml;
+
+if(data.audioData){
+bodyHtml = `<audio controls src="${data.audioData}" style="max-width:220px;height:36px;"></audio>`;
+}else if(data.imageData){
+bodyHtml = `<img src="${data.imageData}" style="max-width:200px;border-radius:10px;display:block;">`;
+}else if(isEmojiOnlyMessage(data.text)){
+bodyHtml = `<p class="emoji-only-msg">${escapeHtml(data.text)}</p>`;
+}else{
+bodyHtml = `<p>${escapeHtml(data.text || "")}</p>` + (data.edited ? `<span style="font-size:.65rem;opacity:.5;"> (edited)</span>` : "");
+}
+
+let replyHtml = "";
+
+if(data.replyToText){
+replyHtml = `<div class="msg-reply-quote">↩ <strong>${escapeHtml(data.replyToName || "")}</strong>: ${escapeHtml(data.replyToText.slice(0,60))}</div>`;
+}
+
+const senderHtml = isMine ? "" : `<span class="msg-sender">${escapeHtml(data.name || "Student")}</span>`;
+
+let reactionsHtml = "";
+
+if(data.reactions && Object.keys(data.reactions).length > 0){
+
+const counts = {};
+
+Object.values(data.reactions).forEach((emoji) => {
+counts[emoji] = (counts[emoji] || 0) + 1;
+});
+
+const badges = Object.entries(counts)
+.map(([emoji, count]) => emoji + (count > 1 ? " " + count : ""))
+.join("  ");
+
+reactionsHtml = `<div class="msg-reactions">${badges}</div>`;
+
+}
+
+return `
+<div class="msg-row ${side}">
+<div class="msg-bubble ${side}" data-doc-id="${docId}">
+${senderHtml}
+${replyHtml}
+${bodyHtml}
+${reactionsHtml}
+<div class="msg-time">${time}</div>
+</div>
+
+</div>
+`;
+
+}
+
+// Tap-to-reply instead of true swipe-to-reply: a real swipe gesture is
+// hard to make feel right without testing on an actual phone, and a
+// clumsy swipe is worse than a reliable tap. This button achieves the
+// same result — quoting a specific message — without that risk.
+function startReply(scope, docId){
+
+const cache = getMessageCache(scope);
+const data = cache[docId];
+
+if(!data) return;
+
+activeEdit = null;
+
+activeReply = {
+scope: scope,
+name: data.name || "Student",
+text: data.imageData ? "📷 Photo" : (data.text || "")
+};
+
+const barId = scope === "classChat" ? "chatReplyBar" : "threadReplyBar";
+const textId = scope === "classChat" ? "chatReplyText" : "threadReplyText";
+const inputId = scope === "classChat" ? "chatInput" : "threadInput";
+
+document.getElementById(textId).innerText =
+"Replying to " + activeReply.name + ": " + activeReply.text.slice(0, 50);
+
+document.getElementById(barId).classList.add("show");
+document.getElementById(inputId).focus();
+
+}
+
+function startEditMessage(scope, docId){
+
+const cache = getMessageCache(scope);
+const data = cache[docId];
+
+if(!data || !data.text) return;
+
+activeReply = null;
+activeEdit = { scope: scope, docId: docId };
+
+const inputId = scope === "classChat" ? "chatInput" : "threadInput";
+const barId = scope === "classChat" ? "chatReplyBar" : "threadReplyBar";
+const textId = scope === "classChat" ? "chatReplyText" : "threadReplyText";
+
+document.getElementById(inputId).value = data.text;
+document.getElementById(inputId).focus();
+
+document.getElementById(textId).innerText = "✏️ Editing your message...";
+document.getElementById(barId).classList.add("show");
+
+}
+
+function cancelComposerContext(scope){
+
+activeReply = null;
+activeEdit = null;
+
+const barId = scope === "classChat" ? "chatReplyBar" : "threadReplyBar";
+const inputId = scope === "classChat" ? "chatInput" : "threadInput";
+
+document.getElementById(barId).classList.remove("show");
+document.getElementById(inputId).value = "";
+
+}
+
+// ---- Custom modals (replace native confirm()/prompt() entirely) ----
+// Native browser dialogs always show "yoursite.github.io says" — that
+// can't be removed, it's a browser security feature. These custom
+// modals replace them everywhere in the chat so there's no more of
+// that branding, and the buttons can say exactly what they do.
+
+let actionSheetContext = null; // { scope, docId, isMine }
+let deleteChoiceContext = null; // { scope, docId }
+
+function openMessageActionSheet(scope, docId){
+
+const cache = getMessageCache(scope);
+const data = cache[docId];
+
+if(!data || data.deleted) return;
+
+const currentUid = window.auth.currentUser ? window.auth.currentUser.uid : null;
+const isMine = data.uid === currentUid;
+
+actionSheetContext = { scope: scope, docId: docId, isMine: isMine };
+
+document.getElementById("actionSheetEditBtn").classList.toggle(
+"hidden",
+!(isMine && data.text && !data.imageData)
+);
+
+document.getElementById("messageActionSheet").classList.add("show");
+
+}
+
+function closeActionSheet(){
+
+actionSheetContext = null;
+document.getElementById("messageActionSheet").classList.remove("show");
+
+}
+
+function actionSheetReply(){
+
+if(!actionSheetContext) return;
+
+startReply(actionSheetContext.scope, actionSheetContext.docId);
+closeActionSheet();
+
+}
+
+function actionSheetEdit(){
+
+if(!actionSheetContext) return;
+
+startEditMessage(actionSheetContext.scope, actionSheetContext.docId);
+closeActionSheet();
+
+}
+
+function actionSheetDelete(){
+
+if(!actionSheetContext) return;
+
+openDeleteChoiceModal(actionSheetContext.scope, actionSheetContext.docId, actionSheetContext.isMine);
+closeActionSheet();
+
+}
+
+function actionSheetReact(){
+
+if(!actionSheetContext) return;
+
+openReactionPicker(actionSheetContext.scope, actionSheetContext.docId);
+closeActionSheet();
+
+}
+
+// ---- Message reactions (tap-and-hold, WhatsApp-style) ----
+let reactionContext = null; // { scope, docId }
+
+function openReactionPicker(scope, docId){
+
+reactionContext = { scope: scope, docId: docId };
+document.getElementById("reactionPicker").classList.add("show");
+
+}
+
+function closeReactionPicker(){
+
+reactionContext = null;
+document.getElementById("reactionPicker").classList.remove("show");
+
+}
+
+async function sendReaction(emoji){
+
+if(!reactionContext) return;
+
+const scope = reactionContext.scope;
+const docId = reactionContext.docId;
+const user = window.auth.currentUser;
+
+if(!user){
+closeReactionPicker();
+return;
+}
+
+try{
+
+const cache = getMessageCache(scope);
+const data = cache[docId] || {};
+const reactions = Object.assign({}, data.reactions || {});
+
+// Tapping the same reaction you already left removes it (toggle).
+if(reactions[user.uid] === emoji){
+delete reactions[user.uid];
+}else{
+reactions[user.uid] = emoji;
+}
+
+await window.updateDoc(getMessageDocRef(scope, docId), { reactions: reactions });
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+closeReactionPicker();
+
+}
+
+function openDeleteChoiceModal(scope, docId, isMine){
+
+deleteChoiceContext = { scope: scope, docId: docId };
+
+document.getElementById("deleteChoiceTitle").innerText = isMine
+? "Delete this message"
+: "Delete for you only? (They'll still see it on their side.)";
+
+document.getElementById("deleteForEveryoneBtn").classList.toggle("hidden", !isMine);
+
+document.getElementById("deleteChoiceModal").classList.add("show");
+
+}
+
+function closeDeleteChoiceModal(){
+
+deleteChoiceContext = null;
+document.getElementById("deleteChoiceModal").classList.remove("show");
+
+}
+
+function executeDeleteChoice(type){
+
+if(!deleteChoiceContext) return;
+
+if(type === "everyone"){
+deleteMessageForEveryone(deleteChoiceContext.scope, deleteChoiceContext.docId);
+}else{
+deleteMessageForMe(deleteChoiceContext.scope, deleteChoiceContext.docId);
+}
+
+closeDeleteChoiceModal();
+
+}
+
+// ---- Swipe-to-reply ----
+// Uses event delegation (one listener per chat container) since
+// messages get fully re-rendered on every update — per-message
+// listeners would just get thrown away each time.
+function attachSwipeHandlers(containerId, scope){
+
+const container = document.getElementById(containerId);
+
+if(!container || container.dataset.swipeAttached) return;
+container.dataset.swipeAttached = "true";
+
+let startX = 0;
+let currentBubble = null;
+let currentDocId = null;
+let swiped = false;
+let longPressTimer = null;
+let longPressFired = false;
+
+container.addEventListener("touchstart", (e) => {
+
+const bubble = e.target.closest(".msg-bubble");
+if(!bubble) return;
+
+currentBubble = bubble;
+currentDocId = bubble.dataset.docId;
+startX = e.touches[0].clientX;
+swiped = false;
+longPressFired = false;
+currentBubble.style.transition = "none";
+
+// Long-press (hold still for ~500ms) opens the reaction picker,
+// same idea as WhatsApp.
+longPressTimer = setTimeout(() => {
+
+if(!swiped && currentDocId){
+longPressFired = true;
+openReactionPicker(scope, currentDocId);
+}
+
+}, 500);
+
+}, { passive: true });
+
+container.addEventListener("touchmove", (e) => {
+
+if(!currentBubble) return;
+
+const deltaX = e.touches[0].clientX - startX;
+const clamped = Math.max(-70, Math.min(70, deltaX));
+
+if(Math.abs(deltaX) > 10){
+swiped = true;
+clearTimeout(longPressTimer);
+}
+
+currentBubble.style.transform = "translateX(" + clamped + "px)";
+
+}, { passive: true });
+
+container.addEventListener("touchend", () => {
+
+clearTimeout(longPressTimer);
+
+if(!currentBubble) return;
+
+const match = /translateX\(([-0-9.]+)px\)/.exec(currentBubble.style.transform);
+const deltaX = match ? parseFloat(match[1]) : 0;
+
+currentBubble.style.transition = "transform .2s ease";
+currentBubble.style.transform = "translateX(0)";
+
+if(!longPressFired && Math.abs(deltaX) > 45 && currentDocId){
+startReply(scope, currentDocId);
+}
+
+currentBubble = null;
+currentDocId = null;
+
+}, { passive: true });
+
+// Taps (not swipes, not long-presses) open the action sheet.
+container.addEventListener("click", (e) => {
+
+const bubble = e.target.closest(".msg-bubble");
+if(!bubble) return;
+
+if(swiped || longPressFired){
+swiped = false;
+longPressFired = false;
+return;
+}
+
+const docId = bubble.dataset.docId;
+if(docId){
+openMessageActionSheet(scope, docId);
+}
+
+});
+
+}
+
+function getMessageDocRef(scope, docId){
+
+if(scope === "classChat"){
+return window.doc(window.db, "classChat", docId);
+}
+
+return window.doc(window.db, "conversations", currentConversationId, "messages", docId);
+
+}
+
+async function deleteMessageForEveryone(scope, docId){
+
+try{
+
+await window.updateDoc(getMessageDocRef(scope, docId), {
+deleted: true,
+text: "",
+imageData: ""
+});
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+async function deleteMessageForMe(scope, docId){
+
+try{
+
+const cache = getMessageCache(scope);
+const data = cache[docId];
+const user = window.auth.currentUser;
+
+const existingHidden = (data && data.hiddenFor) ? data.hiddenFor.slice() : [];
+
+if(!existingHidden.includes(user.uid)){
+existingHidden.push(user.uid);
+}
+
+await window.updateDoc(getMessageDocRef(scope, docId), {
+hiddenFor: existingHidden
+});
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+// Shrinks an image client-side (via canvas) and returns it as a base64
+// JPEG string, small enough to fit directly inside a Firestore message
+// document — this avoids needing Firebase Storage (which requires a
+// paid plan) for something as simple as a chat photo.
+function compressImageToBase64(file, maxWidth, quality){
+
+return new Promise((resolve, reject) => {
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+const img = new Image();
+
+img.onload = function(){
+
+let width = img.width;
+let height = img.height;
+
+if(width > maxWidth){
+height = Math.round(height * (maxWidth / width));
+width = maxWidth;
+}
+
+const canvas = document.createElement("canvas");
+canvas.width = width;
+canvas.height = height;
+
+const ctx = canvas.getContext("2d");
+ctx.drawImage(img, 0, 0, width, height);
+
+resolve(canvas.toDataURL("image/jpeg", quality));
+
+};
+
+img.onerror = reject;
+img.src = e.target.result;
+
+};
+
+reader.onerror = reject;
+reader.readAsDataURL(file);
+
+});
+
+}
+
+async function sendChatImage(event){
+
+const file = event.target.files[0];
+
+if(!file) return;
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+event.target.value = "";
+return;
+}
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+const base64 = await compressImageToBase64(file, 550, 0.6);
+
+if(base64.length > 700000){
+showToast("That image is too large even after compressing. Try a smaller photo.");
+event.target.value = "";
+return;
+}
+
+await window.addDoc(
+window.collection(window.db, "classChat"),
+{
+uid: user.uid,
+name: name,
+imageData: base64,
+createdAt: new Date()
+}
+);
+
+}catch(error){
+
+showToast("Couldn't send image: " + error.message);
+
+}
+
+event.target.value = "";
+
+}
+
+async function sendThreadImage(event){
+
+const file = event.target.files[0];
+
+if(!file || !currentConversationId) return;
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+event.target.value = "";
+return;
+}
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+const base64 = await compressImageToBase64(file, 550, 0.6);
+
+if(base64.length > 700000){
+showToast("That image is too large even after compressing. Try a smaller photo.");
+event.target.value = "";
+return;
+}
+
+await window.addDoc(
+window.collection(window.db, "conversations", currentConversationId, "messages"),
+{
+uid: user.uid,
+name: name,
+imageData: base64,
+createdAt: new Date()
+}
+);
+
+await window.updateDoc(
+window.doc(window.db, "conversations", currentConversationId),
+{
+lastMessage: "📷 Photo",
+lastMessageAt: new Date(),
+lastMessageSenderUid: user.uid
+}
+);
+
+}catch(error){
+
+showToast("Couldn't send image: " + error.message);
+
+}
+
+event.target.value = "";
+
+}
+
+// ---- Voice messages ----
+// Records with the browser's MediaRecorder API (opus codec — already
+// fairly compact) and stores the result as base64 directly inside the
+// message, same free-storage trick as photos. Capped at 60 seconds so
+// recordings stay comfortably under Firestore's per-document limit.
+
+let voiceMediaRecorder = null;
+let voiceRecordedChunks = [];
+let voiceRecordingScope = null;
+let voiceRecordingTimer = null;
+let voiceRecordingSeconds = 0;
+const MAX_VOICE_RECORDING_SECONDS = 60;
+
+async function toggleVoiceRecording(scope){
+
+if(voiceMediaRecorder && voiceMediaRecorder.state === "recording"){
+stopVoiceRecording();
+return;
+}
+
+if(!navigator.mediaDevices || !window.MediaRecorder){
+showToast("Voice messages aren't supported on this browser.");
+return;
+}
+
+try{
+
+const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+voiceRecordedChunks = [];
+voiceRecordingScope = scope;
+voiceRecordingSeconds = 0;
+
+voiceMediaRecorder = new MediaRecorder(stream);
+
+voiceMediaRecorder.ondataavailable = (e) => {
+if(e.data.size > 0) voiceRecordedChunks.push(e.data);
+};
+
+voiceMediaRecorder.onstop = () => {
+
+stream.getTracks().forEach((track) => track.stop());
+
+const blob = new Blob(voiceRecordedChunks, { type: voiceMediaRecorder.mimeType || "audio/webm" });
+
+sendVoiceMessage(blob, voiceRecordingScope);
+
+};
+
+voiceMediaRecorder.start();
+updateMicButton(scope, true, 0);
+
+voiceRecordingTimer = setInterval(() => {
+
+voiceRecordingSeconds++;
+updateMicButton(scope, true, voiceRecordingSeconds);
+
+if(voiceRecordingSeconds >= MAX_VOICE_RECORDING_SECONDS){
+stopVoiceRecording();
+}
+
+}, 1000);
+
+}catch(error){
+
+showToast("Microphone access denied or unavailable.");
+
+}
+
+}
+
+function stopVoiceRecording(){
+
+if(voiceMediaRecorder && voiceMediaRecorder.state === "recording"){
+voiceMediaRecorder.stop();
+}
+
+clearInterval(voiceRecordingTimer);
+voiceRecordingTimer = null;
+
+updateMicButton(voiceRecordingScope, false);
+
+}
+
+function updateMicButton(scope, isRecording, seconds){
+
+const btn = document.getElementById("micBtn-" + (scope === "classChat" ? "chatInput" : "threadInput"));
+
+if(!btn) return;
+
+if(isRecording){
+
+const mins = Math.floor((seconds || 0) / 60);
+const secs = (seconds || 0) % 60;
+
+btn.innerText = "⏹ " + mins + ":" + (secs < 10 ? "0" : "") + secs;
+btn.classList.add("btn-danger");
+
+}else{
+
+btn.innerText = "🎤";
+btn.classList.remove("btn-danger");
+
+}
+
+}
+
+function blobToBase64(blob){
+
+return new Promise((resolve, reject) => {
+
+const reader = new FileReader();
+reader.onload = () => resolve(reader.result);
+reader.onerror = reject;
+reader.readAsDataURL(blob);
+
+});
+
+}
+
+async function sendVoiceMessage(blob, scope){
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+return;
+}
+
+if(blob.size > 700000){
+showToast("That recording is too long. Try a shorter one.");
+return;
+}
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+const base64 = await blobToBase64(blob);
+
+if(scope === "classChat"){
+
+await window.addDoc(
+window.collection(window.db, "classChat"),
+{
+uid: user.uid,
+name: name,
+audioData: base64,
+createdAt: new Date()
+}
+);
+
+}else{
+
+if(!currentConversationId) return;
+
+await window.addDoc(
+window.collection(window.db, "conversations", currentConversationId, "messages"),
+{
+uid: user.uid,
+name: name,
+audioData: base64,
+createdAt: new Date()
+}
+);
+
+await window.updateDoc(
+window.doc(window.db, "conversations", currentConversationId),
+{
+lastMessage: "🎤 Voice message",
+lastMessageAt: new Date(),
+lastMessageSenderUid: user.uid
+}
+);
+
+}
+
+}catch(error){
+
+showToast("Couldn't send voice message: " + error.message);
+
+}
+
+}
+
+// ---- Chat wallpaper ----
+// ---- Custom image wallpaper ----
+// User picks any photo from their device and it becomes the chat
+// background — same approach as WhatsApp. Stored compressed in
+// localStorage so it persists between sessions with no server needed.
+
+function applyChatWallpaper(base64){
+
+const chatEl = document.getElementById("chatMessages");
+const threadEl = document.getElementById("threadMessages");
+
+if(base64){
+
+const style = "url('" + base64 + "')";
+
+chatEl.style.backgroundImage = style;
+chatEl.classList.add("chat-wallpaper-img");
+
+threadEl.style.backgroundImage = style;
+threadEl.classList.add("chat-wallpaper-img");
+
+}else{
+
+chatEl.style.backgroundImage = "";
+chatEl.classList.remove("chat-wallpaper-img");
+
+threadEl.style.backgroundImage = "";
+threadEl.classList.remove("chat-wallpaper-img");
+
+}
+
+}
+
+async function setChatWallpaperFromFile(event){
+
+const file = event.target.files[0];
+
+if(!file) return;
+
+try{
+
+const base64 = await compressImageToBase64(file, 800, 0.65);
+
+localStorage.setItem("chatWallpaper", base64);
+
+applyChatWallpaper(base64);
+
+showToast("Chat wallpaper updated!");
+
+}catch(error){
+
+showToast("Couldn't set wallpaper: " + error.message);
+
+}
+
+event.target.value = "";
+
+}
+
+function removeChatWallpaper(){
+
+localStorage.removeItem("chatWallpaper");
+
+applyChatWallpaper(null);
+
+showToast("Wallpaper removed.");
+
+}
+
+function loadWallpaperPref(){
+
+const saved = localStorage.getItem("chatWallpaper");
+
+applyChatWallpaper(saved || null);
+
+}
+
+  function openProgress(){
+
+hideAllSections();
+
+document
+.getElementById("progressSection")
+.classList.remove("hidden");
+
+loadNotes(); // refresh the notes count shown here
+
+closeMenu();
+showBackButton();
+
+}
+
+   async function saveProfilePicture(event){
+
+const file = event.target.files[0];
+
+if(!file) return;
+
+const alreadyEarned = !!localStorage.getItem("profileBadge");
+
+try{
+
+// Reusing the same compression helper as chat images — keeps profile
+// pictures small enough to store directly in Firestore (so OTHER
+// people can see them too, e.g. in Messages) without needing paid
+// file storage.
+const compressed = await compressImageToBase64(file, 300, 0.7);
+
+document.getElementById("profileImage").src = compressed;
+
+localStorage.setItem("profilePicture", compressed);
+
+document.getElementById("profileStatus").innerText = "Yes";
+
+localStorage.setItem("profileBadge", "earned");
+
+if(!alreadyEarned){
+playBadgeSound();
+}
+
+updateMiniProfile();
+
+const user = window.auth.currentUser;
+
+if(user){
+
+await window.setDoc(
+window.doc(window.db, "user", user.uid),
+{ profilePicture: compressed },
+{ merge: true }
+);
+
+}
+
+}catch(error){
+
+showToast("Couldn't save picture: " + error.message);
+
+}
+
+}
+
+  function clearDraft(){
+
+localStorage.removeItem("draftNote");
+
+document.getElementById("noteText").value = "";
+
+updateCharCount();
+
+}
+
+async function login(){
+
+const email =
+document.getElementById("email").value;
+
+const password =
+document.getElementById("password").value;
+
+try{
+
+const userCredential =
+await window.signInWithEmailAndPassword(
+window.auth,
+email,
+password
+);
+
+const user = userCredential.user;
+
+const docRef = window.doc(
+window.db,
+"user",
+user.uid
+);
+
+const docSnap = await window.getDoc(docRef);
+
+if(docSnap.exists()){
+
+const data = docSnap.data();
+
+document.getElementById("profileName").innerText =
+data.fullName;
+
+document.getElementById("profileEmail").innerText =
+data.email;
+
+  document.getElementById("message").innerText =
+"Welcome back, " + data.fullName + "!";
+
+localStorage.setItem(
+"studentName",
+data.fullName
+);
+
+localStorage.setItem(
+"studentEmail",
+data.email
+);
+
+localStorage.setItem(
+"studentPhone",
+data.phoneNumber || ""
+);
+  if(document.getElementById("rememberMe").checked){
+
+localStorage.setItem("rememberedEmail", email);
+localStorage.setItem("rememberedName", data.fullName || "");
+
+}else{
+
+localStorage.removeItem("rememberedEmail");
+localStorage.removeItem("rememberedName");
+
+}
+
+}else{
+
+console.log("Document NOT found");
+
+}
+
+document.getElementById("auth")
+.style.display = "none";
+
+document.getElementById("dashboard")
+.classList.remove("hidden");
+
+/* profileSection removed */
+
+document.getElementById("dashboardHome")
+.classList.remove("hidden");
+
+showChatBubble();
+
+if(localStorage.getItem("classChatVerified") === "yes"){
+startChatListener();
+}
+
+startGlobalDmListener();
+showLogoutButton();
+showQuickAccessButtons();
+renderGreeting();
+updateMiniProfile();
+  const savedPic =
+localStorage.getItem("profilePicture");
+
+if(savedPic){
+
+document.getElementById("profileImage").src =
+savedPic;
+
+document.getElementById("profileStatus").innerText =
+"Yes";
+localStorage.setItem(
+"profileBadge",
+"earned"
+);
+}
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+setTimeout(() => {
+document.getElementById("message").innerText = "";
+}, 3000);
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+async function logout(){
+
+try{
+
+await window.signOut(window.auth);
+
+localStorage.removeItem("studentName");
+localStorage.removeItem("studentEmail");
+localStorage.removeItem("studentPhone");
+localStorage.removeItem("rememberedEmail");
+localStorage.removeItem("rememberedName");
+
+document.getElementById("fullName").value = "";
+document.getElementById("email").value = "";
+document.getElementById("password").value = "";
+
+document.getElementById("profileName").innerText = "";
+document.getElementById("profileEmail").innerText = "";
+
+document.getElementById("dashboard")
+.classList.add("hidden");
+
+/* profileSection removed */
+
+document.getElementById("auth")
+.style.display = "block";
+
+hideAllSections();
+hideBackButton();
+hideLogoutButton();
+hideMiniProfile();
+hideQuickAccessButtons();
+leaveMeeting();
+leaveAudioRoom();
+hideChatBubble();
+stopChatListener();
+stopGlobalDmListener();
+stopAllBackgroundListeners();
+
+document.getElementById("message").innerText =
+"Logged out successfully!";
+
+setTimeout(() => {
+    document.getElementById("message").innerText = "";
+}, 3000);
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+  function toggleMenu(){
+
+document
+.getElementById("sideMenu")
+.classList.toggle("show");
+
+}
+
+let aiChatHistory = []; // sent in full to the API each time — no server-side memory
+let aiPendingAttachment = null; // {kind:"image"|"document"|"text", mediaType, data, name}
+
+// Shared free-tier Google AI (Gemini) key baked in so the AI Tutor works
+// for every student out of the box. Anyone can add their own personal key
+// in Settings, which takes priority over this one.
+const DEFAULT_AI_KEY = "AQ.Ab8RN6L45y_kk3H7_ZxqN3e9gCkhf--9Ftv3Uw2f3BDppcYPjw";
+
+function getAiApiKey(){
+return localStorage.getItem("aiApiKey") || DEFAULT_AI_KEY;
+}
+
+function openAITutor(){
+
+hideAllSections();
+
+document
+.getElementById("aiTutorSection")
+.classList.remove("hidden");
+
+showBackButton();
+
+document.getElementById("aiKeyWarning").classList.add("hidden");
+
+if(aiChatHistory.length === 0){
+document.getElementById("aiChatMessages").innerHTML =
+"<p style='opacity:.7;'>AI Tutor ready — ask a question below.</p>";
+}
+
+}
+
+function handleAiAttachment(event){
+
+const file = event.target.files[0];
+
+if(!file){
+return;
+}
+
+const reader = new FileReader();
+
+reader.onload = () => {
+
+if(file.type.startsWith("image/")){
+
+aiPendingAttachment = {
+kind: "image",
+mediaType: file.type,
+data: reader.result.split(",")[1],
+name: file.name
+};
+
+}else if(file.type === "application/pdf"){
+
+aiPendingAttachment = {
+kind: "document",
+mediaType: "application/pdf",
+data: reader.result.split(",")[1],
+name: file.name
+};
+
+}else{
+
+aiPendingAttachment = {
+kind: "text",
+data: reader.result,
+name: file.name
+};
+
+}
+
+document.getElementById("aiAttachPreviewName").innerText = "📎 " + file.name;
+document.getElementById("aiAttachPreview").classList.remove("hidden");
+
+};
+
+if(file.type.startsWith("image/") || file.type === "application/pdf"){
+reader.readAsDataURL(file);
+}else{
+reader.readAsText(file);
+}
+
+}
+
+function clearAiAttachment(){
+
+aiPendingAttachment = null;
+document.getElementById("aiAttachInput").value = "";
+document.getElementById("aiAttachPreview").classList.add("hidden");
+
+}
+
+function renderAiChatMessage(role, text, attachmentName){
+
+const container = document.getElementById("aiChatMessages");
+
+const row = document.createElement("div");
+row.className = "msg-row " + (role === "user" ? "mine" : "theirs");
+
+const bubble = document.createElement("div");
+bubble.className = "msg-bubble " + (role === "user" ? "mine" : "theirs");
+
+if(attachmentName){
+const att = document.createElement("div");
+att.style.opacity = ".8";
+att.style.fontSize = ".8rem";
+att.style.marginBottom = "4px";
+att.innerText = "📎 " + attachmentName;
+bubble.appendChild(att);
+}
+
+const textEl = document.createElement("div");
+textEl.innerText = text;
+bubble.appendChild(textEl);
+
+row.appendChild(bubble);
+container.appendChild(row);
+container.scrollTop = container.scrollHeight;
+
+return bubble;
+
+}
+
+async function askAI(){
+
+const apiKey = getAiApiKey();
+
+const question = document.getElementById("userQuestion").value.trim();
+const attachment = aiPendingAttachment;
+
+if(!question && !attachment){
+return;
+}
+
+const userParts = [];
+
+if(attachment){
+
+if(attachment.kind === "image" || attachment.kind === "document"){
+userParts.push({
+inline_data: { mime_type: attachment.mediaType, data: attachment.data }
+});
+}else if(attachment.kind === "text"){
+userParts.push({
+text: "Attached file \"" + attachment.name + "\":\n\n" + attachment.data
+});
+}
+
+}
+
+userParts.push({ text: question || "Please help me with the attached file." });
+
+aiChatHistory.push({ role: "user", parts: userParts });
+
+const messagesEl = document.getElementById("aiChatMessages");
+if(messagesEl.innerText.includes("AI Tutor ready")){
+messagesEl.innerHTML = "";
+}
+
+renderAiChatMessage("user", question || "(sent a file)", attachment ? attachment.name : null);
+
+document.getElementById("userQuestion").value = "";
+clearAiAttachment();
+
+const thinkingBubble = renderAiChatMessage("assistant", "Thinking...");
+
+try{
+
+const response = await fetch(
+"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + encodeURIComponent(apiKey),
+{
+method: "POST",
+headers: { "content-type": "application/json" },
+body: JSON.stringify({ contents: aiChatHistory })
+}
+);
+
+const data = await response.json();
+
+if(!response.ok){
+throw new Error((data.error && data.error.message) || "Request failed");
+}
+
+const candidate = data.candidates && data.candidates[0];
+
+const replyText = candidate && candidate.content && candidate.content.parts
+? candidate.content.parts.map((part) => part.text || "").join("\n")
+: "";
+
+aiChatHistory.push({ role: "model", parts: [{ text: replyText }] });
+
+thinkingBubble.querySelector("div:last-child").innerText = replyText || "(no response)";
+
+}catch(error){
+
+thinkingBubble.querySelector("div:last-child").innerText =
+"⚠️ Couldn't reach the AI (" + error.message + "). Check your API key in Settings.";
+
+aiChatHistory.pop(); // drop the failed turn so retrying doesn't confuse the conversation
+
+}
+
+}
+
+function saveAiApiKey(){
+
+const key = document.getElementById("aiApiKeyInput").value.trim();
+
+if(!key){
+showToast("Enter a key first");
+return;
+}
+
+localStorage.setItem("aiApiKey", key);
+document.getElementById("aiApiKeyInput").value = "";
+updateAiKeyStatus();
+showToast("AI key saved on this device");
+
+}
+
+function clearAiApiKey(){
+
+localStorage.removeItem("aiApiKey");
+updateAiKeyStatus();
+showToast("AI key removed");
+
+}
+
+function updateAiKeyStatus(){
+
+const el = document.getElementById("aiKeyStatus");
+
+if(!el){
+return;
+}
+
+el.innerText = localStorage.getItem("aiApiKey")
+? "Status: ✅ Using your personal key on this device"
+: "Status: ✅ Active (shared class key) — add your own above to use it instead";
+
+}
+
+function openMeetingCenter(){
+
+hideAllSections();
+
+document
+.getElementById("meetingSection")
+.classList.remove("hidden");
+
+showBackButton();
+
+}
+
+function openAudioLessons(){
+
+hideAllSections();
+
+document
+.getElementById("audioSection")
+.classList.remove("hidden");
+
+showBackButton();
+
+}
+
+function openSettings(){
+
+hideAllSections();
+
+document
+.getElementById("settingsSection")
+.classList.remove("hidden");
+
+closeMenu();
+showBackButton();
+
+const currentPhone = localStorage.getItem("studentPhone");
+
+document.getElementById("currentPhoneDisplay").innerText =
+currentPhone || "Not set";
+
+document.getElementById("phoneNumberSettings").value =
+currentPhone || "";
+
+updateAiKeyStatus();
+
+document.getElementById("roleSettingsSelect").value =
+localStorage.getItem("studentRole") || "Student";
+
+}
+
+async function saveRoleSetting(){
+
+const role = document.getElementById("roleSettingsSelect").value;
+
+localStorage.setItem("studentRole", role);
+
+try{
+
+const user = window.auth.currentUser;
+
+if(user){
+await window.setDoc(
+window.doc(window.db, "user", user.uid),
+{ role: role },
+{ merge: true }
+);
+}
+
+}catch(error){
+
+console.log("Couldn't save role to Firestore:", error);
+
+}
+
+updateMiniProfile();
+showToast("Role updated");
+
+}
+
+async function updatePhoneNumber(){
+
+const phoneNumber =
+document.getElementById("phoneNumberSettings").value.trim();
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+return;
+}
+
+if(!phoneNumber){
+showToast("Enter a phone number first");
+return;
+}
+
+try{
+
+await window.setDoc(
+window.doc(window.db, "user", user.uid),
+{ phoneNumber: phoneNumber },
+{ merge: true }
+);
+
+localStorage.setItem("studentPhone", phoneNumber);
+
+document.getElementById("currentPhoneDisplay").innerText =
+phoneNumber;
+
+document.getElementById("message").innerText =
+"Phone number saved!";
+
+setTimeout(() => {
+document.getElementById("message").innerText = "";
+}, 3000);
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+// ---- Quiz Challenge ----
+// A small offline question bank, organized by education level and
+// subject. "Offline" because the questions live right here in the code
+// — no internet or AI call is needed to take a quiz. Scores are saved
+// to Firestore so the leaderboard is genuinely global across students.
+
+// QUIZ_DATA loaded from quiz-data.js
+
+let quizLevel = null;
+let quizSubject = null;
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+
+function openQuiz(){
+
+hideAllSections();
+
+document.getElementById("quizSection").classList.remove("hidden");
+
+showQuizScreen("quizLevelChoice");
+showBackButton();
+
+cleanupOldQuizScores();
+
+}
+
+// Clears out quiz scores older than 2 days so each leaderboard
+// effectively resets itself every couple of days, keeping it fresh.
+// Same free, client-triggered approach as the chat auto-delete —
+// Firestore's built-in auto-delete needs a paid plan.
+const QUIZ_SCORE_LIFETIME_MS = 2 * 24 * 60 * 60 * 1000; // 2 days
+
+async function cleanupOldQuizScores(){
+
+try{
+
+const cutoff = new Date(Date.now() - QUIZ_SCORE_LIFETIME_MS);
+
+const q = window.query(
+window.collection(window.db, "quizScores"),
+window.where("createdAt", "<", cutoff)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+for(const docSnap of querySnapshot.docs){
+await window.deleteDoc(
+window.doc(window.db, "quizScores", docSnap.id)
+);
+}
+
+}catch(error){
+
+console.log("Quiz score cleanup error:", error);
+
+}
+
+}
+
+let leaderboardRefreshInterval = null;
+const LEADERBOARD_REFRESH_MS = 30000; // refresh every 30 seconds while open
+
+function showQuizScreen(screenId){
+
+if(screenId !== "quizLeaderboard" && leaderboardRefreshInterval){
+clearInterval(leaderboardRefreshInterval);
+leaderboardRefreshInterval = null;
+}
+
+const screens = ["quizLevelChoice","quizSubjectChoice","quizPlay","quizResults","quizLeaderboard"];
+
+screens.forEach((id) => {
+
+if(id === screenId){
+document.getElementById(id).classList.remove("hidden");
+}else{
+document.getElementById(id).classList.add("hidden");
+}
+
+});
+
+}
+
+function chooseQuizLevel(level){
+
+quizLevel = level;
+
+const subjects = QUIZ_DATA[level].subjects;
+
+let html = "";
+
+Object.keys(subjects).forEach((subjectName) => {
+
+html += `<button onclick="startQuiz('${subjectName}')">${escapeHtml(subjectName)} (${subjects[subjectName].length} Qs)</button>`;
+
+});
+
+document.getElementById("quizSubjectList").innerHTML = html;
+
+showQuizScreen("quizSubjectChoice");
+
+}
+
+function startQuiz(subjectName){
+
+quizSubject = subjectName;
+quizQuestions = QUIZ_DATA[quizLevel].subjects[subjectName];
+quizIndex = 0;
+quizScore = 0;
+
+renderQuizQuestion();
+
+showQuizScreen("quizPlay");
+
+}
+
+function renderQuizQuestion(){
+
+const question = quizQuestions[quizIndex];
+
+document.getElementById("quizProgress").innerText =
+quizSubject + " — Question " + (quizIndex + 1) + " of " + quizQuestions.length;
+
+document.getElementById("quizQuestionText").innerText = question.q;
+
+let html = "";
+
+question.options.forEach((option, i) => {
+
+html += `<button onclick="answerQuiz(${i})">${escapeHtml(option)}</button>`;
+
+});
+
+document.getElementById("quizOptions").innerHTML = html;
+
+}
+
+function answerQuiz(selectedIndex){
+
+const question = quizQuestions[quizIndex];
+
+if(selectedIndex === question.answer){
+quizScore++;
+}
+
+quizIndex++;
+
+if(quizIndex < quizQuestions.length){
+renderQuizQuestion();
+}else{
+finishQuiz();
+}
+
+}
+
+async function finishQuiz(){
+
+document.getElementById("quizScoreText").innerHTML =
+"You scored <strong>" + quizScore + " / " + quizQuestions.length + "</strong> on " + escapeHtml(quizSubject) + "!";
+
+showQuizScreen("quizResults");
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+await window.addDoc(
+window.collection(window.db, "quizScores"),
+{
+uid: user.uid,
+name: name,
+level: quizLevel,
+subject: quizSubject,
+score: quizScore,
+total: quizQuestions.length,
+createdAt: new Date()
+}
+);
+
+}catch(error){
+
+console.log("Could not save quiz score:", error);
+
+}
+
+}
+
+function restartCurrentQuiz(){
+
+quizIndex = 0;
+quizScore = 0;
+
+renderQuizQuestion();
+
+showQuizScreen("quizPlay");
+
+}
+
+async function showQuizLeaderboard(){
+
+document.getElementById("leaderboardSubjectName").innerText = quizSubject;
+
+showQuizScreen("quizLeaderboard");
+
+await loadLeaderboardData();
+
+if(leaderboardRefreshInterval){
+clearInterval(leaderboardRefreshInterval);
+}
+
+leaderboardRefreshInterval = setInterval(loadLeaderboardData, LEADERBOARD_REFRESH_MS);
+
+}
+
+async function loadLeaderboardData(){
+
+document.getElementById("leaderboardList").innerHTML = "Loading...";
+
+try{
+
+// Filtering by subject only (no orderBy combined with it) avoids
+// needing a special Firestore composite index — we just sort the
+// small result set ourselves once it arrives.
+const q = window.query(
+window.collection(window.db, "quizScores"),
+window.where("subject", "==", quizSubject)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+let scores = [];
+
+const now = Date.now();
+
+querySnapshot.forEach((docSnap) => {
+const data = docSnap.data();
+// Only show scores that are still within the 2-day window
+const age = now - (data.createdAt ? data.createdAt.seconds * 1000 : 0);
+if(age < QUIZ_SCORE_LIFETIME_MS){
+scores.push(data);
+}
+});
+
+scores.sort((a, b) => b.score - a.score);
+scores = scores.slice(0, 10);
+
+// Calculate time until next reset (oldest score's expiry)
+let resetCountdown = "";
+
+if(scores.length > 0){
+
+const oldest = querySnapshot.docs
+.map((d) => d.data())
+.filter((d) => d.createdAt)
+.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds)[0];
+
+if(oldest && oldest.createdAt){
+
+const msUntilReset = (oldest.createdAt.seconds * 1000 + QUIZ_SCORE_LIFETIME_MS) - now;
+
+if(msUntilReset > 0){
+
+const hours = Math.floor(msUntilReset / (1000 * 60 * 60));
+const mins = Math.floor((msUntilReset % (1000 * 60 * 60)) / (1000 * 60));
+
+resetCountdown = `<p style="opacity:.55;font-size:.75rem;margin-bottom:12px;">⏰ Resets in ${hours}h ${mins}m</p>`;
+
+}
+
+}
+
+}
+
+let rows = resetCountdown;
+let rank = 1;
+
+const medals = { 1: "🥇", 2: "🥈", 3: "🥉" };
+const medalBg = {
+1: "rgba(255,215,0,.18)",
+2: "rgba(192,192,192,.18)",
+3: "rgba(205,127,50,.18)"
+};
+const medalBorder = {
+1: "rgba(255,215,0,.5)",
+2: "rgba(192,192,192,.5)",
+3: "rgba(205,127,50,.5)"
+};
+
+scores.forEach((data) => {
+
+const badge = medals[rank] || ("#" + rank);
+const bg = medalBg[rank] || "rgba(255,255,255,.1)";
+const border = medalBorder[rank] || "rgba(255,255,255,.15)";
+const pct = data.total ? Math.round((data.score / data.total) * 100) : 0;
+const level = data.level ? `<small style="opacity:.55;"> · ${escapeHtml(data.level)}</small>` : "";
+
+rows += `
+<div style="display:flex;justify-content:space-between;align-items:center;background:${bg};border:1px solid ${border};padding:10px;margin-top:8px;border-radius:10px;">
+<span>${badge} ${escapeHtml(data.name || "Student")}${level}</span>
+<span><strong>${data.score}/${data.total}</strong> <small style="opacity:.7;">${pct}%</small></span>
+</div>
+`;
+
+rank++;
+
+});
+
+document.getElementById("leaderboardList").innerHTML =
+rows || "<p>No scores yet — be the first!</p>";
+
+}catch(error){
+
+document.getElementById("leaderboardList").innerHTML =
+"<p>Couldn't load the leaderboard right now.</p>";
+
+console.log(error);
+
+}
+
+}
+
+// ---- Direct Messages & Groups ----
+// Lets two students find each other by email and chat privately, or
+// create a group with several people. Built on the same Firestore
+// real-time pattern as Class Chat, just with separate conversation
+// "rooms" instead of one shared room.
+
+let pendingGroupMembers = []; // {uid, name, email} collected while building a new group
+let currentConversationId = null;
+let threadUnsubscribe = null;
+let conversationListUnsubscribe = null;
+let lastLoadedConversations = []; // cache so we can safely look up a title by ID (avoids putting user-typed names into onclick attributes)
+let contactPicCache = {}; // uid -> profilePicture data URL (or null if none/unavailable), avoids re-fetching on every snapshot
+
+// A separate listener that runs for the whole session (started at
+// login, like Class Chat), purely so DM/group notifications work no
+// matter which screen you're currently on — not just while the
+// Messages section happens to be open.
+let globalDmUnsubscribe = null;
+let isInitialGlobalDmLoad = true;
+
+function startGlobalDmListener(){
+
+if(globalDmUnsubscribe) return;
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+isInitialGlobalDmLoad = true;
+
+const q = window.query(
+window.collection(window.db, "conversations"),
+window.where("participants", "array-contains", user.uid)
+);
+
+globalDmUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+if(isInitialGlobalDmLoad){
+isInitialGlobalDmLoad = false;
+return;
+}
+
+querySnapshot.docChanges().forEach((change) => {
+
+if(change.type !== "added" && change.type !== "modified") return;
+
+const data = change.doc.data();
+
+if(!data.lastMessageSenderUid || data.lastMessageSenderUid === user.uid) return;
+
+const threadIsOpenAndFocused =
+currentConversationId === change.doc.id &&
+!document.getElementById("messagesSection").classList.contains("hidden") &&
+document.hasFocus();
+
+if(threadIsOpenAndFocused) return;
+
+let title;
+
+if(data.type === "group"){
+title = "👥 " + (data.groupName || "Group");
+}else{
+title = (data.participantNames && data.participantNames[data.lastMessageSenderUid]) || "New message";
+}
+
+showAppNotification(title, data.lastMessage || "New message");
+
+});
+
+}, (error) => {
+
+console.log("Global DM listener error:", error);
+
+});
+
+}
+
+function stopGlobalDmListener(){
+
+if(globalDmUnsubscribe){
+globalDmUnsubscribe();
+globalDmUnsubscribe = null;
+}
+
+}
+
+function openMessages(){
+
+hideAllSections();
+
+document.getElementById("messagesSection").classList.remove("hidden");
+
+showBackButton();
+
+showMsgScreen("conversationListView");
+loadConversationList();
+
+}
+
+function showMsgScreen(screenId){
+
+const screens = ["conversationListView","newChatSearchView","newGroupSetupView","chatThreadView"];
+
+if(screenId !== "chatThreadView" && threadUnsubscribe){
+threadUnsubscribe();
+threadUnsubscribe = null;
+}
+
+screens.forEach((id) => {
+
+if(id === screenId){
+document.getElementById(id).classList.remove("hidden");
+}else{
+document.getElementById(id).classList.add("hidden");
+}
+
+});
+
+}
+
+function backToConversationList(){
+
+showMsgScreen("conversationListView");
+loadConversationList();
+
+}
+
+function showNewChatSearch(){
+
+document.getElementById("searchEmailInput").value = "";
+document.getElementById("searchStatus").innerText = "";
+
+showMsgScreen("newChatSearchView");
+
+}
+
+function showNewGroupSetup(){
+
+pendingGroupMembers = [];
+
+document.getElementById("groupNameInput").value = "";
+document.getElementById("groupMemberEmailInput").value = "";
+document.getElementById("groupStatus").innerText = "";
+
+renderGroupMembersList();
+
+showMsgScreen("newGroupSetupView");
+
+}
+
+function renderGroupMembersList(){
+
+let html = "";
+
+pendingGroupMembers.forEach((member, i) => {
+
+html += `
+<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.1);padding:8px 12px;margin-top:6px;border-radius:8px;">
+<span>${escapeHtml(member.name)} (${escapeHtml(member.email)})</span>
+<button class="btn-danger" style="width:auto;margin:0;padding:4px 10px;" onclick="removeGroupMember(${i})">✕</button>
+</div>
+`;
+
+});
+
+document.getElementById("groupMembersList").innerHTML = html;
+
+}
+
+function removeGroupMember(index){
+
+pendingGroupMembers.splice(index, 1);
+
+renderGroupMembersList();
+
+}
+
+// Looks up a user document by email OR phone number. Returns
+// {uid, name, email} or null. Tries an exact email match first, then
+// falls back to phone number if no email match is found.
+async function findUserByContact(contact){
+
+const trimmed = contact.trim();
+
+let q = window.query(
+window.collection(window.db, "user"),
+window.where("email", "==", trimmed.toLowerCase())
+);
+
+let querySnapshot = await window.getDocs(q);
+
+if(querySnapshot.empty){
+
+q = window.query(
+window.collection(window.db, "user"),
+window.where("phoneNumber", "==", trimmed)
+);
+
+querySnapshot = await window.getDocs(q);
+
+}
+
+if(querySnapshot.empty){
+return null;
+}
+
+const docSnap = querySnapshot.docs[0];
+const data = docSnap.data();
+
+return { uid: docSnap.id, name: data.fullName, email: data.email };
+
+}
+
+async function addGroupMember(){
+
+const contact = document.getElementById("groupMemberEmailInput").value.trim();
+
+if(!contact){
+return;
+}
+
+const currentUser = window.auth.currentUser;
+const myPhone = localStorage.getItem("studentPhone") || "";
+
+if(currentUser && (
+contact.toLowerCase() === (currentUser.email || "").toLowerCase() ||
+(myPhone && contact === myPhone)
+)){
+document.getElementById("groupStatus").innerText = "That's you — you're already included automatically.";
+return;
+}
+
+if(pendingGroupMembers.some((m) => m.email.toLowerCase() === contact.toLowerCase())){
+document.getElementById("groupStatus").innerText = "That person is already added.";
+return;
+}
+
+document.getElementById("groupStatus").innerText = "Searching...";
+
+const found = await findUserByContact(contact);
+
+if(!found){
+document.getElementById("groupStatus").innerText =
+"No Adeka Academy Hub account found with that email or phone number.";
+return;
+}
+
+pendingGroupMembers.push(found);
+
+document.getElementById("groupMemberEmailInput").value = "";
+document.getElementById("groupStatus").innerText = "Added " + found.name + "!";
+
+renderGroupMembersList();
+
+}
+
+async function createGroup(){
+
+const groupName = document.getElementById("groupNameInput").value.trim();
+
+if(!groupName){
+showToast("Enter a group name first");
+return;
+}
+
+if(pendingGroupMembers.length === 0){
+showToast("Add at least one member first");
+return;
+}
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+return;
+}
+
+const myName = localStorage.getItem("studentName") || "Student";
+
+const participantUids = [user.uid, ...pendingGroupMembers.map((m) => m.uid)];
+
+const participantNames = {};
+participantNames[user.uid] = myName;
+pendingGroupMembers.forEach((m) => { participantNames[m.uid] = m.name; });
+
+try{
+
+const docRef = await window.addDoc(
+window.collection(window.db, "conversations"),
+{
+type: "group",
+groupName: groupName,
+participants: participantUids,
+participantNames: participantNames,
+createdBy: user.uid,
+createdAt: new Date(),
+lastMessage: "Group created",
+lastMessageAt: new Date(),
+lastMessageSenderUid: user.uid
+}
+);
+
+openThread(docRef.id, "👥 " + groupName);
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+async function searchUserAndStartChat(){
+
+const contact = document.getElementById("searchEmailInput").value.trim();
+
+if(!contact){
+return;
+}
+
+const currentUser = window.auth.currentUser;
+
+if(!currentUser){
+showToast("Please login first");
+return;
+}
+
+const myPhone = localStorage.getItem("studentPhone") || "";
+
+if(contact.toLowerCase() === (currentUser.email || "").toLowerCase() ||
+(myPhone && contact === myPhone)){
+document.getElementById("searchStatus").innerText = "You can't message yourself.";
+return;
+}
+
+document.getElementById("searchStatus").innerText = "Searching...";
+
+const found = await findUserByContact(contact);
+
+if(!found){
+document.getElementById("searchStatus").innerText =
+"No Adeka Academy Hub account found with that email or phone number.";
+return;
+}
+
+document.getElementById("searchStatus").innerText = "Found " + found.name + " — opening chat...";
+
+const myName = localStorage.getItem("studentName") || "Student";
+
+// A deterministic ID for direct chats (based on both UIDs, sorted) means
+// the same two people always land in the same conversation instead of
+// creating a new duplicate one every time.
+const directId = "dm_" + [currentUser.uid, found.uid].sort().join("_");
+
+const participantNames = {};
+participantNames[currentUser.uid] = myName;
+participantNames[found.uid] = found.name;
+
+try{
+
+await window.setDoc(
+window.doc(window.db, "conversations", directId),
+{
+type: "direct",
+participants: [currentUser.uid, found.uid],
+participantNames: participantNames,
+createdAt: new Date(),
+lastMessage: "",
+lastMessageAt: new Date()
+},
+{ merge: true }
+);
+
+openThread(directId, found.name, found.uid);
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+let currentThreadOtherUid = null; // null for groups; the other person's uid for direct chats
+
+async function openThread(conversationId, title, otherUid){
+
+currentConversationId = conversationId;
+currentThreadOtherUid = otherUid || null;
+
+const nickname = otherUid ? localStorage.getItem("contactNickname_" + otherUid) : null;
+
+document.getElementById("chatThreadTitle").innerText = nickname || title;
+document.getElementById("threadMessages").innerHTML = "";
+
+const picEl = document.getElementById("threadHeaderPic");
+const editBtn = document.getElementById("threadEditNameBtn");
+
+if(otherUid){
+
+editBtn.classList.remove("hidden");
+picEl.style.display = "none";
+
+try{
+
+const otherDoc = await window.getDoc(window.doc(window.db, "user", otherUid));
+
+if(otherDoc.exists() && otherDoc.data().profilePicture){
+picEl.src = otherDoc.data().profilePicture;
+picEl.style.display = "block";
+}
+
+}catch(error){
+
+console.log("Couldn't load contact picture:", error);
+
+}
+
+}else{
+
+editBtn.classList.add("hidden");
+picEl.style.display = "none";
+
+}
+
+showMsgScreen("chatThreadView");
+
+cleanupOldThreadMessages(conversationId);
+
+if(threadUnsubscribe){
+threadUnsubscribe();
+threadUnsubscribe = null;
+}
+
+const q = window.query(
+window.collection(window.db, "conversations", conversationId, "messages"),
+window.orderBy("createdAt", "asc"),
+window.limit(100)
+);
+
+threadUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+const currentUid = window.auth.currentUser ? window.auth.currentUser.uid : null;
+
+let html = "";
+lastLoadedThreadMessages = {};
+
+querySnapshot.forEach((docSnap) => {
+
+const data = docSnap.data();
+
+lastLoadedThreadMessages[docSnap.id] = data;
+
+html += renderMessageBubble("thread", docSnap.id, data, currentUid);
+
+});
+
+const messagesDiv = document.getElementById("threadMessages");
+messagesDiv.innerHTML = html;
+messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+}, (error) => {
+
+console.log("Thread listener error:", error);
+
+});
+
+}
+
+// Safe click handler for the conversation list: only ever passes the
+// Firestore document ID through the onclick attribute (never a
+// user-typed name), then looks the title up from memory. This avoids
+// any risk of someone's name/group name breaking or hijacking the
+// inline JS the way putting raw text into an onclick string could.
+function openThreadById(conversationId){
+
+const convo = lastLoadedConversations.find((c) => c.id === conversationId);
+
+if(!convo) return;
+
+const user = window.auth.currentUser;
+let title;
+let otherUid = null;
+
+if(convo.type === "group"){
+title = "👥 " + (convo.groupName || "Group");
+}else{
+otherUid = convo.participants.find((uid) => uid !== user.uid);
+title = (convo.participantNames && convo.participantNames[otherUid]) || "Direct Chat";
+}
+
+openThread(conversationId, title, otherUid);
+
+}
+
+async function sendThreadMessage(){
+
+const input = document.getElementById("threadInput");
+const text = input.value.trim();
+
+if(!text || !currentConversationId) return;
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+return;
+}
+
+const name = localStorage.getItem("studentName") || "Student";
+
+try{
+
+if(activeEdit && activeEdit.scope === "thread"){
+
+await window.updateDoc(
+window.doc(window.db, "conversations", currentConversationId, "messages", activeEdit.docId),
+{ text: text, edited: true }
+);
+
+cancelComposerContext("thread");
+return;
+
+}
+
+const messageData = {
+uid: user.uid,
+name: name,
+text: text,
+createdAt: new Date()
+};
+
+if(activeReply && activeReply.scope === "thread"){
+messageData.replyToName = activeReply.name;
+messageData.replyToText = activeReply.text;
+}
+
+await window.addDoc(
+window.collection(window.db, "conversations", currentConversationId, "messages"),
+messageData
+);
+
+await window.updateDoc(
+window.doc(window.db, "conversations", currentConversationId),
+{
+lastMessage: text,
+lastMessageAt: new Date(),
+lastMessageSenderUid: user.uid
+}
+);
+
+input.value = "";
+cancelComposerContext("thread");
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+function loadConversationList(){
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+if(conversationListUnsubscribe){
+conversationListUnsubscribe();
+conversationListUnsubscribe = null;
+}
+
+const q = window.query(
+window.collection(window.db, "conversations"),
+window.where("participants", "array-contains", user.uid)
+);
+
+conversationListUnsubscribe = window.onSnapshot(q, (querySnapshot) => {
+
+let conversations = [];
+
+querySnapshot.forEach((docSnap) => {
+conversations.push(Object.assign({ id: docSnap.id }, docSnap.data()));
+});
+
+// Sorting here (instead of in the query) avoids needing a special
+// Firestore composite index for array-contains + orderBy together.
+conversations.sort((a, b) => {
+const aTime = a.lastMessageAt ? a.lastMessageAt.seconds : 0;
+const bTime = b.lastMessageAt ? b.lastMessageAt.seconds : 0;
+return bTime - aTime;
+});
+
+lastLoadedConversations = conversations;
+
+let html = "";
+const uidsToFetch = [];
+
+conversations.forEach((convo) => {
+
+let title;
+let otherUid = null;
+let avatarHtml;
+
+if(convo.type === "group"){
+title = "👥 " + (convo.groupName || "Group");
+avatarHtml = `<div class="convoAvatar convoAvatarGroup">👥</div>`;
+}else{
+otherUid = convo.participants.find((uid) => uid !== user.uid);
+const nickname = localStorage.getItem("contactNickname_" + otherUid);
+title = nickname || (convo.participantNames && convo.participantNames[otherUid]) || "Direct Chat";
+
+const cachedPic = contactPicCache[otherUid];
+if(cachedPic){
+avatarHtml = `<img class="convoAvatar" src="${cachedPic}">`;
+}else{
+avatarHtml = `<div class="convoAvatar convoAvatarInitial" id="convoAvatar_${otherUid}">${escapeHtml(title.charAt(0).toUpperCase())}</div>`;
+if(cachedPic === undefined) uidsToFetch.push(otherUid);
+}
+}
+
+const preview = convo.lastMessage
+? convo.lastMessage.slice(0, 40)
+: "No messages yet";
+
+html += `
+<div class="box" style="text-align:left;display:flex;align-items:center;gap:14px;" onclick="openThreadById('${convo.id}')">
+${avatarHtml}
+<div style="flex:1;min-width:0;">
+<h3 style="margin-top:0;">${escapeHtml(title)}</h3>
+<p style="opacity:.75;">${escapeHtml(preview)}</p>
+</div>
+</div>
+`;
+
+});
+
+document.getElementById("conversationList").innerHTML =
+html || "<p style='opacity:.7;margin-top:15px;'>No conversations yet — start one above!</p>";
+
+// Fetch and fill in real profile pictures for any direct-chat contacts
+// not already cached, without blocking the initial (fast) render above.
+uidsToFetch.forEach(async (uid) => {
+try{
+const otherDoc = await window.getDoc(window.doc(window.db, "user", uid));
+const pic = (otherDoc.exists() && otherDoc.data().profilePicture) || null;
+contactPicCache[uid] = pic;
+if(pic){
+const el = document.getElementById("convoAvatar_" + uid);
+if(el){
+const img = document.createElement("img");
+img.className = "convoAvatar";
+img.src = pic;
+el.replaceWith(img);
+}
+}
+}catch(error){
+console.log("Couldn't load contact avatar:", error);
+}
+});
+
+}, (error) => {
+
+console.log("Conversation list error:", error);
+document.getElementById("conversationList").innerHTML =
+"<p>Couldn't load conversations right now.</p>";
+
+});
+
+}
+
+ function updateCharCount(){
+
+const text =
+document.getElementById("noteText").value;
+
+document.getElementById("charCount").innerText =
+text.length;
+
+const words =
+text.trim() === ""
+? 0
+: text.trim().split(/\s+/).length;
+
+document.getElementById("wordCount").innerText =
+words;
+
+   localStorage.setItem(
+"draftNote",
+text
+);
+
+}
+
+function openNotes(){
+
+hideAllSections();
+
+document
+.getElementById("notesSection")
+.classList.remove("hidden");
+
+  loadNotes();
+loadDraft();
+showBackButton();
+
+}
+
+  function loadDraft(){
+
+const draft =
+localStorage.getItem("draftNote");
+
+if(draft){
+
+document.getElementById("noteText").value =
+draft;
+
+updateCharCount();
+
+}
+
+}
+
+// Holds the active Jitsi call instances so we can dispose of them cleanly
+// (leaving a call) instead of letting multiple calls pile up in memory.
+let meetingApi = null;
+let audioApi = null;
+
+function joinMeeting(){
+
+const code =
+document.getElementById("meetingCode").value.trim();
+
+if(!code){
+showToast("Enter a room name first");
+return;
+}
+
+if(meetingApi){
+meetingApi.dispose();
+meetingApi = null;
+}
+
+const studentName =
+localStorage.getItem("studentName") || "Guest";
+
+document.getElementById("jitsiMeetingContainer").classList.remove("hidden");
+document.getElementById("leaveMeetingBtn").classList.remove("hidden");
+
+meetingApi = new JitsiMeetExternalAPI("meet.jit.si", {
+roomName: "AdekaAcademyHub-" + code,
+parentNode: document.getElementById("jitsiMeetingContainer"),
+width: "100%",
+height: 480,
+userInfo: { displayName: studentName },
+configOverwrite: { prejoinPageEnabled: false }
+});
+
+}
+
+function leaveMeeting(){
+
+if(meetingApi){
+meetingApi.dispose();
+meetingApi = null;
+}
+
+document.getElementById("jitsiMeetingContainer").classList.add("hidden");
+document.getElementById("jitsiMeetingContainer").innerHTML = "";
+document.getElementById("leaveMeetingBtn").classList.add("hidden");
+
+}
+
+function joinAudioRoom(){
+
+const code =
+document.getElementById("audioRoomCode").value.trim();
+
+if(!code){
+showToast("Enter a room name first");
+return;
+}
+
+if(audioApi){
+audioApi.dispose();
+audioApi = null;
+}
+
+const studentName =
+localStorage.getItem("studentName") || "Guest";
+
+document.getElementById("jitsiAudioContainer").classList.remove("hidden");
+document.getElementById("leaveAudioBtn").classList.remove("hidden");
+
+audioApi = new JitsiMeetExternalAPI("meet.jit.si", {
+roomName: "AdekaAcademyHubAudio-" + code,
+parentNode: document.getElementById("jitsiAudioContainer"),
+width: "100%",
+height: 480,
+userInfo: { displayName: studentName },
+configOverwrite: {
+prejoinPageEnabled: false,
+startAudioOnly: true,
+startWithVideoMuted: true
+}
+});
+
+}
+
+function leaveAudioRoom(){
+
+if(audioApi){
+audioApi.dispose();
+audioApi = null;
+}
+
+document.getElementById("jitsiAudioContainer").classList.add("hidden");
+document.getElementById("jitsiAudioContainer").innerHTML = "";
+document.getElementById("leaveAudioBtn").classList.add("hidden");
+
+}
+
+ async function saveNote(){
+
+const note =
+document.getElementById("noteText").value;
+
+const user =
+window.auth.currentUser;
+
+if(!user){
+
+showToast("Please login first");
+return;
+
+}
+
+if(!note.trim()){
+
+showToast("Note is empty");
+return;
+
+}
+
+try{
+
+await window.addDoc(
+window.collection(window.db, "notes"),
+{
+uid: user.uid,
+note: note,
+createdAt: new Date()
+}
+);
+  const alreadyEarned = !!localStorage.getItem("firstNoteBadge");
+
+localStorage.setItem(
+"firstNoteBadge",
+"earned"
+);
+
+if(!alreadyEarned){
+playBadgeSound();
+}
+
+document.getElementById("noteText").value = "";
+  localStorage.removeItem("draftNote");
+
+loadNotes();
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+// ---- Dashboard greeting, study streak & daily quote ----
+// A small "learning platform" touch — nothing here needs the internet,
+// it's all computed from localStorage and the current date.
+
+const DAILY_QUOTES = [
+"Small steps every day lead to big results.",
+"You don't have to be perfect, just consistent.",
+"Every question you ask makes you smarter.",
+"Mistakes are proof that you're trying.",
+"Believe in yourself — you're capable of amazing things.",
+"Discipline today, success tomorrow.",
+"Learning never exhausts the mind.",
+"Stay curious. Stay growing."
+];
+
+function getQuoteOfTheDay(){
+
+const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+return DAILY_QUOTES[dayIndex % DAILY_QUOTES.length];
+
+}
+
+function updateStudyStreak(){
+
+const today = new Date().toDateString();
+const lastVisit = localStorage.getItem("lastVisitDate");
+let streak = parseInt(localStorage.getItem("studyStreak") || "0", 10);
+
+if(lastVisit !== today){
+
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+
+if(lastVisit === yesterday.toDateString()){
+streak++;
+}else{
+streak = 1;
+}
+
+localStorage.setItem("lastVisitDate", today);
+localStorage.setItem("studyStreak", streak.toString());
+
+}
+
+return streak;
+
+}
+
+function renderGreeting(){
+
+const name = localStorage.getItem("studentName") || "Student";
+const streak = updateStudyStreak();
+const quote = getQuoteOfTheDay();
+
+const toast = document.getElementById("welcomeToast");
+
+if(!toast) return;
+
+document.getElementById("welcomeToastName").innerText =
+"👋 Welcome back, " + name + "!";
+
+document.getElementById("welcomeToastStreak").innerText =
+"🔥 " + streak + " day" + (streak === 1 ? "" : "s") + " study streak";
+
+document.getElementById("welcomeToastQuote").innerText =
+"💡 " + quote;
+
+// Show the toast — slide down from top and fade in
+toast.style.display = "block";
+
+requestAnimationFrame(() => {
+requestAnimationFrame(() => {
+toast.style.opacity = "1";
+toast.style.transform = "translateX(-50%) translateY(0)";
+});
+});
+
+// Fade out and slide back up after 3.5 seconds
+clearTimeout(window._welcomeToastTimer);
+window._welcomeToastTimer = setTimeout(() => {
+toast.style.opacity = "0";
+toast.style.transform = "translateX(-50%) translateY(-20px)";
+setTimeout(() => {
+toast.style.display = "none";
+}, 450);
+}, 3500);
+
+}
+
+// Stops any Firestore listeners or intervals that might still be running
+// in the background after leaving a screen or logging out. Without this,
+// listeners from Messages or the quiz leaderboard would keep running
+// (and using up Firestore reads) even after navigating away.
+function stopAllBackgroundListeners(){
+
+if(conversationListUnsubscribe){
+conversationListUnsubscribe();
+conversationListUnsubscribe = null;
+}
+
+if(threadUnsubscribe){
+threadUnsubscribe();
+threadUnsubscribe = null;
+}
+
+if(leaderboardRefreshInterval){
+clearInterval(leaderboardRefreshInterval);
+leaderboardRefreshInterval = null;
+}
+
+}
+
+function backToDashboard(){
+
+hideAllSections();
+document.getElementById("dashboardHome").classList.remove("hidden");
+closeMenu();
+hideBackButton();
+leaveMeeting();
+leaveAudioRoom();
+renderGreeting();
+stopAllBackgroundListeners();
+
+}
+
+ async function loadNotes(){
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+const q = window.query(
+window.collection(window.db, "notes"),
+window.where("uid", "==", user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+const totalCount = querySnapshot.size;
+let shownCount = 0;
+let html = "";
+   const search =
+document.getElementById("searchNotes")
+.value
+.toLowerCase();
+
+querySnapshot.forEach((docSnap) => {
+
+  if(
+!docSnap.data().note
+.toLowerCase()
+.includes(search)
+){
+return;
+}
+  shownCount++;
+
+html += `
+<div style="
+background:rgba(255,255,255,.1);
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+">
+
+<p>${docSnap.data().note}</p>
+
+<small>
+${docSnap.data().createdAt
+? new Date(
+docSnap.data().createdAt.seconds * 1000
+).toLocaleString()
+: ""}
+</small>
+
+<button class="btn-secondary" onclick="editNote('${docSnap.id}', \`${docSnap.data().note}\`)">
+Edit
+</button>
+
+<button class="btn-danger" onclick="deleteNote('${docSnap.id}')">
+Delete
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("noteCount").innerText =
+shownCount;
+document.getElementById("totalNotes").innerText =
+totalCount;
+document.getElementById("savedNotes").innerHTML =
+html;
+
+}
+
+  async function deleteNote(noteId){
+
+await window.deleteDoc(
+window.doc(window.db, "notes", noteId)
+);
+
+loadNotes();
+
+}
+
+function editNote(noteId, currentNote){
+
+showPromptModal("Edit your note:", currentNote, async (newNote) => {
+
+await window.updateDoc(
+window.doc(window.db, "notes", noteId),
+{
+note: newNote
+}
+);
+
+loadNotes();
+
+});
+
+}
+
+  function toggleTheme(){
+
+const isLight =
+document.getElementById("themeSwitch").checked;
+
+if(isLight){
+
+document.body.classList.add("lightTheme");
+
+localStorage.setItem(
+"theme",
+"light"
+);
+
+}else{
+
+document.body.classList.remove("lightTheme");
+
+localStorage.setItem(
+"theme",
+"dark"
+);
+
+}
+
+}
+
+  function openBadges(){
+
+hideAllSections();
+
+document.getElementById("badgesSection")
+.classList.remove("hidden");
+
+  closeMenu();
+showBackButton();
+
+let html =
+`<div class="box"><div style="width:54px;height:54px;border-radius:50%;background:rgba(255,215,0,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎉</div><h3>Account Created</h3></div>`;
+
+if(localStorage.getItem("profileBadge")){
+
+html +=
+`<div class="box"><div style="width:54px;height:54px;border-radius:50%;background:rgba(96,165,250,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📸</div><h3>Profile Master</h3></div>`;
+
+}
+
+if(localStorage.getItem("firstNoteBadge")){
+
+html +=
+`<div class="box"><div style="width:54px;height:54px;border-radius:50%;background:rgba(45,212,191,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📝</div><h3>First Note Created</h3></div>`;
+
+}
+
+    document.getElementById("badgesList").innerHTML =
+html;
+
+}
+
+  function loadTheme(){
+
+const theme =
+localStorage.getItem("theme");
+
+if(theme === "light"){
+
+document.body.classList.add(
+"lightTheme"
+);
+
+document.getElementById("themeSwitch").checked = true;
+
+}
+
+}
+
+  function loadTextSizePref(){
+
+const size =
+localStorage.getItem("textSize") || "normal";
+
+setTextSize(size, false);
+
+}
+
+function setTextSize(size, save){
+
+document.body.classList.remove(
+"text-small",
+"text-normal",
+"text-large"
+);
+
+document.body.classList.add("text-" + size);
+
+if(save !== false){
+
+localStorage.setItem("textSize", size);
+
+}
+
+}
+
+  function loadSoundPref(){
+
+const soundOn =
+localStorage.getItem("badgeSound") === "on";
+
+document.getElementById("soundSwitch").checked = soundOn;
+
+}
+
+function toggleBadgeSound(){
+
+const isOn =
+document.getElementById("soundSwitch").checked;
+
+localStorage.setItem(
+"badgeSound",
+isOn ? "on" : "off"
+);
+
+if(isOn){
+playBadgeSound();
+}
+
+}
+
+  // A short, cheerful two-note chime built with the Web Audio API —
+  // no sound file needed.
+  function playBadgeSound(){
+
+if(localStorage.getItem("badgeSound") !== "on"){
+return;
+}
+
+try{
+
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+const now = ctx.currentTime;
+
+[523.25, 783.99].forEach((freq, i) => {
+
+const osc = ctx.createOscillator();
+const gain = ctx.createGain();
+
+osc.type = "sine";
+osc.frequency.value = freq;
+
+gain.gain.setValueAtTime(0.001, now + i * 0.15);
+gain.gain.linearRampToValueAtTime(0.2, now + i * 0.15 + 0.02);
+gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.3);
+
+osc.connect(gain);
+gain.connect(ctx.destination);
+
+osc.start(now + i * 0.15);
+osc.stop(now + i * 0.15 + 0.3);
+
+});
+
+}catch(error){
+
+console.log("Sound playback not supported:", error);
+
+}
+
+}
+
+  // Fetches the user's own notes and reads them out loud using the
+  // browser's built-in text-to-speech (no extra setup needed).
+  async function readNotesAloud(){
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+return;
+}
+
+if(!("speechSynthesis" in window)){
+showToast("Sorry, your browser doesn't support reading text aloud.");
+return;
+}
+
+const q = window.query(
+window.collection(window.db, "notes"),
+window.where("uid", "==", user.uid)
+);
+
+const querySnapshot = await window.getDocs(q);
+
+if(querySnapshot.empty){
+showToast("You don't have any notes saved yet.");
+return;
+}
+
+let fullText = "";
+
+querySnapshot.forEach((docSnap) => {
+fullText += docSnap.data().note + ". ";
+});
+
+window.speechSynthesis.cancel();
+
+const utterance = new SpeechSynthesisUtterance(fullText);
+window.speechSynthesis.speak(utterance);
+
+}
+
+function stopReadingNotes(){
+
+if("speechSynthesis" in window){
+window.speechSynthesis.cancel();
+}
+
+}
+
+  function openTasks(){
+
+hideAllSections();
+
+document
+.getElementById("tasksSection")
+.classList.remove("hidden");
+
+  closeMenu();
+showBackButton();
+
+loadTasks();
+
+}
+
+function addTask(){
+
+const task =
+document.getElementById("taskInput").value;
+
+if(!task) return;
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+tasks.push(task);
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+document.getElementById("taskInput").value =
+"";
+
+loadTasks();
+
+}
+
+function loadTasks(){
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+let html = "";
+
+tasks.forEach((task,index)=>{
+
+html += `
+<div style="
+background:rgba(255,255,255,.1);
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+">
+
+${task}
+
+<button class="btn-danger" style="width:auto;margin-top:0;" onclick="deleteTask(${index})">
+Delete
+</button>
+
+</div>
+`;
+
+});
+
+document.getElementById("taskList").innerHTML =
+html;
+
+}
+
+function deleteTask(index){
+
+let tasks =
+JSON.parse(
+localStorage.getItem("tasks")
+|| "[]"
+);
+
+tasks.splice(index,1);
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
+loadTasks();
+
+}
+
+  async function downloadNotes(){
+
+const user = window.auth.currentUser;
+
+if(!user){
+showToast("Please login first");
+return;
+}
+
+const q = window.query(
+window.collection(window.db,"notes"),
+window.where("uid","==",user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+let text = "";
+
+querySnapshot.forEach((docSnap)=>{
+
+text += docSnap.data().note + "\n\n";
+
+});
+
+const blob = new Blob(
+[text],
+{type:"text/plain"}
+);
+
+const a =
+document.createElement("a");
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download =
+"MyNotes.txt";
+
+a.click();
+
+}
+
+  function deleteAllNotes(){
+
+showConfirmModal("Delete ALL your notes?", "Delete All", async () => {
+
+const user = window.auth.currentUser;
+
+if(!user) return;
+
+const q = window.query(
+window.collection(window.db,"notes"),
+window.where("uid","==",user.uid)
+);
+
+const querySnapshot =
+await window.getDocs(q);
+
+for(const docSnap of querySnapshot.docs){
+
+await window.deleteDoc(
+window.doc(
+window.db,
+"notes",
+docSnap.id
+)
+);
+
+}
+
+loadNotes();
+
+});
+
+}
+
+  async function resetPassword(){
+
+const email =
+document.getElementById("email").value;
+
+if(!email){
+showToast("Enter your email first");
+return;
+}
+
+try{
+
+await window.sendPasswordResetEmail(
+window.auth,
+email
+);
+
+showToast("Password reset email sent!");
+
+}catch(error){
+
+showToast(error.message);
+
+}
+
+}
+
+// IMPORTANT: firebase-config.js loads as a module, which executes AFTER
+// this regular script finishes parsing. So any code that touches
+// window.auth must wait for DOMContentLoaded, otherwise window.auth /
+// window.onAuthStateChanged won't exist yet and this would throw an
+// error (which used to silently break the "remember me" + theme code
+// that ran right after it).
+window.addEventListener("DOMContentLoaded", () => {
+
+// Safety net: the chat bubble/panel should never be visible on the
+// login screen. This guarantees a clean state on every fresh page load.
+hideChatBubble();
+hideQuickAccessButtons();
+
+// Firebase persists auth sessions automatically. If the user was
+// already logged in (e.g. they closed the app and came back), this
+// fires with their user object immediately and we restore the dashboard
+// without asking them to log in again.
+window.onAuthStateChanged(window.auth, async (user) => {
+
+if(user){
+
+// Fetch the latest user data from Firestore so we always have
+// their current name and picture — even if localStorage is stale.
+try{
+
+const docSnap = await window.getDoc(
+window.doc(window.db, "user", user.uid)
+);
+
+if(docSnap.exists()){
+
+const data = docSnap.data();
+
+localStorage.setItem("studentName", data.fullName || "");
+localStorage.setItem("studentEmail", data.email || "");
+localStorage.setItem("studentPhone", data.phoneNumber || "");
+localStorage.setItem("studentRole", data.role || "Student");
+
+document.getElementById("profileName").innerText = data.fullName || "";
+document.getElementById("profileEmail").innerText = data.email || "";
+
+if(data.profilePicture){
+document.getElementById("profileImage").src = data.profilePicture;
+document.getElementById("profileStatus").innerText = "Yes";
+localStorage.setItem("profilePicture", data.profilePicture);
+}else{
+const savedPic = localStorage.getItem("profilePicture");
+if(savedPic){
+document.getElementById("profileImage").src = savedPic;
+document.getElementById("profileStatus").innerText = "Yes";
+}
+}
+
+}
+
+}catch(error){
+
+// Firestore offline or error — fall back to localStorage cache
+const savedPic = localStorage.getItem("profilePicture");
+if(savedPic){
+document.getElementById("profileImage").src = savedPic;
+document.getElementById("profileStatus").innerText = "Yes";
+}
+
+document.getElementById("profileName").innerText =
+localStorage.getItem("studentName") || "";
+document.getElementById("profileEmail").innerText =
+localStorage.getItem("studentEmail") || "";
+
+}
+
+// Show the dashboard (not the login screen)
+document.getElementById("auth").style.display = "none";
+document.getElementById("dashboard").classList.remove("hidden");
+/* profileSection removed */
+document.getElementById("dashboardHome").classList.remove("hidden");
+
+document.getElementById("currentDate").innerText =
+new Date().toDateString();
+
+showChatBubble();
+showLogoutButton();
+showQuickAccessButtons();
+renderGreeting();
+startGlobalDmListener();
+
+if(localStorage.getItem("classChatVerified") === "yes"){
+startChatListener();
+}
+
+updateMiniProfile();
+
+}
+
+});
+
+const rememberedEmail = localStorage.getItem("rememberedEmail");
+const rememberedName = localStorage.getItem("rememberedName");
+
+if(rememberedEmail){
+document.getElementById("email").value = rememberedEmail;
+document.getElementById("rememberMe").checked = true;
+}
+
+if(rememberedName){
+document.getElementById("fullName").value = rememberedName;
+}
+
+loadTheme();
+loadTextSizePref();
+loadSoundPref();
+loadWallpaperPref();
+loadAutoDeletePref();
+
+attachSwipeHandlers("chatMessages", "classChat");
+attachSwipeHandlers("threadMessages", "thread");
+loadNotificationPref();
+
+});
+
+// ---- Mini profile chip ----
+
+function updateMiniProfile(){
+
+const name = localStorage.getItem("studentName") || "Student";
+const role = localStorage.getItem("studentRole") || "Student";
+const pic = localStorage.getItem("profilePicture");
+
+document.getElementById("miniProfileName").innerText = name;
+
+if(pic){
+document.getElementById("miniProfilePic").src = pic;
+document.getElementById("switcherPic").src = pic;
+}
+
+document.getElementById("switcherName").innerText = name;
+document.getElementById("switcherRole").innerText = role;
+document.getElementById("switcherEmail").innerText =
+localStorage.getItem("studentEmail") || "";
+
+document.getElementById("miniProfile").classList.remove("hidden");
+
+}
+
+function hideMiniProfile(){
+
+document.getElementById("miniProfile").classList.add("hidden");
+
+}
+
+function openAccountSwitcher(){
+
+document.getElementById("accountSwitcherModal").classList.add("show");
+
+}
+
+function closeAccountSwitcher(){
+
+document.getElementById("accountSwitcherModal").classList.remove("show");
+
+}
+
+// "Change Account" — logs out the current user silently and shows the
+// login form so someone else can sign in on the same device.
+async function switchAccount(){
+
+closeAccountSwitcher();
+
+try{
+
+await window.signOut(window.auth);
+
+}catch(error){
+
+console.log("Switch account error:", error);
+
+}
+
+// Clear session data but keep preferences (theme, text size etc.)
+localStorage.removeItem("studentName");
+localStorage.removeItem("studentEmail");
+localStorage.removeItem("studentPhone");
+localStorage.removeItem("classChatVerified");
+localStorage.removeItem("profilePicture");
+
+document.getElementById("fullName").value = "";
+document.getElementById("email").value = "";
+document.getElementById("password").value = "";
+document.getElementById("profileName").innerText = "";
+document.getElementById("profileEmail").innerText = "";
+
+document.getElementById("profileImage").src =
+"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' fill='%23ffd700'/><circle cx='60' cy='46' r='22' fill='%23062a54'/><path d='M16 112 Q60 74 104 112 Z' fill='%23062a54'/></svg>";
+
+document.getElementById("dashboard").classList.add("hidden");
+/* profileSection removed */
+document.getElementById("auth").style.display = "block";
+
+hideAllSections();
+hideBackButton();
+hideLogoutButton();
+hideQuickAccessButtons();
+hideMiniProfile();
+leaveMeeting();
+leaveAudioRoom();
+hideChatBubble();
+stopChatListener();
+stopAllBackgroundListeners();
+
+}
+
+</script>
+
+</body>
+</html>
