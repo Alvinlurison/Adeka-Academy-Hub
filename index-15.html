@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Adeka Academy Hub</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#062a54">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Adeka Hub">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Ambient background layer: soft drifting/fading shapes behind the
+     whole app for a subtle "tech" feel. Pure CSS, no JS loop, so it
+     costs almost nothing performance-wise. -->
+<div id="bgFX" aria-hidden="true">
+<span class="bgParticle p1"></span>
+<span class="bgParticle p2"></span>
+<span class="bgParticle p3"></span>
+<span class="bgParticle p4"></span>
+<span class="bgParticle p5"></span>
+<span class="bgParticle p6"></span>
+<span class="bgParticle p7"></span>
+</div>
+
+<div id="introOverlay">
+<div class="introLogoWatermark"><img src="logo.png" alt=""></div>
+<div class="introLampWrap">
+<div class="introCord"></div>
+<div class="introLampCap"></div>
+<div class="introLamp"><div class="introBulbGlow"></div></div>
+<div class="introLightCone"></div>
+</div>
+<div class="introTextWrap">
+<h1 class="introAppName" id="introAppName">Adeka Academy Hub</h1>
+<p class="introTagline">Learn • Connect • Grow</p>
+</div>
+</div>
+<script>
+(function(){
+var nameEl = document.getElementById("introAppName");
+if(nameEl){
+var text = nameEl.textContent;
+nameEl.textContent = "";
+Array.prototype.forEach.call(text, function(ch, i){
+var span = document.createElement("span");
+span.textContent = (ch === " ") ? "\u00A0" : ch;
+span.style.animationDelay = (0.3 + i * 0.09) + "s";
+nameEl.appendChild(span);
+});
+}
+})();
+</script>
+<script>
+(function(){
+var overlay = document.getElementById("introOverlay");
+if(!overlay) return;
+var TOTAL_MS = 7200;
+var done = false;
+function finishIntro(){
+if(done) return;
+done = true;
+overlay.classList.add("introFadeOut");
+setTimeout(function(){ overlay.classList.add("hidden"); }, 650);
+}
+var timer = setTimeout(finishIntro, TOTAL_MS);
+overlay.addEventListener("click", function(){ clearTimeout(timer); finishIntro(); });
+})();
+</script>
+
+<div class="container">
+<button id="floatingBack" class="hidden" onclick="backToDashboard()">← Back</button>
+<button id="floatingLogout" class="hidden btn-danger" onclick="logout()">Logout</button>
+<button id="helpBtn" onclick="toggleHelp()" title="Help">❓</button>
+
+<!-- Mini profile chip: always visible when logged in, top-left corner -->
+<div id="miniProfile" class="hidden" onclick="openAccountSwitcher()">
+<img id="miniProfilePic"
+src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' fill='%23ffd700'/><circle cx='18' cy='14' r='7' fill='%23062a54'/><path d='M4 34 Q18 22 32 34 Z' fill='%23062a54'/></svg>">
+<span id="miniProfileName">Student</span>
+</div>
+
+<div id="accountSwitcherModal" onclick="if(event.target===this) closeAccountSwitcher()">
+<div class="card">
+<img id="switcherPic" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid #ffd700;margin:0 auto 10px;display:block;"
+src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'><rect width='72' height='72' fill='%23ffd700'/><circle cx='36' cy='28' r='14' fill='%23062a54'/><path d='M8 68 Q36 44 64 68 Z' fill='%23062a54'/></svg>">
+<h3 id="switcherName" style="margin-bottom:2px;"></h3>
+<p id="switcherRole" style="opacity:.8;font-size:.8rem;color:#ffd700;margin-bottom:4px;"></p>
+<p id="switcherEmail" style="opacity:.7;font-size:.85rem;margin-bottom:20px;"></p>
+<button onclick="closeAccountSwitcher(); openSettings();">⚙️ Settings</button>
+<button class="btn-secondary" onclick="closeAccountSwitcher(); viewProfilePicture();">🖼️ View My Picture</button>
+<button class="btn-secondary" onclick="switchAccount()">🔄 Change Account</button>
+<button class="btn-danger" onclick="closeAccountSwitcher(); logout();">Logout</button>
+<button class="btn-secondary" onclick="closeAccountSwitcher()" style="margin-top:5px;">Cancel</button>
+</div>
+</div>
+
+<div id="helpModal">
+  <div class="card">
+    <h2>❓ Help & Getting Started</h2>
+
+    <h3 style="margin-top:20px;">Creating Your Account</h3>
+    <p style="margin-top:8px;">
+    1. Enter your Full Name, Email, and a Password.<br>
+    2. Tap "Create Account".<br>
+    3. You're in — your dashboard loads right away.
+    </p>
+
+    <h3 style="margin-top:20px;">Logging In Again</h3>
+    <p style="margin-top:8px;">
+    1. Enter the same Email and Password you signed up with.<br>
+    2. Tick "Remember me" to save your name and email so they auto-fill next time.<br>
+    3. Tap "Login".
+    </p>
+
+    <h3 style="margin-top:20px;">Changing Your Profile Picture</h3>
+    <p style="margin-top:8px;">
+    Open the ☰ Menu → ⚙️ Settings → "Choose New Picture".
+    </p>
+
+    <button class="btn-secondary" onclick="toggleHelp()" style="margin-top:20px;">Close</button>
+  </div>
+</div>
+
+<div id="picLightbox" onclick="closeLightbox()">
+<img id="lightboxImage" style="max-width:90%;max-height:90%;border-radius:10px;">
+</div>
+
+<div id="messageActionSheet" class="customModalOverlay" onclick="if(event.target===this) closeActionSheet()">
+<div class="card">
+<h3 style="margin-bottom:15px;">Message Options</h3>
+<button class="btn-secondary" onclick="actionSheetReact()">😀 React</button>
+<button class="btn-secondary" onclick="actionSheetReply()">↩️ Reply</button>
+<button class="btn-secondary" id="actionSheetEditBtn" onclick="actionSheetEdit()">✏️ Edit</button>
+<button class="btn-danger" onclick="actionSheetDelete()">🗑️ Delete</button>
+<button class="btn-secondary" onclick="closeActionSheet()">Cancel</button>
+</div>
+</div>
+
+<div id="deleteChoiceModal" class="customModalOverlay" onclick="if(event.target===this) closeDeleteChoiceModal()">
+<div class="card">
+<h3 id="deleteChoiceTitle" style="margin-bottom:15px;"></h3>
+<button class="btn-danger" id="deleteForEveryoneBtn" onclick="executeDeleteChoice('everyone')">Delete for Everyone</button>
+<button class="btn-secondary" onclick="executeDeleteChoice('me')">Delete for Me Only</button>
+<button class="btn-secondary" onclick="closeDeleteChoiceModal()">Cancel</button>
+</div>
+</div>
+
+<div id="classPinModal" class="customModalOverlay" onclick="if(event.target===this) closeClassPinModal()">
+<div class="card">
+<h2>🔒 Class Chat</h2>
+<p style="opacity:.8;margin-top:10px;">Class Chat is shared by everyone using this app worldwide. Enter your class PIN to join:</p>
+<input id="classPinModalInput" placeholder="Enter PIN" style="margin-top:15px;" onkeyup="if(event.key==='Enter') submitClassPin();">
+<p id="classPinModalError" style="color:#ff5c5c;font-size:.85rem;margin-top:5px;"></p>
+<button onclick="submitClassPin()">Join Class Chat</button>
+<button class="btn-secondary" onclick="closeClassPinModal()">Cancel</button>
+</div>
+</div>
+
+<div id="saveAsModal" class="customModalOverlay" onclick="if(event.target===this) closeSaveAsModal()">
+<div class="card">
+<h3 style="margin-bottom:15px;">Save As...</h3>
+<div id="saveAsDocOptions">
+<button class="btn-secondary" onclick="exportAsWord()">📝 Word (.doc)</button>
+<button class="btn-secondary" onclick="exportAsText()">📄 Plain Text (.txt)</button>
+<button class="btn-secondary" onclick="closeSaveAsModal(); printOfficeFile();">🖨️ PDF (via Print)</button>
+</div>
+<div id="saveAsSheetOptions" class="hidden">
+<button class="btn-secondary" onclick="exportAsCSV()">📊 CSV (.csv)</button>
+<button class="btn-secondary" onclick="closeSaveAsModal(); printOfficeFile();">🖨️ PDF (via Print)</button>
+</div>
+<button class="btn-secondary" onclick="closeSaveAsModal()" style="margin-top:5px;">Cancel</button>
+</div>
+</div>
+
+<div id="genericConfirmModal" class="customModalOverlay" onclick="if(event.target===this) closeGenericConfirm()">
+<div class="card">
+<p id="genericConfirmText" style="margin-bottom:15px;"></p>
+<button class="btn-danger" id="genericConfirmYesBtn" onclick="genericConfirmYes()">Yes</button>
+<button class="btn-secondary" onclick="closeGenericConfirm()">Cancel</button>
+</div>
+</div>
+
+<div id="genericPromptModal" class="customModalOverlay" onclick="if(event.target===this) closeGenericPrompt()">
+<div class="card">
+<p id="genericPromptText" style="margin-bottom:10px;"></p>
+<textarea id="genericPromptInput" style="width:100%;min-height:100px;padding:12px;border-radius:8px;border:none;font-size:16px;"></textarea>
+<button onclick="genericPromptSubmit()">Save</button>
+<button class="btn-secondary" onclick="closeGenericPrompt()">Cancel</button>
+</div>
+</div>
+
+<div id="editNicknameModal" class="customModalOverlay" onclick="if(event.target===this) closeEditNicknameModal()">
+<div class="card">
+<h3 style="margin-bottom:10px;">✏️ Edit Display Name</h3>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:10px;">This only changes how they appear to you — it doesn't change their actual account name.</p>
+<input id="editNicknameInput" placeholder="Enter a name">
+<button onclick="saveNickname()">Save</button>
+<button class="btn-secondary" onclick="resetNickname()">Reset to Real Name</button>
+<button class="btn-secondary" onclick="closeEditNicknameModal()">Cancel</button>
+</div>
+</div>
+
+<div id="reactionPicker" class="customModalOverlay" onclick="if(event.target===this) closeReactionPicker()">
+<div class="card" style="max-width:300px;">
+<div style="display:flex;justify-content:space-around;font-size:1.8rem;">
+<span onclick="sendReaction('👍')" style="cursor:pointer;">👍</span>
+<span onclick="sendReaction('❤️')" style="cursor:pointer;">❤️</span>
+<span onclick="sendReaction('😂')" style="cursor:pointer;">😂</span>
+<span onclick="sendReaction('😮')" style="cursor:pointer;">😮</span>
+<span onclick="sendReaction('😢')" style="cursor:pointer;">😢</span>
+<span onclick="sendReaction('🙏')" style="cursor:pointer;">🙏</span>
+</div>
+<button class="btn-secondary" onclick="closeReactionPicker()" style="margin-top:15px;">Cancel</button>
+</div>
+</div>
+
+<button id="chatBubble" class="hidden" onclick="openClassChatGuarded()">💬</button>
+
+<div id="welcomeToast" style="
+position:fixed;
+top:80px;
+left:50%;
+transform:translateX(-50%) translateY(-20px);
+background:rgba(6,42,84,.97);
+color:white;
+padding:14px 22px;
+border-radius:14px;
+z-index:3500;
+opacity:0;
+pointer-events:none;
+transition:opacity .4s, transform .4s;
+text-align:center;
+box-shadow:0 6px 24px rgba(0,0,0,.5);
+border:1px solid rgba(255,215,0,.3);
+min-width:220px;
+max-width:85vw;
+display:none;
+">
+<p id="welcomeToastName" style="font-weight:bold;font-size:1rem;color:#ffd700;"></p>
+<p id="welcomeToastStreak" style="font-size:.85rem;opacity:.9;margin-top:3px;"></p>
+<p id="welcomeToastQuote" style="font-size:.75rem;opacity:.7;font-style:italic;margin-top:4px;"></p>
+</div>
+
+<!-- AI greeting card: appears once per session near the chat bubble,
+     with a genuinely AI-written hello the person can reply to right away. -->
+<div id="aiGreetingCard" class="hidden" style="position:fixed;bottom:95px;left:20px;max-width:300px;width:calc(100% - 40px);background:rgba(6,42,84,.97);border:1px solid rgba(255,215,0,.3);border-radius:16px;padding:16px;z-index:1400;box-shadow:0 8px 24px rgba(0,0,0,.5);">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+<p id="aiGreetingText" style="font-size:.9rem;line-height:1.4;flex:1;margin:0;">👋 Hi!</p>
+<button class="btn-secondary" style="width:auto;padding:2px 8px;margin:0;font-size:.8rem;" onclick="dismissAIGreetingCard()">✕</button>
+</div>
+<div style="display:flex;gap:8px;margin-top:10px;">
+<input id="aiGreetingInput" placeholder="Ask something..." style="flex:1;margin:0;font-size:.85rem;padding:10px;" onkeyup="if(event.key==='Enter') sendFromGreetingCard();">
+<button style="width:auto;padding:10px 14px;margin:0;" onclick="sendFromGreetingCard()">➤</button>
+</div>
+</div>
+
+<div id="emojiPicker">
+  <div class="tabs">
+    <button class="btn-secondary" style="width:auto;flex:1;" onclick="showEmojiTab('emoji')">😀 Emoji</button>
+    <button class="btn-secondary" style="width:auto;flex:1;" onclick="showEmojiTab('stickers')">🎉 Stickers</button>
+    <button class="btn-secondary" style="width:auto;flex:0;padding:6px 14px;" onclick="toggleEmojiPicker()">✕</button>
+  </div>
+  <div id="emojiTabEmoji" class="grid-emoji active"></div>
+  <div id="emojiTabStickers" class="grid-emoji"></div>
+</div>
+
+<div id="chatPanel">
+  <div style="padding:12px 15px;border-bottom:1px solid rgba(255,255,255,.15);">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <strong>💬 Class Chat</strong>
+    <div style="display:flex;gap:6px;">
+    <button class="btn-danger" onclick="clearChatHistory()" style="width:auto;padding:4px 10px;margin:0;font-size:14px;" title="Clear chat for everyone">🗑️</button>
+    <button class="btn-secondary" onclick="toggleChatPanel()" style="width:auto;padding:4px 10px;margin:0;font-size:16px;">✕</button>
+    </div>
+    </div>
+    <p style="font-size:.7rem;opacity:.6;margin-top:4px;">Swipe to reply, hold to react, tap for more options</p>
+  </div>
+  <div id="chatMessages" class="wallpaper-default" style="flex:1;overflow-y:auto;padding:10px 15px;font-size:14px;color:white;"></div>
+  <div id="chatReplyBar" class="replyPreviewBar">
+    <span id="chatReplyText" style="font-size:.85rem;opacity:.85;"></span>
+    <button class="btn-secondary" onclick="cancelComposerContext('classChat')" style="width:auto;padding:4px 10px;margin:0;">✕</button>
+  </div>
+  <div style="display:flex;padding:10px;border-top:1px solid rgba(255,255,255,.15);gap:6px;">
+    <button class="btn-secondary" onclick="toggleEmojiPicker('chatInput')" style="width:auto;margin:0;padding:10px 12px;">😀</button>
+    <label class="btn-secondary" style="width:auto;margin:0;padding:10px 12px;cursor:pointer;display:flex;align-items:center;">📎<input type="file" accept="image/*" style="display:none;" onchange="sendChatImage(event)"></label>
+    <button id="micBtn-chatInput" class="btn-secondary" onclick="toggleVoiceRecording('classChat')" style="width:auto;margin:0;padding:10px 12px;">🎤</button>
+    <input id="chatInput" placeholder="Type a message..." style="margin:0;flex:1;" onkeyup="if(event.key==='Enter') sendChatMessage();">
+    <button onclick="sendChatMessage()" style="width:44px;height:44px;border-radius:50%;margin:0;padding:0;font-size:18px;flex-shrink:0;">➤</button>
+  </div>
+</div>
+
+<img src="logo.png" class="logo" alt="Adeka Academy Hub Logo">
+<div class="header">
+    <h1>Adeka Academy Hub</h1>
+    <p>Learn • Connect • Grow</p>
+
+    <p id="message"
+       style="color:#00ff88;
+              font-weight:bold;
+              margin-top:10px;">
+    </p>
+</div>
+
+<div class="card" id="auth">
+
+<div class="authLampWrap">
+<div class="authCord"></div>
+<div class="authLampCap"></div>
+<div class="authLamp"><div class="authBulbGlow"></div></div>
+</div>
+
+<h2 class="authTitle">Welcome <span class="authTitleAccent">Back</span></h2>
+<p class="authSubtitle">Sign in to continue learning</p>
+
+<div class="authField">
+<span class="authFieldIcon">👤</span>
+<input
+type="text"
+id="fullName"
+placeholder="Full Name">
+</div>
+
+<div class="authField">
+<span class="authFieldIcon">📧</span>
+<input type="email" id="email" placeholder="Email Address">
+</div>
+
+<div class="authField">
+<span class="authFieldIcon">📱</span>
+<input type="tel" id="phoneNumber" placeholder="Phone Number (with country code)">
+</div>
+
+<div class="authField">
+<span class="authFieldIcon">🔒</span>
+<input type="password" id="password" placeholder="Password">
+</div>
+
+<div class="authField">
+<span class="authFieldIcon">🎓</span>
+<select id="userRole">
+<option value="Student">I'm a Student</option>
+<option value="Tutor">I'm a Tutor</option>
+<option value="Teacher">I'm a Teacher</option>
+<option value="Head Teacher/Principal">I'm a Head Teacher / Principal</option>
+<option value="Headmaster/Headmistress">I'm a Headmaster / Headmistress</option>
+<option value="Parent/Guardian">I'm a Parent / Guardian</option>
+</select>
+</div>
+<p style="opacity:.65;font-size:.8rem;margin:-4px 4px 6px;">Only used when creating a new account</p>
+
+<label class="authRemember">
+<input type="checkbox" id="rememberMe" checked>
+<span>Remember me on this device</span>
+</label>
+
+<button class="authPrimaryBtn" onclick="register()">
+Create Account
+</button>
+<button class="authPrimaryBtn" onclick="login()">
+Sign In →
+</button>
+<button class="btn-secondary" onclick="resetPassword()">
+Forgot Password?
+</button>
+
+</div> <!-- closes auth card -->
+
+<div id="dashboard" class="hidden">
+
+<!-- profileName/Email/Image kept hidden for JS references -->
+<span id="profileName" style="display:none;"></span>
+<span id="profileEmail" style="display:none;"></span>
+<img id="profileImage" style="display:none;">
+
+<div id="sideMenu">
+
+<button onclick="openProgress()">
+📊 Progress
+</button>
+
+<button onclick="openTasks()">
+✅ Study Tasks
+</button>
+
+<button onclick="openBadges()">
+🏆 Achievements
+</button>
+
+<button onclick="openSettings()">
+⚙️ Settings
+</button>
+
+<button class="btn-secondary" onclick="toggleMenu()">
+❌ Close
+</button>
+
+</div>
+<div class="card" id="dashboardHome">
+<h2>Dashboard</h2>
+
+<button class="btn-secondary" onclick="toggleMenu()" style="width:auto;padding:10px 15px;">
+☰ Menu
+</button>
+<p id="currentDate"></p>
+
+<div id="greetingBanner" style="display:none;"></div>
+
+<div class="grid">
+<div class="box" onclick="openAITutor()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(167,139,250,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📚</div>
+<h3>AI Tutor</h3>
+<p>Powered by Adeka AI</p>
+</div>
+<div class="box" onclick="openMeetingCenter()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(251,146,60,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎥</div>
+<h3>Meeting Center</h3>
+<p>Join classes and meetings</p>
+</div>
+
+<div class="box" onclick="openQuiz()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(74,222,128,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🎮</div>
+<h3>Quiz Challenge</h3>
+<p>Test yourself & compete globally</p>
+</div>
+
+<div class="box" onclick="openMessages()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(96,165,250,.25);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">💬</div>
+<h3>Messages</h3>
+<p>Chat 1-on-1 or in groups</p>
+</div>
+
+<div class="box" onclick="openLearningHub()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(255,215,0,.22);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">📚</div>
+<h3>Learning</h3>
+<p>Notes, GES materials & audio lessons</p>
+</div>
+
+<div class="box" onclick="openToolsHub()">
+<div style="width:54px;height:54px;border-radius:50%;background:rgba(167,139,250,.22);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 12px;">🧰</div>
+<h3>Tools</h3>
+<p>Search, files & office</p>
+</div>
+
+</div> <!-- end grid -->
+
+<div class="card" style="margin-top:20px;">
+<h2>Contact Information</h2>
+<br>
+<p>📞 0207276292</p>
+<br>
+<p>📞 0205106768</p>
+<br>
+<p>📧 Alvinlurison@gmail.com</p>
+</div>
+
+</div> <!-- end dashboard card -->
+
+<div id="notesSection" class="card hidden">
+
+<h2>My Notes</h2>
+
+<textarea
+id="noteText"
+oninput="updateCharCount()"
+placeholder="Write your notes here..."
+style="
+width:100%;
+height:200px;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+"></textarea>
+
+<p>
+Characters:
+<span id="charCount">0</span>
+</p>
+
+<p>
+Words:
+<span id="wordCount">0</span>
+</p>
+
+<button onclick="saveNote()">
+Save Note
+</button>
+<button class="btn-secondary" onclick="clearDraft()">
+Clear Draft
+</button>
+<button class="btn-secondary" onclick="downloadNotes()">
+Download My Notes
+</button>
+<button class="btn-danger" onclick="deleteAllNotes()">
+Delete All Notes
+</button>
+
+<input
+id="searchNotes"
+placeholder="Search notes..."
+onkeyup="loadNotes()">
+<h3 style="margin-top:20px;">
+Saved Notes (<span id="noteCount">0</span>)
+<p>
+Maximum Notes Recommended: 100
+</p>
+</h3>
+
+<div id="savedNotes"></div>
+
+</div>
+
+<div id="aiTutorSection" class="card hidden">
+
+<h2>🤖 Adeka AI Tutor</h2>
+<p style="opacity:.75;font-size:.85rem;margin-bottom:10px;">Ask anything — attach a photo or file, or use the mic to ask out loud.</p>
+
+<button class="btn-secondary" id="aiVoiceToggle" onclick="toggleAiVoiceReplies()" style="width:auto;padding:8px 16px;margin-bottom:10px;font-size:.85rem;">🔊 Read replies aloud: Off</button>
+
+<p id="aiKeyWarning" class="hidden" style="background:rgba(255,92,92,.15);border:1px solid rgba(255,92,92,.4);padding:10px 12px;border-radius:8px;font-size:.85rem;margin-bottom:12px;">
+No AI key set yet. Open ⚙️ Settings → 🤖 AI Tutor API Key (free) to activate this.
+</p>
+
+<div id="aiChatMessages" style="max-height:50vh;overflow-y:auto;margin-bottom:10px;"></div>
+
+<div id="aiAttachPreview" class="hidden" style="margin-bottom:8px;padding:8px 12px;background:rgba(0,0,0,.2);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+<span id="aiAttachPreviewName" style="font-size:.85rem;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+<button class="btn-secondary" style="width:auto;padding:4px 10px;margin:0;" onclick="clearAiAttachment()">✕</button>
+</div>
+
+<div style="display:flex;gap:8px;align-items:center;">
+<label for="aiAttachInput" class="btn-secondary" style="width:auto;padding:15px;margin:0;cursor:pointer;" title="Attach photo or file">📎</label>
+<input type="file" id="aiAttachInput" accept="image/*,.pdf,.txt" onchange="handleAiAttachment(event)" style="display:none;">
+<button type="button" id="aiMicBtn" onclick="toggleVoiceInput()" class="btn-secondary" style="width:auto;padding:15px;margin:0;" title="Ask by voice">🎤</button>
+<input id="userQuestion" placeholder="Ask a question..." style="flex:1;margin:0;" onkeyup="if(event.key==='Enter') askAI();">
+<button onclick="askAI()" style="width:auto;padding:15px 20px;margin:0;">Send</button>
+</div>
+
+</div>
+<div id="meetingSection" class="card hidden">
+
+<h2>Meeting Center</h2>
+
+<p>Start or join a live video class — right here in the app, no other software needed.</p>
+
+<input
+id="meetingCode"
+placeholder="Enter a Room Name (e.g. math-class-1)">
+
+<button onclick="joinMeeting()">
+Start / Join Meeting
+</button>
+
+<button class="btn-danger hidden" onclick="leaveMeeting()" id="leaveMeetingBtn">
+Leave Meeting
+</button>
+
+<div id="jitsiMeetingContainer" class="callContainer hidden"></div>
+
+</div>
+
+<div id="audioSection" class="card hidden">
+
+<h2>Live Audio Room</h2>
+
+<p>Voice-only room for lessons and live chat — lighter on data than video, still all in-app.</p>
+
+<input
+id="audioRoomCode"
+placeholder="Enter a Room Name (e.g. study-group-1)">
+
+<button onclick="joinAudioRoom()">
+Start / Join Audio Room
+</button>
+
+<button class="btn-danger hidden" onclick="leaveAudioRoom()" id="leaveAudioBtn">
+Leave Audio Room
+</button>
+
+<div id="jitsiAudioContainer" class="callContainer hidden"></div>
+
+<h3 style="margin-top:25px;">Recorded Lessons</h3>
+
+<audio controls style="width:100%;margin-top:10px;">
+  <source src="lesson1.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<div id="settingsSection" class="card hidden">
+
+<h2>⚙️ Settings</h2>
+
+<p style="opacity:.8;margin-top:5px;">Make the app look and feel the way you like.</p>
+
+<div style="display:flex;align-items:center;gap:15px;margin-top:25px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="themeSwitch" onchange="toggleTheme()">
+<span class="slider"></span>
+</label>
+<span>🌙 / ☀️ Dark / Light Mode</span>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🔠 Text Size</p>
+<div style="display:flex;gap:10px;">
+<button class="btn-secondary" style="width:auto;flex:1;" onclick="setTextSize('small')">Small</button>
+<button class="btn-secondary" style="width:auto;flex:1;" onclick="setTextSize('normal')">Normal</button>
+<button class="btn-secondary" style="width:auto;flex:1;" onclick="setTextSize('large')">Large</button>
+</div>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🖼️ Change Profile Picture</p>
+<label for="profilePicSettings" class="btn-secondary" style="display:inline-block;text-align:center;cursor:pointer;width:100%;padding:15px;margin:10px 0;border-radius:10px;">
+📷 Choose New Picture
+</label>
+<input type="file" id="profilePicSettings" onchange="saveProfilePicture(event)" style="display:none;">
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🎨 Chat Wallpaper</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:10px;">Choose any photo from your device as the background for all your chats — just like WhatsApp.</p>
+<label for="wallpaperFileInput" class="btn-secondary" style="display:inline-block;text-align:center;cursor:pointer;width:100%;padding:15px;margin:10px 0;border-radius:10px;">
+🖼️ Choose Wallpaper Photo
+</label>
+<input type="file" id="wallpaperFileInput" accept="image/*" onchange="setChatWallpaperFromFile(event)" style="display:none;">
+<button class="btn-secondary" onclick="removeChatWallpaper()">✕ Remove Wallpaper</button>
+</div>
+
+<div style="display:flex;align-items:center;gap:15px;margin-top:25px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="autoDeleteSwitch" onchange="toggleAutoDelete()">
+<span class="slider"></span>
+</label>
+<span>🗑️ Auto-delete messages after 24 hours</span>
+</div>
+<p style="opacity:.6;font-size:.8rem;margin-top:5px;">Applies to Class Chat and private Messages. You can still delete any message manually anytime (tap 🗑️ on it) — choosing "for everyone" or "just for you".</p>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">✏️ Full Name</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Shown on your profile, in Messages, and on the leaderboard. Yours: <strong id="currentNameDisplay">Not set</strong></p>
+<input id="fullNameSettings" placeholder="Enter your full name">
+<button onclick="updateFullName()">Save Name</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">📞 Phone Number</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Lets friends find you to start a chat. Yours: <strong id="currentPhoneDisplay">Not set</strong></p>
+<input id="phoneNumberSettings" placeholder="Enter phone number">
+<button onclick="updatePhoneNumber()">Save Phone Number</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🔒 Class Chat PIN</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Class Chat is shared by everyone with the app, worldwide — this PIN keeps random strangers out. Set it once, then only share it with your real students.</p>
+<input id="classChatPinInput" placeholder="Set or change the PIN">
+<button onclick="setClassChatPin()">Save PIN</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🔊 Read My Notes Aloud</p>
+<button onclick="readNotesAloud()">▶️ Start Reading</button>
+<button class="btn-secondary" onclick="stopReadingNotes()">⏹️ Stop Reading</button>
+</div>
+
+<div style="display:flex;align-items:center;gap:15px;margin-top:25px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="soundSwitch" onchange="toggleBadgeSound()">
+<span class="slider"></span>
+</label>
+<span>🔔 Play a sound when I earn a badge</span>
+</div>
+
+<div style="margin-top:25px;">
+<div style="display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+<label class="switch">
+<input type="checkbox" id="notifSwitch" onchange="toggleNotifications()">
+<span class="slider"></span>
+</label>
+<span>🔔 Notify me about new messages</span>
+</div>
+<p id="notifStatus" style="opacity:.7;font-size:.85rem;margin-top:8px;">Works while the app is open in a tab (even in the background) — only buzzes your phone when fully closed once a paid upgrade is added later.</p>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🎓 Your Role</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Lets others see whether you're a student, tutor, teacher, etc.</p>
+<select id="roleSettingsSelect" style="width:100%;padding:15px;margin:10px 0;border:none;border-radius:10px;font-size:16px;">
+<option value="Student">Student</option>
+<option value="Tutor">Tutor</option>
+<option value="Teacher">Teacher</option>
+<option value="Head Teacher/Principal">Head Teacher / Principal</option>
+<option value="Headmaster/Headmistress">Headmaster / Headmistress</option>
+<option value="Parent/Guardian">Parent / Guardian</option>
+</select>
+<button onclick="saveRoleSetting()">Save Role</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">🤖 AI Tutor API Key (free)</p>
+<p style="opacity:.7;font-size:.85rem;margin-bottom:8px;">Get a free key at aistudio.google.com (Google AI Studio) — no card needed. It is stored only on this device and sent straight to Google when you ask a question, never through any other server. Anyone with access to this device/browser could technically view it, so don't reuse a key you care about keeping private.</p>
+<p id="aiKeyStatus" style="opacity:.8;font-size:.85rem;margin-bottom:8px;">Status: checking...</p>
+<input id="aiApiKeyInput" placeholder="Paste your Google AI (Gemini) API key" type="password">
+<button onclick="saveAiApiKey()">Save Key</button>
+<button class="btn-secondary" onclick="clearAiApiKey()">Remove Key</button>
+</div>
+
+<div style="margin-top:25px;">
+<p style="margin-bottom:8px;">📞 Contact Us</p>
+<p style="opacity:.85;font-size:.9rem;">0207276292</p>
+<p style="opacity:.85;font-size:.9rem;">0205106768</p>
+<p style="opacity:.85;font-size:.9rem;">Alvinlurison@gmail.com</p>
+</div>
+
+<div style="margin-top:25px;">
+<button class="btn-secondary" onclick="openPrivacyPolicy()">🔒 Privacy Policy & Terms of Use</button>
+</div>
+
+</div>
+
+<div id="quizSection" class="card hidden">
+
+<h2>🎮 Quiz Challenge</h2>
+
+<div id="quizLevelChoice">
+<p style="margin:15px 0;">Choose your level:</p>
+<button onclick="chooseQuizLevel('University')">🎓 University</button>
+<button onclick="chooseQuizLevel('SHS')">🏫 SHS</button>
+<button onclick="chooseQuizLevel('JHS')">📘 JHS</button>
+</div>
+
+<div id="quizSubjectChoice" class="hidden">
+<button class="btn-secondary" onclick="showQuizScreen('quizLevelChoice')">← Change Level</button>
+<p style="margin:15px 0;">Choose a subject:</p>
+<div id="quizSubjectList"></div>
+</div>
+
+<div id="quizPlay" class="hidden">
+<p id="quizProgress" style="opacity:.8;margin-bottom:10px;"></p>
+<h3 id="quizQuestionText" style="margin-bottom:15px;"></h3>
+<div id="quizOptions"></div>
+</div>
+
+<div id="quizResults" class="hidden" style="text-align:center;">
+<h3 style="font-size:2rem;margin-bottom:10px;">🎉</h3>
+<p id="quizScoreText" style="font-size:1.2rem;margin-bottom:20px;"></p>
+<button onclick="restartCurrentQuiz()">🔁 Try Again</button>
+<button class="btn-secondary" onclick="showQuizLeaderboard()">🏆 View Leaderboard</button>
+<button class="btn-secondary" onclick="showQuizScreen('quizSubjectChoice')">← Choose Another Subject</button>
+</div>
+
+<div id="quizLeaderboard" class="hidden">
+<button class="btn-secondary" onclick="showQuizScreen('quizResults')">← Back</button>
+<h3 style="margin:15px 0;">🏆 Leaderboard — <span id="leaderboardSubjectName"></span></h3>
+<p style="opacity:.6;font-size:.8rem;margin-bottom:10px;">Refreshes automatically every 30 seconds</p>
+<div id="leaderboardList"></div>
+</div>
+
+</div>
+
+<div id="messagesSection" class="card hidden">
+
+<h2>💬 Messages</h2>
+
+<div id="conversationListView">
+
+<div style="display:flex;gap:10px;">
+<button style="flex:1;" onclick="showNewChatSearch()">+ New Chat</button>
+<button class="btn-secondary" style="flex:1;" onclick="showNewGroupSetup()">+ New Group</button>
+</div>
+
+<div id="conversationList" style="margin-top:20px;"></div>
+
+</div>
+
+<div id="newChatSearchView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+<h3 style="margin:15px 0;">Start a New Chat</h3>
+
+<input id="searchEmailInput" placeholder="Enter their email or phone number">
+<button onclick="searchUserAndStartChat()">Search & Start Chat</button>
+
+<p id="searchStatus" style="margin-top:10px;opacity:.85;"></p>
+
+</div>
+
+<div id="newGroupSetupView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+<h3 style="margin:15px 0;">Create a Group</h3>
+
+<input id="groupNameInput" placeholder="Group name">
+<input id="groupMemberEmailInput" placeholder="Add member by email or phone">
+<button class="btn-secondary" onclick="addGroupMember()">Add Member</button>
+
+<div id="groupMembersList" style="margin:10px 0;"></div>
+
+<button onclick="createGroup()">Create Group</button>
+
+<p id="groupStatus" style="margin-top:10px;opacity:.85;"></p>
+
+</div>
+
+<div id="chatThreadView" class="hidden">
+
+<button class="btn-secondary" onclick="backToConversationList()">← Back</button>
+
+<div style="display:flex;align-items:center;gap:12px;margin:15px 0;">
+<img id="threadHeaderPic" src="" style="width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;display:none;">
+<div style="flex:1;">
+<h3 id="chatThreadTitle" style="margin:0;"></h3>
+</div>
+<button class="btn-secondary" id="threadEditNameBtn" onclick="openEditNicknameModal()" style="width:auto;padding:6px 10px;margin:0;">✏️</button>
+</div>
+
+<p style="font-size:.7rem;opacity:.6;margin-top:-10px;margin-bottom:10px;">Swipe to reply, hold to react, tap for more options</p>
+
+<div id="threadMessages" class="wallpaper-default" style="height:min(350px, 55vh);overflow-y:auto;border-radius:10px;padding:15px;"></div>
+
+<div id="threadReplyBar" class="replyPreviewBar">
+<span id="threadReplyText" style="font-size:.85rem;opacity:.85;"></span>
+<button class="btn-secondary" onclick="cancelComposerContext('thread')" style="width:auto;padding:4px 10px;margin:0;">✕</button>
+</div>
+
+<div style="display:flex;gap:6px;margin-top:10px;">
+<button class="btn-secondary" onclick="toggleEmojiPicker('threadInput')" style="width:auto;margin:0;padding:10px 12px;">😀</button>
+<label class="btn-secondary" style="width:auto;margin:0;padding:10px 12px;cursor:pointer;display:flex;align-items:center;">📎<input type="file" accept="image/*" style="display:none;" onchange="sendThreadImage(event)"></label>
+<button id="micBtn-threadInput" class="btn-secondary" onclick="toggleVoiceRecording('thread')" style="width:auto;margin:0;padding:10px 12px;">🎤</button>
+<input id="threadInput" placeholder="Type a message..." style="margin:0;flex:1;" onkeyup="if(event.key==='Enter') sendThreadMessage();">
+<button onclick="sendThreadMessage()" style="width:44px;height:44px;border-radius:50%;margin:0;padding:0;font-size:18px;flex-shrink:0;">➤</button>
+</div>
+
+</div>
+
+</div>
+
+<div id="tasksSection" class="card hidden">
+
+<h2>Study Tasks</h2>
+
+<input
+id="taskInput"
+placeholder="Enter a task">
+
+<button onclick="addTask()">
+Add Task
+</button>
+
+<div id="taskList"></div>
+
+</div>
+
+   <div id="badgesSection" class="card hidden">
+
+<h2>Achievements</h2>
+
+<div id="badgesList" class="grid" style="margin-top:20px;"></div>
+
+</div>
+
+<div id="searchSection" class="card hidden">
+
+<h2>🔍 Search</h2>
+<p style="opacity:.75;font-size:.85rem;margin-bottom:16px;">Search the web, YouTube, or Wikipedia — opens results in a new tab.</p>
+
+<input id="searchQueryInput" placeholder="Type what you're looking for..." onkeyup="if(event.key==='Enter') runSearch('google');">
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+<button onclick="runSearch('google')" style="width:auto;padding:14px 20px;margin:0;flex:1;">🔎 Google</button>
+<button onclick="runSearch('youtube')" style="width:auto;padding:14px 20px;margin:0;flex:1;">▶️ YouTube</button>
+<button onclick="runSearch('wikipedia')" style="width:auto;padding:14px 20px;margin:0;flex:1;">📖 Wikipedia</button>
+</div>
+
+</div>
+
+<div id="filesSection" class="card hidden">
+
+<h2>📁 My Files</h2>
+<p style="opacity:.75;font-size:.85rem;margin-bottom:16px;">Tap a category, then pick the file. Saved email attachments show up under Documents or Downloads, same as any other file on the phone.</p>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+<label for="filesPhotosInput" class="btn-secondary" style="width:auto;padding:14px 12px;margin:0;flex:1;min-width:100px;text-align:center;cursor:pointer;">📷 Photos & Videos</label>
+<input type="file" id="filesPhotosInput" accept="image/*,video/*" style="display:none;" onchange="handleMyFilesPick(event)">
+
+<label for="filesDocsInput" class="btn-secondary" style="width:auto;padding:14px 12px;margin:0;flex:1;min-width:100px;text-align:center;cursor:pointer;">📄 Documents</label>
+<input type="file" id="filesDocsInput" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt" style="display:none;" onchange="handleMyFilesPick(event)">
+
+<label for="filesAnyInput" class="btn-secondary" style="width:auto;padding:14px 12px;margin:0;flex:1;min-width:100px;text-align:center;cursor:pointer;">📥 Downloads / Any File</label>
+<input type="file" id="filesAnyInput" accept="*/*" style="display:none;" onchange="handleMyFilesPick(event)">
+</div>
+
+<div id="myFilesViewer"></div>
+
+</div>
+
+<div id="officeSection" class="card hidden">
+
+<h2>🗂️ Office</h2>
+<p style="opacity:.75;font-size:.85rem;margin-bottom:16px;">Write documents or build spreadsheets, save them to your account, and export or print when you're ready.</p>
+
+<div style="display:flex;gap:10px;margin-bottom:14px;">
+<button class="btn-secondary" id="officeTabDoc" style="width:auto;padding:12px 20px;margin:0;flex:1;" onclick="switchOfficeMode('doc')">📝 Document</button>
+<button class="btn-secondary" id="officeTabSheet" style="width:auto;padding:12px 20px;margin:0;flex:1;" onclick="switchOfficeMode('sheet')">📊 Spreadsheet</button>
+</div>
+
+<input id="officeTitleInput" placeholder="Untitled">
+
+<div id="officeDocPanel">
+<div style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;align-items:center;">
+
+<select onchange="document.execCommand('formatBlock', false, this.value); this.selectedIndex=0;" style="width:auto;margin:0;padding:8px 10px;font-size:14px;border-radius:8px;">
+<option value="">Style</option>
+<option value="<p>">Paragraph</option>
+<option value="<h1>">Heading 1</option>
+<option value="<h2>">Heading 2</option>
+<option value="<h3>">Heading 3</option>
+<option value="<blockquote>">Quote</option>
+</select>
+
+<select onchange="document.execCommand('fontSize', false, this.value); this.selectedIndex=0;" style="width:auto;margin:0;padding:8px 10px;font-size:14px;border-radius:8px;">
+<option value="">Size</option>
+<option value="2">Small</option>
+<option value="3">Normal</option>
+<option value="5">Large</option>
+<option value="7">Huge</option>
+</select>
+
+<input type="color" title="Text color" onchange="document.execCommand('foreColor', false, this.value)" style="width:38px;height:38px;padding:2px;margin:0;border-radius:8px;">
+
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('bold')"><b>B</b></button>
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('italic')"><i>I</i></button>
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('underline')"><u>U</u></button>
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('strikeThrough')"><s>S</s></button>
+
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('justifyLeft')" title="Align left">⬅️</button>
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('justifyCenter')" title="Align center">↔️</button>
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('justifyRight')" title="Align right">➡️</button>
+
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('insertUnorderedList')">• List</button>
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('insertOrderedList')">1. List</button>
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('indent')" title="Indent">➡️|</button>
+<button class="btn-secondary" style="width:auto;padding:8px 14px;margin:0;" onclick="document.execCommand('outdent')" title="Outdent">|⬅️</button>
+
+</div>
+<div id="officeDocEditor" contenteditable="true" style="background:#fff;color:#000;min-height:280px;border-radius:10px;padding:16px;overflow-y:auto;font-size:15px;"></div>
+</div>
+
+<div id="officeSheetPanel" class="hidden">
+<div style="display:flex;gap:8px;margin:10px 0;">
+<button class="btn-secondary" style="width:auto;padding:8px 16px;margin:0;" onclick="addSheetRow()">+ Row</button>
+<button class="btn-secondary" style="width:auto;padding:8px 16px;margin:0;" onclick="addSheetColumn()">+ Column</button>
+</div>
+<div style="overflow-x:auto;border-radius:10px;">
+<table id="officeSheetTable" style="border-collapse:collapse;background:#fff;color:#000;width:100%;"></table>
+</div>
+</div>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+<button onclick="newOfficeFile()" style="width:auto;padding:14px 16px;margin:0;flex:1;">🆕 New</button>
+<button onclick="saveOfficeFile()" style="width:auto;padding:14px 16px;margin:0;flex:1;">💾 Save</button>
+<button onclick="printOfficeFile()" style="width:auto;padding:14px 16px;margin:0;flex:1;">🖨️ Print/PDF</button>
+<button onclick="openSaveAsModal()" style="width:auto;padding:14px 16px;margin:0;flex:1;">⬇️ Save As...</button>
+</div>
+
+<h3 style="margin-top:24px;">My Saved Files</h3>
+<div id="officeFilesList" style="margin-top:10px;"></div>
+
+</div>
+
+<div id="learningHubSection" class="card hidden">
+
+<h2>📚 Learning</h2>
+<p style="opacity:.75;font-size:.85rem;margin-bottom:16px;">Swipe to browse →</p>
+
+<div class="swipeCarousel">
+
+<div class="swipeCard" onclick="openNotes()">
+<div class="swipeCardIcon" style="background:rgba(45,212,191,.25);">📝</div>
+<h3>Notes</h3>
+<p>Create and save notes</p>
+</div>
+
+<div class="swipeCard" onclick="openGES()">
+<div class="swipeCardIcon" style="background:rgba(255,215,0,.22);">📚</div>
+<h3>GES Materials</h3>
+<p>Official curriculum, by level &amp; subject</p>
+</div>
+
+<div class="swipeCard" onclick="openAudioLessons()">
+<div class="swipeCardIcon" style="background:rgba(244,114,182,.25);">🎧</div>
+<h3>Audio Lessons</h3>
+<p>Learn anywhere</p>
+</div>
+
+</div>
+
+</div>
+
+<div id="toolsHubSection" class="card hidden">
+
+<h2>🧰 Tools</h2>
+<p style="opacity:.75;font-size:.85rem;margin-bottom:16px;">Swipe to browse →</p>
+
+<div class="swipeCarousel">
+
+<div class="swipeCard" onclick="openSearch()">
+<div class="swipeCardIcon" style="background:rgba(96,165,250,.22);">🔍</div>
+<h3>Search</h3>
+<p>Look things up without leaving the app</p>
+</div>
+
+<div class="swipeCard" onclick="openMyFiles()">
+<div class="swipeCardIcon" style="background:rgba(45,212,191,.22);">📁</div>
+<h3>My Files</h3>
+<p>Open photos, documents &amp; downloads</p>
+</div>
+
+<div class="swipeCard" onclick="openOffice()">
+<div class="swipeCardIcon" style="background:rgba(167,139,250,.22);">🗂️</div>
+<h3>Office</h3>
+<p>Write documents &amp; build spreadsheets</p>
+</div>
+
+</div>
+
+</div>
+
+  <div id="gesSection" class="card hidden">
+
+<h2>📚 GES Learning Materials</h2>
+<p style="opacity:.75;font-size:.85rem;margin-bottom:16px;">Official curriculum documents from Ghana's National Council for Curriculum &amp; Assessment (NaCCA) — view or download as PDF. This list grows over time; more subjects are added as they're sourced.</p>
+
+<div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+<button class="btn-secondary" style="width:auto;padding:12px 20px;margin:0;" onclick="selectGESLevel('Primary')" id="gesTabPrimary">Primary</button>
+<button class="btn-secondary" style="width:auto;padding:12px 20px;margin:0;" onclick="selectGESLevel('JHS')" id="gesTabJHS">JHS</button>
+<button class="btn-secondary" style="width:auto;padding:12px 20px;margin:0;" onclick="selectGESLevel('SHS')" id="gesTabSHS">SHS</button>
+</div>
+
+<div id="gesYearTabs" style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;"></div>
+
+<div id="gesMaterialsList"></div>
+
+</div>
+
+<div id="progressSection" class="card hidden">
+
+<div class="card about">
+
+<h2>My Progress</h2>
+
+<p>Total Notes Created:
+<strong><span id="totalNotes">0</span></strong>
+</p>
+
+<p>Profile Picture Added:
+<strong><span id="profileStatus">No</span></strong>
+</p>
+
+</div>
+
+<h2>About Us</h2>
+<br>
+<p>
+Hello, I am <strong>Adeka Martin Delali</strong>,
+a passionate Creator IT, technology enthusiast,
+and aspiring software developer.
+</p>
+<br>
+<p>
+I enjoy building web applications, mobile apps,
+and games that help people learn, connect,
+and grow in the digital world.
+</p>
+<br>
+<p>
+Adeka Academy Hub was created with a vision of
+making education more accessible through technology.
+By combining modern learning tools, artificial intelligence,
+online collaboration, and digital resources,
+the platform aims to empower students and lifelong learners.
+</p>
+<br>
+<p>
+Beyond technology, I have a strong interest in music
+and basketball. I believe creativity, innovation,
+and continuous learning are keys to success.
+</p>
+</div>
+</div>
+
+<div id="privacySection" class="card hidden">
+
+<h2>🔒 Privacy Policy &amp; Terms of Use</h2>
+<p style="opacity:.6;font-size:.8rem;margin-bottom:20px;">Last updated: September 2026</p>
+
+<h3>What we collect</h3>
+<p style="margin-top:8px;">When you create an account, we collect your full name, email address, phone number, password, and the role you select (student, tutor, teacher, etc.). If you add one, your profile picture is also stored. Anything you create in the app — notes, quiz scores, class chat and private messages (including voice notes and photos), Office documents/spreadsheets, and questions you ask the AI Tutor — is stored so it's there when you come back.</p>
+
+<h3 style="margin-top:20px;">How your data is used</h3>
+<p style="margin-top:8px;">Your data is used to run the app: signing you in, showing your name and picture to others you chat with, saving your work, and tracking quiz results for the leaderboard. We do not sell your data, and we do not show ads or let advertisers access any of it.</p>
+
+<h3 style="margin-top:20px;">Where it's stored</h3>
+<p style="margin-top:8px;">Accounts, messages, notes, and files are stored using Google Firebase, Google's app backend service, and transmitted over HTTPS. If you use the AI Tutor, the text (and any photo or file you attach) is sent to Google's Gemini AI service to generate a response — nothing else is shared with it. If you add your own personal AI key in Settings, that key stays only on your device.</p>
+
+<h3 style="margin-top:20px;">Payments</h3>
+<p style="margin-top:8px;">If you pay for personal AI access, that payment is handled entirely by Paystack, a licensed payment processor — we never see or store your card or mobile money details ourselves.</p>
+
+<h3 style="margin-top:20px;">Students &amp; young users</h3>
+<p style="margin-top:8px;">This app is built for learners of all ages, including students in JHS and below. We only collect what's needed for the app to function, and we encourage parents, guardians, and schools to stay involved in how students use it.</p>
+
+<h3 style="margin-top:20px;">Your choices</h3>
+<p style="margin-top:8px;">You can update your name, role, phone number, and profile picture any time in Settings. To request that your account and data be deleted entirely, contact us using the details below — we don't yet have an automatic self-delete button, so this is handled manually for now.</p>
+
+<h3 style="margin-top:20px;">Changes to this policy</h3>
+<p style="margin-top:8px;">As the app grows, this policy may be updated to reflect new features. Significant changes will be reflected here with an updated date at the top.</p>
+
+<h3 style="margin-top:20px;">Contact</h3>
+<p style="margin-top:8px;">Questions about your data or this policy? Reach out at <strong>Alvinlurison@gmail.com</strong> or the phone numbers listed on the Dashboard.</p>
+
+</div>
+
+<footer>
+<p>© 2026 Adeka Academy Hub</p>
+<p>Founded by Adeka Martin Delali (Creator IT)</p>
+<p style="margin-top:8px;"><a href="#" onclick="openPrivacyPolicy(); return false;" style="color:#ffd700;text-decoration:underline;">Privacy Policy &amp; Terms of Use</a></p>
+</footer>
+</div>
+
+<script src="https://meet.jit.si/external_api.js"></script>
+<script src="quiz-data.js"></script>
+<script type="module" src="firebase-config.js"></script>
+
+<script>
+if("serviceWorker" in navigator){
+window.addEventListener("load", () => {
+navigator.serviceWorker.register("sw.js").catch((err) => {
+console.log("Service worker registration failed:", err);
+});
+});
+}
+</script>
+
+<script src="app.js"></script>
+
+</body>
+</html>
